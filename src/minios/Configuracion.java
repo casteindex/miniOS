@@ -10,4 +10,7 @@ package minios;
  */
 public class Configuracion {
 
+    public Configuracion() {
+    }
+
 }

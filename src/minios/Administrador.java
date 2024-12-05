@@ -14,8 +14,9 @@ public class Administrador extends Usuario {
 
     ArrayList<Usuario> usuarios;
 
-    public Administrador(String nombre, String contrasena, Configuracion config) {
-        super(nombre, contrasena, config);
+    public Administrador(ArrayList<Usuario> usuarios, String username, String contrasena) {
+        super(username, contrasena);
+        this.usuarios = usuarios;
     }
 
     public ArrayList<Usuario> getUsuarios() {

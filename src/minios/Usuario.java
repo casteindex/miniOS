@@ -10,22 +10,22 @@ package minios;
  */
 public abstract class Usuario {
 
-    protected String nombre;
+    protected String username;
     protected String contrasena;
     protected Configuracion config;
 
-    public Usuario(String nombre, String contrasena, Configuracion config) {
-        this.nombre = nombre;
+    public Usuario(String username, String contrasena) {
+        this.username = username;
         this.contrasena = contrasena;
-        this.config = config;
+        this.config = new Configuracion();
     }
 
-    public String getNombre() {
-        return nombre;
+    public String getUsername() {
+        return username;
     }
 
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public String getContrasena() {
@@ -42,6 +42,11 @@ public abstract class Usuario {
 
     public void setConfig(Configuracion config) {
         this.config = config;
+    }
+
+    @Override
+    public String toString() {
+        return "Usuario{" + "nombre=" + username + ", contrasena=" + contrasena + ", config=" + config + '}';
     }
 
 }

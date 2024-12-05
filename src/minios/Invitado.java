@@ -10,8 +10,8 @@ package minios;
  */
 public class Invitado extends Usuario {
 
-    public Invitado(String nombre, String contrasena, Configuracion config) {
-        super(nombre, contrasena, config);
+    public Invitado(String username, String contrasena) {
+        super(username, contrasena);
     }
 
 }

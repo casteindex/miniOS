@@ -4,6 +4,9 @@
  */
 package minios;
 
+import java.util.ArrayList;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author Alejandro
@@ -15,6 +18,21 @@ public class Pantalla extends javax.swing.JFrame {
      */
     public Pantalla() {
         initComponents();
+
+        /* Cargar el archivo binario que contiene toda la información del
+        sistema: la lista de todos los usuarios y su información */
+        // Por mientras, se va a hacer manualmente (BORRAR DESPUÉS):
+        usuarios = new ArrayList();
+        usuarios.add(new Administrador(usuarios, "admin", "admin"));
+        usuarios.add(new Administrador(usuarios, "alejandro", "admin"));
+        usuarios.add(new Invitado("guest", "temp"));
+        usuarios.add(new Invitado("guest2", "temp"));
+
+        /* Cuando inicie el programa, ocultar el JFrame principal hasta que el
+        usuario inicie sesión */
+        jd_login.pack();
+        jd_login.setVisible(true);
+
     }
 
     /**
@@ -25,6 +43,67 @@ public class Pantalla extends javax.swing.JFrame {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
+
+        jd_login = new javax.swing.JDialog();
+        jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        txt_loginUsuario = new javax.swing.JTextField();
+        txt_loginConstrasena = new javax.swing.JTextField();
+        btn_login = new javax.swing.JButton();
+
+        jLabel1.setText("Bienvenido");
+
+        jLabel2.setText("Nombre de Usuario:");
+
+        jLabel3.setText("Contraseña:");
+
+        btn_login.setText("Iniciar Sesión");
+        btn_login.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btn_loginMouseClicked(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jd_loginLayout = new javax.swing.GroupLayout(jd_login.getContentPane());
+        jd_login.getContentPane().setLayout(jd_loginLayout);
+        jd_loginLayout.setHorizontalGroup(
+            jd_loginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jd_loginLayout.createSequentialGroup()
+                .addGroup(jd_loginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jd_loginLayout.createSequentialGroup()
+                        .addGap(123, 123, 123)
+                        .addGroup(jd_loginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel2)
+                            .addComponent(jLabel3))
+                        .addGap(18, 18, 18)
+                        .addGroup(jd_loginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(btn_login)
+                            .addGroup(jd_loginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(txt_loginUsuario)
+                                .addComponent(txt_loginConstrasena, javax.swing.GroupLayout.DEFAULT_SIZE, 296, Short.MAX_VALUE))))
+                    .addGroup(jd_loginLayout.createSequentialGroup()
+                        .addGap(271, 271, 271)
+                        .addComponent(jLabel1)))
+                .addContainerGap(116, Short.MAX_VALUE))
+        );
+        jd_loginLayout.setVerticalGroup(
+            jd_loginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jd_loginLayout.createSequentialGroup()
+                .addGap(81, 81, 81)
+                .addComponent(jLabel1)
+                .addGap(57, 57, 57)
+                .addGroup(jd_loginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel2)
+                    .addComponent(txt_loginUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(jd_loginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel3)
+                    .addComponent(txt_loginConstrasena, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(38, 38, 38)
+                .addComponent(btn_login)
+                .addContainerGap(139, Short.MAX_VALUE))
+        );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -42,6 +121,20 @@ public class Pantalla extends javax.swing.JFrame {
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btn_loginMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_loginMouseClicked
+        activeUser = null;
+        for (Usuario usuario : usuarios) {
+            if (usuario.getUsername().equals(txt_loginUsuario.getText())
+                    && usuario.getContrasena().equals(txt_loginConstrasena.getText())) {
+                activeUser = usuario;
+                JOptionPane.showMessageDialog(jd_login, "Bienvenido");
+            }
+        }
+        if (activeUser == null) {
+            JOptionPane.showMessageDialog(jd_login, "Usuario no encontrado");
+        }
+    }//GEN-LAST:event_btn_loginMouseClicked
 
     /**
      * @param args the command line arguments
@@ -78,6 +171,17 @@ public class Pantalla extends javax.swing.JFrame {
         });
     }
 
+    // Variables Globales
+    private ArrayList<Usuario> usuarios;
+    private Usuario activeUser;
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btn_login;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JDialog jd_login;
+    private javax.swing.JTextField txt_loginConstrasena;
+    private javax.swing.JTextField txt_loginUsuario;
     // End of variables declaration//GEN-END:variables
 }
