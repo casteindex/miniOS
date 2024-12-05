@@ -4,6 +4,11 @@
  */
 package minios;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
 
@@ -21,18 +26,48 @@ public class Pantalla extends javax.swing.JFrame {
 
         /* Cargar el archivo binario que contiene toda la información del
         sistema: la lista de todos los usuarios y su información */
-        // Por mientras, se va a hacer manualmente (BORRAR DESPUÉS):
+        this.usuarios = loadUsuarios();
+        System.out.println(usuarios);
+        /*
+        // Ingreso manual de usuarios (BORRAR DESPUÉS):
         usuarios = new ArrayList();
         usuarios.add(new Administrador(usuarios, "admin", "admin"));
         usuarios.add(new Administrador(usuarios, "alejandro", "admin"));
         usuarios.add(new Invitado("guest", "temp"));
         usuarios.add(new Invitado("guest2", "temp"));
+         */
 
-        /* Cuando inicie el programa, ocultar el JFrame principal hasta que el
+ /* Cuando inicie el programa, ocultar el JFrame principal hasta que el
         usuario inicie sesión */
         jd_login.pack();
         jd_login.setVisible(true);
 
+    }
+
+    private ArrayList<Usuario> loadUsuarios() {
+        File file = new File(CONFIG_FILE_PATH);
+        try {
+            // Comenzar con la lectura del archivo
+            FileInputStream fi = new FileInputStream(file);
+            ObjectInputStream objectReader = new ObjectInputStream(fi);
+            Object obj = objectReader.readObject();
+            return (ArrayList<Usuario>) obj;
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Ocurrió un error");
+        }
+        return new ArrayList(); // No encontró nada en el archivo binario
+    }
+
+    private void saveUsuarios() {
+        File file = new File(CONFIG_FILE_PATH);
+        try {
+            // Escritura del archivo
+            FileOutputStream os = new FileOutputStream(file);
+            ObjectOutputStream objectWriter = new ObjectOutputStream(os);
+            objectWriter.writeObject(usuarios);
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Ocurrió un error");
+        }
     }
 
     /**
@@ -51,6 +86,11 @@ public class Pantalla extends javax.swing.JFrame {
         txt_loginUsuario = new javax.swing.JTextField();
         txt_loginConstrasena = new javax.swing.JTextField();
         btn_login = new javax.swing.JButton();
+        btn_abrirExplorador = new javax.swing.JButton();
+        btn_abrirEditor = new javax.swing.JButton();
+        jMenuBar1 = new javax.swing.JMenuBar();
+        jMenu1 = new javax.swing.JMenu();
+        jMenu2 = new javax.swing.JMenu();
 
         jLabel1.setText("Bienvenido");
 
@@ -107,15 +147,37 @@ public class Pantalla extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
+        btn_abrirExplorador.setText("explorador");
+
+        btn_abrirEditor.setText("editor");
+
+        jMenu1.setText("File");
+        jMenuBar1.add(jMenu1);
+
+        jMenu2.setText("Edit");
+        jMenuBar1.add(jMenu2);
+
+        setJMenuBar(jMenuBar1);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 631, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(23, 23, 23)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btn_abrirExplorador)
+                    .addComponent(btn_abrirEditor))
+                .addContainerGap(517, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 399, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(65, 65, 65)
+                .addComponent(btn_abrirExplorador)
+                .addGap(52, 52, 52)
+                .addComponent(btn_abrirEditor)
+                .addContainerGap(205, Short.MAX_VALUE))
         );
 
         pack();
@@ -172,14 +234,20 @@ public class Pantalla extends javax.swing.JFrame {
     }
 
     // Variables Globales
+    private static final String CONFIG_FILE_PATH = "./data/users.dat";
     private ArrayList<Usuario> usuarios;
     private Usuario activeUser;
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btn_abrirEditor;
+    private javax.swing.JButton btn_abrirExplorador;
     private javax.swing.JButton btn_login;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JMenu jMenu1;
+    private javax.swing.JMenu jMenu2;
+    private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JDialog jd_login;
     private javax.swing.JTextField txt_loginConstrasena;
     private javax.swing.JTextField txt_loginUsuario;

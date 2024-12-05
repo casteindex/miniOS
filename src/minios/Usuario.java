@@ -4,11 +4,13 @@
  */
 package minios;
 
+import java.io.Serializable;
+
 /**
  *
  * @author Alejandro
  */
-public abstract class Usuario {
+public abstract class Usuario implements Serializable {
 
     protected String username;
     protected String contrasena;

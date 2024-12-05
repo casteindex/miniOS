@@ -4,11 +4,13 @@
  */
 package minios;
 
+import java.io.Serializable;
+
 /**
  *
  * @author Alejandro
  */
-public class Invitado extends Usuario {
+public class Invitado extends Usuario implements Serializable {
 
     public Invitado(String username, String contrasena) {
         super(username, contrasena);

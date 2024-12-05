@@ -4,13 +4,14 @@
  */
 package minios;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
  *
  * @author Alejandro
  */
-public class Administrador extends Usuario {
+public class Administrador extends Usuario implements Serializable {
 
     ArrayList<Usuario> usuarios;
 

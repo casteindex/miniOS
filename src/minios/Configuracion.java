@@ -4,11 +4,13 @@
  */
 package minios;
 
+import java.io.Serializable;
+
 /**
  *
  * @author Alejandro
  */
-public class Configuracion {
+public class Configuracion implements Serializable {
 
     public Configuracion() {
     }
