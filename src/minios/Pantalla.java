@@ -55,32 +55,6 @@ public class Pantalla extends javax.swing.JFrame {
 //        jd_login.setVisible(true);
     }
 
-    private ArrayList<Usuario> loadUsuarios() {
-        File file = new File(CONFIG_FILE_PATH);
-        try {
-            // Comenzar con la lectura del archivo
-            FileInputStream fi = new FileInputStream(file);
-            ObjectInputStream objectReader = new ObjectInputStream(fi);
-            Object obj = objectReader.readObject();
-            return (ArrayList<Usuario>) obj;
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "Ocurrió un error");
-        }
-        return new ArrayList(); // No encontró nada en el archivo binario
-    }
-
-    private void saveUsuarios() {
-        File file = new File(CONFIG_FILE_PATH);
-        try {
-            // Escritura del archivo
-            FileOutputStream os = new FileOutputStream(file);
-            ObjectOutputStream objectWriter = new ObjectOutputStream(os);
-            objectWriter.writeObject(usuarios);
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "Ocurrió un error");
-        }
-    }
-
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -109,6 +83,9 @@ public class Pantalla extends javax.swing.JFrame {
         jmi_fuenteEditor = new javax.swing.JMenuItem();
         jMenu5 = new javax.swing.JMenu();
         jmi_informacionEditor = new javax.swing.JMenuItem();
+        jd_explorador = new javax.swing.JDialog();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        jTree1 = new javax.swing.JTree();
         btn_abrirExplorador = new javax.swing.JButton();
         btn_abrirEditor = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
@@ -168,7 +145,15 @@ public class Pantalla extends javax.swing.JFrame {
                 .addContainerGap(139, Short.MAX_VALUE))
         );
 
+        jd_editor.setTitle("Editor de Texto");
+        jd_editor.addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                jd_editorWindowClosing(evt);
+            }
+        });
+
         txt_editor.setColumns(20);
+        txt_editor.setFont(new java.awt.Font("Consolas", 0, 16)); // NOI18N
         txt_editor.setRows(5);
         jScrollPane1.setViewportView(txt_editor);
 
@@ -213,6 +198,11 @@ public class Pantalla extends javax.swing.JFrame {
         jMenu5.setText("Ayuda");
 
         jmi_informacionEditor.setText("Aceca del Editor");
+        jmi_informacionEditor.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jmi_informacionEditorActionPerformed(evt);
+            }
+        });
         jMenu5.add(jmi_informacionEditor);
 
         jMenuBar2.add(jMenu5);
@@ -230,9 +220,30 @@ public class Pantalla extends javax.swing.JFrame {
             .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 363, Short.MAX_VALUE)
         );
 
+        jd_explorador.setTitle("Explorador de Archivos");
+
+        jScrollPane2.setViewportView(jTree1);
+
+        javax.swing.GroupLayout jd_exploradorLayout = new javax.swing.GroupLayout(jd_explorador.getContentPane());
+        jd_explorador.getContentPane().setLayout(jd_exploradorLayout);
+        jd_exploradorLayout.setHorizontalGroup(
+            jd_exploradorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 646, Short.MAX_VALUE)
+        );
+        jd_exploradorLayout.setVerticalGroup(
+            jd_exploradorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 415, Short.MAX_VALUE)
+        );
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("MiniOS");
 
         btn_abrirExplorador.setText("explorador");
+        btn_abrirExplorador.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btn_abrirExploradorMouseClicked(evt);
+            }
+        });
 
         btn_abrirEditor.setText("editor");
         btn_abrirEditor.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -293,72 +304,63 @@ public class Pantalla extends javax.swing.JFrame {
         jd_editor.setLocationRelativeTo(this);
         jd_editor.setVisible(true);
         txt_editor.setText("");
-
-        /* Nota: el editor de texto tiene la opción de Guardar Guardar como. Se
-        usa la variable global openedFile. El openedFile es el archivo que se abrió
-        usando `Abrir` o el archivo que se guardó con `Guardar como` por último */
         currentFile = null;
+        contenidoGuardado = "";
     }//GEN-LAST:event_btn_abrirEditorMouseClicked
 
     private void jmi_abrirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmi_abrirActionPerformed
-        JFileChooser fileChooser = new JFileChooser();
-        int estado = fileChooser.showOpenDialog(jd_editor);
-
-        /* Nota: si el estado no es JFileChooser.APPROVE_OPTION puede ser que el
-        usuario haya cancelado o que haya ocurrido un error. Salir. */
-        if (estado != JFileChooser.APPROVE_OPTION) {
+        currentFile = selectFile();
+        if (currentFile == null) {
             return;
         }
-        currentFile = fileChooser.getSelectedFile();
-        try {
-            String textoCompleto = "";
-            try (BufferedReader br = new BufferedReader(new FileReader(currentFile))) {
-                String linea;
-                while ((linea = br.readLine()) != null) {
-                    textoCompleto += linea + "\n";
-                }
-            }
-            txt_editor.setText(textoCompleto.stripTrailing());
-        } catch (FileNotFoundException ex) {
-            JOptionPane.showMessageDialog(jd_editor, "El archivo no se encontró.", "Error", JOptionPane.ERROR_MESSAGE);
-            Logger.getLogger(Pantalla.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
-            JOptionPane.showMessageDialog(jd_editor, "Error al leer el archivo.", "Error", JOptionPane.ERROR_MESSAGE);
-            Logger.getLogger(Pantalla.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        readFile();
     }//GEN-LAST:event_jmi_abrirActionPerformed
 
     private void jmi_guardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmi_guardarActionPerformed
-        if (currentFile == null) {
-            /* Si no hay un archivo abierto, se le pide al usuario guardar el
-            archivo actual como un archivo nuevo */
-            jmi_guardarComoActionPerformed(evt);
-            return;
-        }
-        // Si ya hay un archivo seleccionado, guardar el texto en ese archivo
-        try {
-            try (BufferedWriter bw = new BufferedWriter(new FileWriter(currentFile, false))) {
-                bw.write(txt_editor.getText());
-            }
-            JOptionPane.showMessageDialog(jd_editor, "Se guardó el archivo.", "Información", JOptionPane.INFORMATION_MESSAGE);
-        } catch (IOException ex) {
-            JOptionPane.showMessageDialog(jd_editor, "Algo salió mal. Error al escribir el archivo.", "Error", JOptionPane.ERROR_MESSAGE);
-            Logger.getLogger(Pantalla.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        saveFile();
     }//GEN-LAST:event_jmi_guardarActionPerformed
 
     private void jmi_guardarComoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmi_guardarComoActionPerformed
-        JFileChooser fileChooser = new JFileChooser();
-        int estado = fileChooser.showSaveDialog(jd_editor);
-
-        /* Nota: si el estado no es JFileChooser.APPROVE_OPTION puede ser que el
-        usuario haya cancelado o que haya ocurrido un error. Salir. */
-        if (estado != JFileChooser.APPROVE_OPTION) {
-            return;
-        }
-        currentFile = fileChooser.getSelectedFile();
-        jmi_guardarActionPerformed(evt); // Llamar a Guardar para escribir el archivo
+        saveFileAs();
     }//GEN-LAST:event_jmi_guardarComoActionPerformed
+
+    private void jmi_informacionEditorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmi_informacionEditorActionPerformed
+        JOptionPane.showMessageDialog(jd_editor,
+                "Este editor de texto ha sido desarrollado por Alejandro\n"
+                + "Castellanos como parte de un proyecto educativo.\n\n"
+                + "Ofrece funcionalidades básicas para abrir, editar y guardar\n"
+                + "archivos, además de una interfaz sencilla y eficiente.\n\n"
+                + "¡Gracias por usarlo!",
+                "Acerca del Editor",
+                JOptionPane.INFORMATION_MESSAGE);
+    }//GEN-LAST:event_jmi_informacionEditorActionPerformed
+
+    private void jd_editorWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_jd_editorWindowClosing
+        /* Hacerle saber al usuario si el docuemento no ha sido guardado. Esto
+        se da en dos casos:
+        1. Si nunca hubo un archivo abierto
+        2. El archivo abierto se editó pero no se guardó */
+        int opcion = JOptionPane.DEFAULT_OPTION;
+        if (!txt_editor.getText().equals(contenidoGuardado)) {
+            opcion = JOptionPane.showConfirmDialog(jd_editor,
+                    "Tiene cambios sin guardar. ¿Desea guardar antes de salir?",
+                    "Advertencia",
+                    JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE
+            );
+        }
+        if (opcion == JOptionPane.YES_OPTION) {
+            saveFile();
+            jd_editor.dispose();
+        } else {
+            jd_editor.dispose();
+        }
+    }//GEN-LAST:event_jd_editorWindowClosing
+
+    private void btn_abrirExploradorMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_abrirExploradorMouseClicked
+        jd_explorador.pack();
+        jd_explorador.setLocationRelativeTo(this);
+        jd_explorador.setVisible(true);
+    }//GEN-LAST:event_btn_abrirExploradorMouseClicked
 
     /**
      * @param args the command line arguments
@@ -371,7 +373,7 @@ public class Pantalla extends javax.swing.JFrame {
          */
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
+                if ("Windows".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
                 }
@@ -395,11 +397,108 @@ public class Pantalla extends javax.swing.JFrame {
         });
     }
 
+    // ========== Helper Methods ==========
+    // ---------- Archivos Binarios ----------
+    private ArrayList<Usuario> loadUsuarios() {
+        File file = new File(CONFIG_FILE_PATH);
+        try {
+            // Comenzar con la lectura del archivo
+            FileInputStream fi = new FileInputStream(file);
+            ObjectInputStream objectReader = new ObjectInputStream(fi);
+            Object obj = objectReader.readObject();
+            return (ArrayList<Usuario>) obj;
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Ocurrió un error");
+        }
+        return new ArrayList(); // No encontró nada en el archivo binario
+    }
+
+    private void saveUsuarios() {
+        File file = new File(CONFIG_FILE_PATH);
+        try {
+            // Escritura del archivo
+            FileOutputStream os = new FileOutputStream(file);
+            ObjectOutputStream objectWriter = new ObjectOutputStream(os);
+            objectWriter.writeObject(usuarios);
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Ocurrió un error");
+        }
+    }
+
+    // ---------- Archivos de Texto ----------
+    private File selectFile() {
+        JFileChooser fileChooser = new JFileChooser();
+        int estado = fileChooser.showSaveDialog(jd_editor);
+        /* Nota: si el estado no es JFileChooser.APPROVE_OPTION puede ser que el
+        usuario haya cancelado o que haya ocurrido un error. Salir. */
+        if (estado == JFileChooser.APPROVE_OPTION) {
+            return fileChooser.getSelectedFile();
+        } else {
+            return null;
+        }
+    }
+
+    private void readFile() {
+        try {
+            String textoCompleto = "";
+            try (BufferedReader br = new BufferedReader(new FileReader(currentFile))) {
+                String linea;
+                while ((linea = br.readLine()) != null) {
+                    textoCompleto += linea + "\n";
+                }
+            }
+            txt_editor.setText(textoCompleto.stripTrailing());
+        } catch (FileNotFoundException ex) {
+            JOptionPane.showMessageDialog(jd_editor,
+                    "El archivo no se encontró.", "Error", JOptionPane.ERROR_MESSAGE
+            );
+            Logger.getLogger(Pantalla.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            JOptionPane.showMessageDialog(jd_editor,
+                    "Error al leer el archivo.", "Error", JOptionPane.ERROR_MESSAGE
+            );
+            Logger.getLogger(Pantalla.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    private void saveFile() {
+        /* Si no hay un archivo abierto, se le pide al usuario guardar el
+        archivo actual como un archivo nuevo */
+        if (currentFile == null) {
+            saveFileAs();
+        } else {
+            // Escribir el contendio del textArea en el archivo seleccionado
+            try {
+                try (BufferedWriter bw = new BufferedWriter(new FileWriter(currentFile, false))) {
+                    bw.write(txt_editor.getText());
+                }
+                JOptionPane.showMessageDialog(jd_editor, "Se guardó el archivo.",
+                        "Información", JOptionPane.INFORMATION_MESSAGE
+                );
+            } catch (IOException ex) {
+                JOptionPane.showMessageDialog(jd_editor,
+                        "Algo salió mal. Error al escribir el archivo.", "Error",
+                        JOptionPane.ERROR_MESSAGE
+                );
+                Logger.getLogger(Pantalla.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            contenidoGuardado = txt_editor.getText(); // Log del último texto guardado
+        }
+    }
+
+    private void saveFileAs() {
+        currentFile = selectFile();
+        if (currentFile != null) {
+            saveFile();
+        }
+    }
+
     // Variables Globales
     private static final String CONFIG_FILE_PATH = "./data/users.dat";
     private ArrayList<Usuario> usuarios;
     private Usuario activeUser;
     private File currentFile;
+    private String contenidoGuardado;
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_abrirEditor;
@@ -416,7 +515,10 @@ public class Pantalla extends javax.swing.JFrame {
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuBar jMenuBar2;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JTree jTree1;
     private javax.swing.JDialog jd_editor;
+    private javax.swing.JDialog jd_explorador;
     private javax.swing.JDialog jd_login;
     private javax.swing.JMenuItem jmi_abrir;
     private javax.swing.JMenuItem jmi_fuenteEditor;
