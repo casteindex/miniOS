@@ -4,12 +4,19 @@
  */
 package minios;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.FileReader;
+import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 
 /**
@@ -43,9 +50,9 @@ public class Pantalla extends javax.swing.JFrame {
         usuario inicie sesión */
         jd_login.pack();
         jd_login.setVisible(true);
-        
+
     }
-    
+
     private ArrayList<Usuario> loadUsuarios() {
         File file = new File(CONFIG_FILE_PATH);
         try {
@@ -59,7 +66,7 @@ public class Pantalla extends javax.swing.JFrame {
         }
         return new ArrayList(); // No encontró nada en el archivo binario
     }
-    
+
     private void saveUsuarios() {
         File file = new File(CONFIG_FILE_PATH);
         try {
@@ -90,16 +97,16 @@ public class Pantalla extends javax.swing.JFrame {
         btn_login = new javax.swing.JButton();
         jd_editor = new javax.swing.JDialog();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
+        txt_editor = new javax.swing.JTextArea();
         jMenuBar2 = new javax.swing.JMenuBar();
         jMenu3 = new javax.swing.JMenu();
-        jMenuItem3 = new javax.swing.JMenuItem();
-        jMenuItem4 = new javax.swing.JMenuItem();
-        jMenuItem5 = new javax.swing.JMenuItem();
+        jmi_abrir = new javax.swing.JMenuItem();
+        jmi_guardar = new javax.swing.JMenuItem();
+        jmi_guardarComo = new javax.swing.JMenuItem();
         jMenu4 = new javax.swing.JMenu();
-        jMenuItem2 = new javax.swing.JMenuItem();
+        jmi_fuenteEditor = new javax.swing.JMenuItem();
         jMenu5 = new javax.swing.JMenu();
-        jMenuItem1 = new javax.swing.JMenuItem();
+        jmi_informacionEditor = new javax.swing.JMenuItem();
         btn_abrirExplorador = new javax.swing.JButton();
         btn_abrirEditor = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
@@ -159,34 +166,39 @@ public class Pantalla extends javax.swing.JFrame {
                 .addContainerGap(139, Short.MAX_VALUE))
         );
 
-        jTextArea1.setColumns(20);
-        jTextArea1.setRows(5);
-        jScrollPane1.setViewportView(jTextArea1);
+        txt_editor.setColumns(20);
+        txt_editor.setRows(5);
+        jScrollPane1.setViewportView(txt_editor);
 
         jMenu3.setText("Archivo");
 
-        jMenuItem3.setText("Abrir...");
-        jMenu3.add(jMenuItem3);
+        jmi_abrir.setText("Abrir...");
+        jmi_abrir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jmi_abrirActionPerformed(evt);
+            }
+        });
+        jMenu3.add(jmi_abrir);
 
-        jMenuItem4.setText("Guardar");
-        jMenu3.add(jMenuItem4);
+        jmi_guardar.setText("Guardar");
+        jMenu3.add(jmi_guardar);
 
-        jMenuItem5.setText("Guardar como...");
-        jMenu3.add(jMenuItem5);
+        jmi_guardarComo.setText("Guardar como...");
+        jMenu3.add(jmi_guardarComo);
 
         jMenuBar2.add(jMenu3);
 
         jMenu4.setText("Formato");
 
-        jMenuItem2.setText("Fuente...");
-        jMenu4.add(jMenuItem2);
+        jmi_fuenteEditor.setText("Fuente...");
+        jMenu4.add(jmi_fuenteEditor);
 
         jMenuBar2.add(jMenu4);
 
         jMenu5.setText("Ayuda");
 
-        jMenuItem1.setText("Aceca del Editor");
-        jMenu5.add(jMenuItem1);
+        jmi_informacionEditor.setText("Aceca del Editor");
+        jMenu5.add(jmi_informacionEditor);
 
         jMenuBar2.add(jMenu5);
 
@@ -196,7 +208,9 @@ public class Pantalla extends javax.swing.JFrame {
         jd_editor.getContentPane().setLayout(jd_editorLayout);
         jd_editorLayout.setHorizontalGroup(
             jd_editorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 438, Short.MAX_VALUE)
+            .addGroup(jd_editorLayout.createSequentialGroup()
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 496, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         jd_editorLayout.setVerticalGroup(
             jd_editorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -266,6 +280,34 @@ public class Pantalla extends javax.swing.JFrame {
         jd_editor.setVisible(true);
     }//GEN-LAST:event_btn_abrirEditorMouseClicked
 
+    private void jmi_abrirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmi_abrirActionPerformed
+        JFileChooser fileChooser = new JFileChooser();
+        int estado = fileChooser.showOpenDialog(this);
+
+        /* Nota: si el estado no es JFileChooser.APPROVE_OPTION puede ser que el
+        usuario haya cancelado o que haya ocurrido un error. Como sea salir. */
+        if (estado != JFileChooser.APPROVE_OPTION) {
+            return;
+        }
+        File file = fileChooser.getSelectedFile();
+        try {
+            BufferedReader br = new BufferedReader(new FileReader(file));
+            String linea;
+            String textoCompleto = "";
+            while ((linea = br.readLine()) != null) {
+                textoCompleto += linea + "\n";
+            }
+            br.close();
+            txt_editor.setText(textoCompleto.stripTrailing());
+        } catch (FileNotFoundException ex) {
+            JOptionPane.showMessageDialog(this, "El archivo no se encontró.", "Error", JOptionPane.ERROR_MESSAGE);
+            Logger.getLogger(Pantalla.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            JOptionPane.showMessageDialog(this, "Error al leer el archivo.", "Error", JOptionPane.ERROR_MESSAGE);
+            Logger.getLogger(Pantalla.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_jmi_abrirActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -320,15 +362,15 @@ public class Pantalla extends javax.swing.JFrame {
     private javax.swing.JMenu jMenu5;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuBar jMenuBar2;
-    private javax.swing.JMenuItem jMenuItem1;
-    private javax.swing.JMenuItem jMenuItem2;
-    private javax.swing.JMenuItem jMenuItem3;
-    private javax.swing.JMenuItem jMenuItem4;
-    private javax.swing.JMenuItem jMenuItem5;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextArea jTextArea1;
     private javax.swing.JDialog jd_editor;
     private javax.swing.JDialog jd_login;
+    private javax.swing.JMenuItem jmi_abrir;
+    private javax.swing.JMenuItem jmi_fuenteEditor;
+    private javax.swing.JMenuItem jmi_guardar;
+    private javax.swing.JMenuItem jmi_guardarComo;
+    private javax.swing.JMenuItem jmi_informacionEditor;
+    private javax.swing.JTextArea txt_editor;
     private javax.swing.JTextField txt_loginConstrasena;
     private javax.swing.JTextField txt_loginUsuario;
     // End of variables declaration//GEN-END:variables
