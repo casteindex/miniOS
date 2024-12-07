@@ -12,8 +12,8 @@ import java.io.Serializable;
  */
 public class Invitado extends Usuario implements Serializable {
 
-    public Invitado(String username, String contrasena) {
-        super(username, contrasena);
+    public Invitado(String nombre, String contrasena) {
+        super(nombre, contrasena);
     }
 
 }

@@ -15,8 +15,8 @@ public class Administrador extends Usuario implements Serializable {
 
     ArrayList<Usuario> usuarios;
 
-    public Administrador(ArrayList<Usuario> usuarios, String username, String contrasena) {
-        super(username, contrasena);
+    public Administrador(ArrayList<Usuario> usuarios, String nombre, String contrasena) {
+        super(nombre, contrasena);
         this.usuarios = usuarios;
     }
 

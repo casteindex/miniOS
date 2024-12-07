@@ -28,22 +28,24 @@ public class Pantalla extends javax.swing.JFrame {
         sistema: la lista de todos los usuarios y su información */
         this.usuarios = loadUsuarios();
         System.out.println(usuarios);
+
         /*
         // Ingreso manual de usuarios (BORRAR DESPUÉS):
-        usuarios = new ArrayList();
+        this.usuarios = new ArrayList();
         usuarios.add(new Administrador(usuarios, "admin", "admin"));
         usuarios.add(new Administrador(usuarios, "alejandro", "admin"));
         usuarios.add(new Invitado("guest", "temp"));
         usuarios.add(new Invitado("guest2", "temp"));
+        saveUsuarios();
          */
 
  /* Cuando inicie el programa, ocultar el JFrame principal hasta que el
         usuario inicie sesión */
         jd_login.pack();
         jd_login.setVisible(true);
-
+        
     }
-
+    
     private ArrayList<Usuario> loadUsuarios() {
         File file = new File(CONFIG_FILE_PATH);
         try {
@@ -57,7 +59,7 @@ public class Pantalla extends javax.swing.JFrame {
         }
         return new ArrayList(); // No encontró nada en el archivo binario
     }
-
+    
     private void saveUsuarios() {
         File file = new File(CONFIG_FILE_PATH);
         try {
@@ -86,6 +88,18 @@ public class Pantalla extends javax.swing.JFrame {
         txt_loginUsuario = new javax.swing.JTextField();
         txt_loginConstrasena = new javax.swing.JTextField();
         btn_login = new javax.swing.JButton();
+        jd_editor = new javax.swing.JDialog();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTextArea1 = new javax.swing.JTextArea();
+        jMenuBar2 = new javax.swing.JMenuBar();
+        jMenu3 = new javax.swing.JMenu();
+        jMenuItem3 = new javax.swing.JMenuItem();
+        jMenuItem4 = new javax.swing.JMenuItem();
+        jMenuItem5 = new javax.swing.JMenuItem();
+        jMenu4 = new javax.swing.JMenu();
+        jMenuItem2 = new javax.swing.JMenuItem();
+        jMenu5 = new javax.swing.JMenu();
+        jMenuItem1 = new javax.swing.JMenuItem();
         btn_abrirExplorador = new javax.swing.JButton();
         btn_abrirEditor = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
@@ -145,11 +159,60 @@ public class Pantalla extends javax.swing.JFrame {
                 .addContainerGap(139, Short.MAX_VALUE))
         );
 
+        jTextArea1.setColumns(20);
+        jTextArea1.setRows(5);
+        jScrollPane1.setViewportView(jTextArea1);
+
+        jMenu3.setText("Archivo");
+
+        jMenuItem3.setText("Abrir...");
+        jMenu3.add(jMenuItem3);
+
+        jMenuItem4.setText("Guardar");
+        jMenu3.add(jMenuItem4);
+
+        jMenuItem5.setText("Guardar como...");
+        jMenu3.add(jMenuItem5);
+
+        jMenuBar2.add(jMenu3);
+
+        jMenu4.setText("Formato");
+
+        jMenuItem2.setText("Fuente...");
+        jMenu4.add(jMenuItem2);
+
+        jMenuBar2.add(jMenu4);
+
+        jMenu5.setText("Ayuda");
+
+        jMenuItem1.setText("Aceca del Editor");
+        jMenu5.add(jMenuItem1);
+
+        jMenuBar2.add(jMenu5);
+
+        jd_editor.setJMenuBar(jMenuBar2);
+
+        javax.swing.GroupLayout jd_editorLayout = new javax.swing.GroupLayout(jd_editor.getContentPane());
+        jd_editor.getContentPane().setLayout(jd_editorLayout);
+        jd_editorLayout.setHorizontalGroup(
+            jd_editorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 438, Short.MAX_VALUE)
+        );
+        jd_editorLayout.setVerticalGroup(
+            jd_editorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 341, Short.MAX_VALUE)
+        );
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         btn_abrirExplorador.setText("explorador");
 
         btn_abrirEditor.setText("editor");
+        btn_abrirEditor.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btn_abrirEditorMouseClicked(evt);
+            }
+        });
 
         jMenu1.setText("File");
         jMenuBar1.add(jMenu1);
@@ -187,7 +250,7 @@ public class Pantalla extends javax.swing.JFrame {
     private void btn_loginMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_loginMouseClicked
         activeUser = null;
         for (Usuario usuario : usuarios) {
-            if (usuario.getUsername().equals(txt_loginUsuario.getText())
+            if (usuario.getNombre().equals(txt_loginUsuario.getText())
                     && usuario.getContrasena().equals(txt_loginConstrasena.getText())) {
                 activeUser = usuario;
                 JOptionPane.showMessageDialog(jd_login, "Bienvenido");
@@ -197,6 +260,11 @@ public class Pantalla extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(jd_login, "Usuario no encontrado");
         }
     }//GEN-LAST:event_btn_loginMouseClicked
+
+    private void btn_abrirEditorMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_abrirEditorMouseClicked
+        jd_editor.pack();
+        jd_editor.setVisible(true);
+    }//GEN-LAST:event_btn_abrirEditorMouseClicked
 
     /**
      * @param args the command line arguments
@@ -247,7 +315,19 @@ public class Pantalla extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
+    private javax.swing.JMenu jMenu3;
+    private javax.swing.JMenu jMenu4;
+    private javax.swing.JMenu jMenu5;
     private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JMenuBar jMenuBar2;
+    private javax.swing.JMenuItem jMenuItem1;
+    private javax.swing.JMenuItem jMenuItem2;
+    private javax.swing.JMenuItem jMenuItem3;
+    private javax.swing.JMenuItem jMenuItem4;
+    private javax.swing.JMenuItem jMenuItem5;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTextArea jTextArea1;
+    private javax.swing.JDialog jd_editor;
     private javax.swing.JDialog jd_login;
     private javax.swing.JTextField txt_loginConstrasena;
     private javax.swing.JTextField txt_loginUsuario;

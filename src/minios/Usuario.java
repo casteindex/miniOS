@@ -12,22 +12,22 @@ import java.io.Serializable;
  */
 public abstract class Usuario implements Serializable {
 
-    protected String username;
+    protected String nombre;
     protected String contrasena;
     protected Configuracion config;
 
-    public Usuario(String username, String contrasena) {
-        this.username = username;
+    public Usuario(String nombre, String contrasena) {
+        this.nombre = nombre;
         this.contrasena = contrasena;
         this.config = new Configuracion();
     }
 
-    public String getUsername() {
-        return username;
+    public String getNombre() {
+        return nombre;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
     }
 
     public String getContrasena() {
@@ -48,7 +48,7 @@ public abstract class Usuario implements Serializable {
 
     @Override
     public String toString() {
-        return "Usuario{" + "nombre=" + username + ", contrasena=" + contrasena + ", config=" + config + '}';
+        return "Usuario{" + "nombre=" + nombre + ", contrasena=" + contrasena + ", config=" + config + '}';
     }
 
 }
