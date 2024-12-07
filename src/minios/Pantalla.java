@@ -50,9 +50,9 @@ public class Pantalla extends javax.swing.JFrame {
 
  /* Cuando inicie el programa, ocultar el JFrame principal hasta que el
         usuario inicie sesión */
-        jd_login.pack();
-        jd_login.setVisible(true);
-
+//        jd_login.pack();
+//        jd_login.setLocationRelativeTo(this);
+//        jd_login.setVisible(true);
     }
 
     private ArrayList<Usuario> loadUsuarios() {
@@ -174,6 +174,7 @@ public class Pantalla extends javax.swing.JFrame {
 
         jMenu3.setText("Archivo");
 
+        jmi_abrir.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_O, java.awt.event.InputEvent.CTRL_DOWN_MASK));
         jmi_abrir.setText("Abrir...");
         jmi_abrir.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -182,6 +183,7 @@ public class Pantalla extends javax.swing.JFrame {
         });
         jMenu3.add(jmi_abrir);
 
+        jmi_guardar.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_S, java.awt.event.InputEvent.CTRL_DOWN_MASK));
         jmi_guardar.setText("Guardar");
         jmi_guardar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -190,6 +192,7 @@ public class Pantalla extends javax.swing.JFrame {
         });
         jMenu3.add(jmi_guardar);
 
+        jmi_guardarComo.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_S, java.awt.event.InputEvent.SHIFT_DOWN_MASK | java.awt.event.InputEvent.CTRL_DOWN_MASK));
         jmi_guardarComo.setText("Guardar como...");
         jmi_guardarComo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -220,11 +223,11 @@ public class Pantalla extends javax.swing.JFrame {
         jd_editor.getContentPane().setLayout(jd_editorLayout);
         jd_editorLayout.setHorizontalGroup(
             jd_editorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 480, Short.MAX_VALUE)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 611, Short.MAX_VALUE)
         );
         jd_editorLayout.setVerticalGroup(
             jd_editorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 341, Short.MAX_VALUE)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 363, Short.MAX_VALUE)
         );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -255,7 +258,7 @@ public class Pantalla extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(btn_abrirExplorador)
                     .addComponent(btn_abrirEditor))
-                .addContainerGap(517, Short.MAX_VALUE))
+                .addContainerGap(665, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -264,7 +267,7 @@ public class Pantalla extends javax.swing.JFrame {
                 .addComponent(btn_abrirExplorador)
                 .addGap(52, 52, 52)
                 .addComponent(btn_abrirEditor)
-                .addContainerGap(205, Short.MAX_VALUE))
+                .addContainerGap(279, Short.MAX_VALUE))
         );
 
         pack();
@@ -281,28 +284,35 @@ public class Pantalla extends javax.swing.JFrame {
             }
         }
         if (activeUser == null) {
-            JOptionPane.showMessageDialog(null, "Usuario no encontrado");
+            JOptionPane.showMessageDialog(jd_login, "Usuario no encontrado");
         }
     }//GEN-LAST:event_btn_loginMouseClicked
 
     private void btn_abrirEditorMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_abrirEditorMouseClicked
         jd_editor.pack();
+        jd_editor.setLocationRelativeTo(this);
         jd_editor.setVisible(true);
+        txt_editor.setText("");
+
+        /* Nota: el editor de texto tiene la opción de Guardar Guardar como. Se
+        usa la variable global openedFile. El openedFile es el archivo que se abrió
+        usando `Abrir` o el archivo que se guardó con `Guardar como` por último */
+        currentFile = null;
     }//GEN-LAST:event_btn_abrirEditorMouseClicked
 
     private void jmi_abrirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmi_abrirActionPerformed
         JFileChooser fileChooser = new JFileChooser();
-        int estado = fileChooser.showOpenDialog(this);
+        int estado = fileChooser.showOpenDialog(jd_editor);
 
         /* Nota: si el estado no es JFileChooser.APPROVE_OPTION puede ser que el
         usuario haya cancelado o que haya ocurrido un error. Salir. */
         if (estado != JFileChooser.APPROVE_OPTION) {
             return;
         }
-        File file = fileChooser.getSelectedFile();
+        currentFile = fileChooser.getSelectedFile();
         try {
             String textoCompleto = "";
-            try (BufferedReader br = new BufferedReader(new FileReader(file))) {
+            try (BufferedReader br = new BufferedReader(new FileReader(currentFile))) {
                 String linea;
                 while ((linea = br.readLine()) != null) {
                     textoCompleto += linea + "\n";
@@ -310,37 +320,44 @@ public class Pantalla extends javax.swing.JFrame {
             }
             txt_editor.setText(textoCompleto.stripTrailing());
         } catch (FileNotFoundException ex) {
-            JOptionPane.showMessageDialog(null, "El archivo no se encontró.", "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(jd_editor, "El archivo no se encontró.", "Error", JOptionPane.ERROR_MESSAGE);
             Logger.getLogger(Pantalla.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {
-            JOptionPane.showMessageDialog(null, "Error al leer el archivo.", "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(jd_editor, "Error al leer el archivo.", "Error", JOptionPane.ERROR_MESSAGE);
             Logger.getLogger(Pantalla.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_jmi_abrirActionPerformed
 
     private void jmi_guardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmi_guardarActionPerformed
-        // SOLO GUARDAR
+        if (currentFile == null) {
+            /* Si no hay un archivo abierto, se le pide al usuario guardar el
+            archivo actual como un archivo nuevo */
+            jmi_guardarComoActionPerformed(evt);
+            return;
+        }
+        // Si ya hay un archivo seleccionado, guardar el texto en ese archivo
+        try {
+            try (BufferedWriter bw = new BufferedWriter(new FileWriter(currentFile, false))) {
+                bw.write(txt_editor.getText());
+            }
+            JOptionPane.showMessageDialog(jd_editor, "Se guardó el archivo.", "Información", JOptionPane.INFORMATION_MESSAGE);
+        } catch (IOException ex) {
+            JOptionPane.showMessageDialog(jd_editor, "Algo salió mal. Error al escribir el archivo.", "Error", JOptionPane.ERROR_MESSAGE);
+            Logger.getLogger(Pantalla.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_jmi_guardarActionPerformed
 
     private void jmi_guardarComoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmi_guardarComoActionPerformed
         JFileChooser fileChooser = new JFileChooser();
-        int estado = fileChooser.showSaveDialog(this);
+        int estado = fileChooser.showSaveDialog(jd_editor);
 
         /* Nota: si el estado no es JFileChooser.APPROVE_OPTION puede ser que el
         usuario haya cancelado o que haya ocurrido un error. Salir. */
         if (estado != JFileChooser.APPROVE_OPTION) {
             return;
         }
-        File file = fileChooser.getSelectedFile();
-        try {
-            try (BufferedWriter bw = new BufferedWriter(new FileWriter(file, false))) {
-                bw.write(txt_editor.getText());
-            }
-            JOptionPane.showMessageDialog(null, "Se guardó el archivo.", "Información", JOptionPane.INFORMATION_MESSAGE);
-        } catch (IOException ex) {
-            JOptionPane.showMessageDialog(null, "Algo salió mal. Error al escribir el archivo.", "Error", JOptionPane.ERROR_MESSAGE);
-            Logger.getLogger(Pantalla.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        currentFile = fileChooser.getSelectedFile();
+        jmi_guardarActionPerformed(evt); // Llamar a Guardar para escribir el archivo
     }//GEN-LAST:event_jmi_guardarComoActionPerformed
 
     /**
@@ -382,6 +399,7 @@ public class Pantalla extends javax.swing.JFrame {
     private static final String CONFIG_FILE_PATH = "./data/users.dat";
     private ArrayList<Usuario> usuarios;
     private Usuario activeUser;
+    private File currentFile;
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_abrirEditor;
