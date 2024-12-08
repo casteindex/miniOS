@@ -20,6 +20,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
+import javax.swing.tree.DefaultTreeModel;
 
 /**
  *
@@ -78,7 +79,12 @@ public class Pantalla extends javax.swing.JFrame {
         btn_abrirEditor = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
-        jMenu2 = new javax.swing.JMenu();
+        jMenuItem2 = new javax.swing.JMenuItem();
+        jMenuItem3 = new javax.swing.JMenuItem();
+        jSeparator1 = new javax.swing.JPopupMenu.Separator();
+        jMenuItem4 = new javax.swing.JMenuItem();
+        jSeparator2 = new javax.swing.JPopupMenu.Separator();
+        jMenuItem5 = new javax.swing.JMenuItem();
         txt_loginConstrasena = new javax.swing.JTextField();
         btn_login = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
@@ -177,24 +183,36 @@ public class Pantalla extends javax.swing.JFrame {
         );
 
         btn_abrirExplorador.setText("explorador");
-        btn_abrirExplorador.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                btn_abrirExploradorMouseClicked(evt);
+        btn_abrirExplorador.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_abrirExploradorActionPerformed(evt);
             }
         });
 
         btn_abrirEditor.setText("editor");
-        btn_abrirEditor.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                btn_abrirEditorMouseClicked(evt);
+        btn_abrirEditor.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_abrirEditorActionPerformed(evt);
             }
         });
 
-        jMenu1.setText("File");
-        jMenuBar1.add(jMenu1);
+        jMenu1.setText("Inicio");
 
-        jMenu2.setText("Edit");
-        jMenuBar1.add(jMenu2);
+        jMenuItem2.setText("Cerrar sesión");
+        jMenu1.add(jMenuItem2);
+
+        jMenuItem3.setText("Agregar usuario...");
+        jMenu1.add(jMenuItem3);
+        jMenu1.add(jSeparator1);
+
+        jMenuItem4.setText("Configuración...");
+        jMenu1.add(jMenuItem4);
+        jMenu1.add(jSeparator2);
+
+        jMenuItem5.setText("Información del Sistema...");
+        jMenu1.add(jMenuItem5);
+
+        jMenuBar1.add(jMenu1);
 
         jd_escritorio.setJMenuBar(jMenuBar1);
 
@@ -203,28 +221,28 @@ public class Pantalla extends javax.swing.JFrame {
         jd_escritorioLayout.setHorizontalGroup(
             jd_escritorioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jd_escritorioLayout.createSequentialGroup()
-                .addGap(23, 23, 23)
+                .addGap(39, 39, 39)
                 .addGroup(jd_escritorioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(btn_abrirExplorador)
                     .addComponent(btn_abrirEditor))
-                .addContainerGap(656, Short.MAX_VALUE))
+                .addContainerGap(640, Short.MAX_VALUE))
         );
         jd_escritorioLayout.setVerticalGroup(
             jd_escritorioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jd_escritorioLayout.createSequentialGroup()
-                .addGap(65, 65, 65)
+                .addGap(140, 140, 140)
                 .addComponent(btn_abrirExplorador)
-                .addGap(52, 52, 52)
+                .addGap(39, 39, 39)
                 .addComponent(btn_abrirEditor)
-                .addContainerGap(286, Short.MAX_VALUE))
+                .addContainerGap(224, Short.MAX_VALUE))
         );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         btn_login.setText("Iniciar Sesión");
-        btn_login.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                btn_loginMouseClicked(evt);
+        btn_login.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_loginActionPerformed(evt);
             }
         });
 
@@ -278,44 +296,34 @@ public class Pantalla extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btn_loginMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_loginMouseClicked
+    private void btn_loginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_loginActionPerformed
         /* Iniciar sesión significa cargar la configuración del sistema.
         Nota: Si el ArrayList de usuarios está vacío, significa que es la primera
         vez que se inicia sesión -> Crear usuario Administrador con las credenciales
         que introdujo el usuario */
-        if (usuarios.isEmpty()) {
-            Administrador admin = new Administrador(
-                    usuarios, txt_loginUsuario.getText(),
-                    txt_loginConstrasena.getText()
-            );
-            usuarios.add(admin);
-            saveUserFile();
-            this.activeUser = admin;
-            JOptionPane.showMessageDialog(this,
-                    "Bienvenido!\n\nUsuario creado exitosamente",
-                    "Mensaje de Bienvenida", JOptionPane.INFORMATION_MESSAGE
-            );
+        if (usuarios.isEmpty()) { // No hay usuarios registrados. Crear usuario
+            createFirstUser();
         } else {
-            this.activeUser = getActiveUser(txt_loginUsuario.getText(),
-                    txt_loginConstrasena.getText()
-            );
-            if (activeUser != null) {
-                JOptionPane.showMessageDialog(this, "Bienvenido",
-                        "Mensaje de Bienvendia", JOptionPane.PLAIN_MESSAGE
+            this.activeUser = getActiveUser(txt_loginUsuario.getText(), txt_loginConstrasena.getText());
+            if (activeUser == null) { // Credenciales incorrectas. No hay inicio de sesión
+                JOptionPane.showMessageDialog(this, "No se pudo iniciar sesión.\n"
+                        + "El nombre de usuario o la contraseña que ingresaste"
+                        + " no son correctos.", "Error de Inicio de Sesión",
+                        JOptionPane.ERROR_MESSAGE
                 );
-            } else {
-                JOptionPane.showMessageDialog(this, "Usuario no encontrado",
-                        "Avertencia", JOptionPane.WARNING_MESSAGE
+                return; // Salir del método
+            } else { // Usuario encontrado
+                JOptionPane.showMessageDialog(this,
+                        "¡Hola de nuevo, " + activeUser.getNombre() + "!\n"
+                        + "Nos alegra verte de vuelta. ¡Que tengas un gran día!",
+                        "Bienvenido", JOptionPane.INFORMATION_MESSAGE
                 );
             }
         }
-        // Cargar la información del Usuario y mostrar el escritorio
-        jd_escritorio.pack();
-        jd_escritorio.setLocationRelativeTo(this);
-        jd_escritorio.setVisible(true);
-    }//GEN-LAST:event_btn_loginMouseClicked
+        loadDesktop(activeUser); // Cargar escritorio del usuario
+    }//GEN-LAST:event_btn_loginActionPerformed
 
-    private void btn_abrirEditorMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_abrirEditorMouseClicked
+    private void btn_abrirEditorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_abrirEditorActionPerformed
         // Si ya hay una instancia del editor abierta, mostrarla
         if (jd_editor.isVisible()) {
             jd_editor.toFront();
@@ -327,7 +335,7 @@ public class Pantalla extends javax.swing.JFrame {
             this.currentTextFile = null;
             this.contenidoGuardado = "";
         }
-    }//GEN-LAST:event_btn_abrirEditorMouseClicked
+    }//GEN-LAST:event_btn_abrirEditorActionPerformed
 
     private void jmi_abrirArchivoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmi_abrirArchivoActionPerformed
         this.currentTextFile = selectFile();
@@ -373,11 +381,11 @@ public class Pantalla extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jd_editorWindowClosing
 
-    private void btn_abrirExploradorMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_abrirExploradorMouseClicked
+    private void btn_abrirExploradorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_abrirExploradorActionPerformed
         jd_explorador.pack();
         jd_explorador.setLocationRelativeTo(this);
         jd_explorador.setVisible(true);
-    }//GEN-LAST:event_btn_abrirExploradorMouseClicked
+    }//GEN-LAST:event_btn_abrirExploradorActionPerformed
 
     /**
      * @param args the command line arguments
@@ -423,8 +431,7 @@ public class Pantalla extends javax.swing.JFrame {
             ObjectInputStream objectReader = new ObjectInputStream(fi);
             Object obj = objectReader.readObject();
             return (ArrayList<Usuario>) obj;
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "Ocurrió un error");
+        } catch (IOException | ClassNotFoundException e) {
         }
         return new ArrayList(); // No encontró nada en el archivo binario
     }
@@ -526,11 +533,50 @@ public class Pantalla extends javax.swing.JFrame {
         }
     }
 
+    // ---------- Otros ----------
+    private void createFirstUser() {
+        Administrador usuario = new Administrador(
+                usuarios, txt_loginUsuario.getText(),
+                txt_loginConstrasena.getText()
+        );
+        usuarios.add(usuario);
+        saveUserFile();
+        this.activeUser = usuario;
+        JOptionPane.showMessageDialog(this, "¡Bienvenido! \n\n"
+                + "Tu usuario ha sido creado con éxito.\n"
+                + "¡Gracias por unirte a nuestra plataforma "
+                + activeUser.getNombre() + "!", "Primer Usuario",
+                JOptionPane.INFORMATION_MESSAGE
+        );
+    }
+
+    private void loadDesktop(Usuario usuario) {
+        // Mostrar escritorio
+        jd_escritorio.pack();
+        jd_escritorio.setLocationRelativeTo(this);
+        jd_escritorio.setVisible(true);
+        this.dispose(); // Cerrar ventana de login
+
+        // Cargar modelo
+        this.treeModel = new DefaultTreeModel(usuario.getRaiz());
+        jt_explorador.setModel(treeModel);
+
+        // Elementos que cambian dependiendo del tipo de usuario
+        if (usuario instanceof Administrador) {
+            jMenuItem3.setVisible(true);
+        } else {
+            jMenuItem3.setVisible(false);
+        }
+
+        // TODO: Cargar colores y tipo de fuente
+    }
+
     // ---------- Variables Globales ----------
     private ArrayList<Usuario> usuarios;
     private Usuario activeUser;
     private File currentTextFile;
     private String contenidoGuardado;
+    private DefaultTreeModel treeModel;
     private static final String CONFIG_FILE_PATH = "./data/users.dat";
     private static final String TEXT_EDITOR_ABOUT = "Este editor de texto ha sido"
             + "desarrollado por Alejandro\n"
@@ -547,14 +593,19 @@ public class Pantalla extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JMenu jMenu1;
-    private javax.swing.JMenu jMenu2;
     private javax.swing.JMenu jMenu3;
     private javax.swing.JMenu jMenu4;
     private javax.swing.JMenu jMenu5;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuBar jMenuBar2;
+    private javax.swing.JMenuItem jMenuItem2;
+    private javax.swing.JMenuItem jMenuItem3;
+    private javax.swing.JMenuItem jMenuItem4;
+    private javax.swing.JMenuItem jMenuItem5;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JPopupMenu.Separator jSeparator1;
+    private javax.swing.JPopupMenu.Separator jSeparator2;
     private javax.swing.JDialog jd_editor;
     private javax.swing.JDialog jd_escritorio;
     private javax.swing.JDialog jd_explorador;
