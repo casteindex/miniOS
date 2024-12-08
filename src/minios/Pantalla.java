@@ -20,6 +20,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 import javax.swing.tree.DefaultTreeModel;
 
 /**
@@ -88,6 +89,12 @@ public class Pantalla extends javax.swing.JFrame {
         txt_nuevoUsuarioNombre = new javax.swing.JTextField();
         txt_nuevoUsuarioContrasena = new javax.swing.JTextField();
         btn_crearUsuario = new javax.swing.JButton();
+        jd_informacionSistema = new javax.swing.JDialog();
+        jLabel6 = new javax.swing.JLabel();
+        jLabel8 = new javax.swing.JLabel();
+        jLabel7 = new javax.swing.JLabel();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        jt_usuarios = new javax.swing.JTable();
         txt_loginConstrasena = new javax.swing.JTextField();
         btn_login = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
@@ -313,6 +320,58 @@ public class Pantalla extends javax.swing.JFrame {
                 .addContainerGap(46, Short.MAX_VALUE))
         );
 
+        jLabel6.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        jLabel6.setText("Información del Sistema");
+
+        jLabel8.setText("<html>\n<div>\n    <b>MiniOS</b><br>\n    Versión: 1.0.0<br>\n    Última actualización: 11 de diciembre de 2024<br><br>\n    \n    Este sistema operativo ha sido diseñado para ofrecer una experiencia sencilla, intuitiva y eficiente.<br>\n    Fue creado como parte de un proyecto académico para la asignatura de Programación II en la Universidad Tecnológica Centroamericana.<br><br>\n    \n    <b>Desarrollado por:</b> Alejandro Castellanos\n</div>\n</html>");
+
+        jLabel7.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel7.setText("Usuarios Registrados");
+
+        jt_usuarios.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane3.setViewportView(jt_usuarios);
+
+        javax.swing.GroupLayout jd_informacionSistemaLayout = new javax.swing.GroupLayout(jd_informacionSistema.getContentPane());
+        jd_informacionSistema.getContentPane().setLayout(jd_informacionSistemaLayout);
+        jd_informacionSistemaLayout.setHorizontalGroup(
+            jd_informacionSistemaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jd_informacionSistemaLayout.createSequentialGroup()
+                .addGroup(jd_informacionSistemaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jd_informacionSistemaLayout.createSequentialGroup()
+                        .addGap(31, 31, 31)
+                        .addGroup(jd_informacionSistemaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 225, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel7)))
+                    .addGroup(jd_informacionSistemaLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 456, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(31, Short.MAX_VALUE))
+        );
+        jd_informacionSistemaLayout.setVerticalGroup(
+            jd_informacionSistemaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jd_informacionSistemaLayout.createSequentialGroup()
+                .addGap(24, 24, 24)
+                .addComponent(jLabel6)
+                .addGap(18, 18, 18)
+                .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(24, 24, 24)
+                .addComponent(jLabel7)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(23, Short.MAX_VALUE))
+        );
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         btn_login.setText("Iniciar Sesión");
@@ -527,7 +586,10 @@ public class Pantalla extends javax.swing.JFrame {
     }//GEN-LAST:event_jd_escritorioWindowClosing
 
     private void jmi_infoSistemaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmi_infoSistemaActionPerformed
-        // TODO add your handling code here:
+        llenarUserTable();
+        jd_informacionSistema.pack();
+        jd_informacionSistema.setLocationRelativeTo(jd_escritorio);
+        jd_informacionSistema.setVisible(true);
     }//GEN-LAST:event_jmi_infoSistemaActionPerformed
 
     /**
@@ -681,6 +743,7 @@ public class Pantalla extends javax.swing.JFrame {
         // Mostrar escritorio
         jd_escritorio.pack();
         jd_escritorio.setLocationRelativeTo(this);
+        jd_escritorio.setTitle("MiniOS — " + usuario.getNombre());
         jd_escritorio.setVisible(true);
         // Ocultar login screen
         txt_loginUsuario.setText("");
@@ -699,6 +762,31 @@ public class Pantalla extends javax.swing.JFrame {
         }
 
         // TODO: Cargar colores y tipo de fuente
+    }
+
+    private void llenarUserTable() {
+        DefaultTableModel modelo = new DefaultTableModel();
+        modelo.addColumn("Nombre");
+        modelo.addColumn("Tipo");
+
+        String nombre;
+        String tipo;
+        for (Usuario usuario : usuarios) {
+            nombre = usuario.nombre;
+            if (usuario.isAdmin()) {
+                tipo = "Administrador";
+            } else {
+                tipo = "Invitado";
+            }
+            // Indicar cuál es el usuario actual
+            if (usuario == activeUser) {
+                modelo.addRow(new Object[]{nombre + " (Sesión Actual)", tipo});
+            } else {
+                modelo.addRow(new Object[]{nombre, tipo});
+            }
+        }
+
+        jt_usuarios.setModel(modelo);
     }
 
     private boolean isValidUsername(String nombre) {
@@ -735,6 +823,9 @@ public class Pantalla extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu3;
     private javax.swing.JMenu jMenu4;
@@ -743,12 +834,14 @@ public class Pantalla extends javax.swing.JFrame {
     private javax.swing.JMenuBar jMenuBar2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JPopupMenu.Separator jSeparator1;
     private javax.swing.JPopupMenu.Separator jSeparator2;
     private javax.swing.JDialog jd_agregarUsuario;
     private javax.swing.JDialog jd_editor;
     private javax.swing.JDialog jd_escritorio;
     private javax.swing.JDialog jd_explorador;
+    private javax.swing.JDialog jd_informacionSistema;
     private javax.swing.JMenuItem jmi_abrirArchivo;
     private javax.swing.JMenuItem jmi_agregarUsuario;
     private javax.swing.JMenuItem jmi_cerrarSesion;
@@ -759,6 +852,7 @@ public class Pantalla extends javax.swing.JFrame {
     private javax.swing.JMenuItem jmi_infoSistema;
     private javax.swing.JMenuItem jmi_informacionEditor;
     private javax.swing.JTree jt_explorador;
+    private javax.swing.JTable jt_usuarios;
     private javax.swing.JTextArea txt_editor;
     private javax.swing.JTextField txt_loginConstrasena;
     private javax.swing.JTextField txt_loginUsuario;
