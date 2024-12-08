@@ -95,6 +95,15 @@ public class Pantalla extends javax.swing.JFrame {
         jLabel7 = new javax.swing.JLabel();
         jScrollPane3 = new javax.swing.JScrollPane();
         jt_usuarios = new javax.swing.JTable();
+        jpm_editarUsuario = new javax.swing.JPopupMenu();
+        jmi_showEditarUsuario = new javax.swing.JMenuItem();
+        jmi_eliminarUsuario = new javax.swing.JMenuItem();
+        jd_editarUsuario = new javax.swing.JDialog();
+        jLabel9 = new javax.swing.JLabel();
+        jLabel10 = new javax.swing.JLabel();
+        txt_nombreEditar = new javax.swing.JTextField();
+        txt_contrasenaEditar = new javax.swing.JTextField();
+        btn_guardarCambiosUsuario = new javax.swing.JButton();
         txt_loginConstrasena = new javax.swing.JTextField();
         btn_login = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
@@ -339,6 +348,11 @@ public class Pantalla extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
+        jt_usuarios.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jt_usuariosMouseClicked(evt);
+            }
+        });
         jScrollPane3.setViewportView(jt_usuarios);
 
         javax.swing.GroupLayout jd_informacionSistemaLayout = new javax.swing.GroupLayout(jd_informacionSistema.getContentPane());
@@ -370,6 +384,67 @@ public class Pantalla extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(23, Short.MAX_VALUE))
+        );
+
+        jmi_showEditarUsuario.setText("Editar usuario...");
+        jmi_showEditarUsuario.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jmi_showEditarUsuarioActionPerformed(evt);
+            }
+        });
+        jpm_editarUsuario.add(jmi_showEditarUsuario);
+
+        jmi_eliminarUsuario.setText("Eliminar Usuario");
+        jmi_eliminarUsuario.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jmi_eliminarUsuarioActionPerformed(evt);
+            }
+        });
+        jpm_editarUsuario.add(jmi_eliminarUsuario);
+
+        jLabel9.setText("Nombre de Usuario:");
+
+        jLabel10.setText("Contraseña:");
+
+        btn_guardarCambiosUsuario.setText("Guardar cambios");
+        btn_guardarCambiosUsuario.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_guardarCambiosUsuarioActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jd_editarUsuarioLayout = new javax.swing.GroupLayout(jd_editarUsuario.getContentPane());
+        jd_editarUsuario.getContentPane().setLayout(jd_editarUsuarioLayout);
+        jd_editarUsuarioLayout.setHorizontalGroup(
+            jd_editarUsuarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jd_editarUsuarioLayout.createSequentialGroup()
+                .addGap(33, 33, 33)
+                .addGroup(jd_editarUsuarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(btn_guardarCambiosUsuario)
+                    .addGroup(jd_editarUsuarioLayout.createSequentialGroup()
+                        .addGroup(jd_editarUsuarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel9)
+                            .addComponent(jLabel10, javax.swing.GroupLayout.Alignment.TRAILING))
+                        .addGap(18, 18, 18)
+                        .addGroup(jd_editarUsuarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(txt_nombreEditar)
+                            .addComponent(txt_contrasenaEditar, javax.swing.GroupLayout.DEFAULT_SIZE, 220, Short.MAX_VALUE))))
+                .addContainerGap(40, Short.MAX_VALUE))
+        );
+        jd_editarUsuarioLayout.setVerticalGroup(
+            jd_editarUsuarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jd_editarUsuarioLayout.createSequentialGroup()
+                .addGap(37, 37, 37)
+                .addGroup(jd_editarUsuarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel9)
+                    .addComponent(txt_nombreEditar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jd_editarUsuarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel10)
+                    .addComponent(txt_contrasenaEditar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addComponent(btn_guardarCambiosUsuario)
+                .addContainerGap(32, Short.MAX_VALUE))
         );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -458,7 +533,7 @@ public class Pantalla extends javax.swing.JFrame {
                     JOptionPane.INFORMATION_MESSAGE
             );
         } else {
-            this.activeUser = getActiveUser(nombre, contrasena);
+            this.activeUser = getUser(nombre, contrasena);
             if (activeUser == null) { // Credenciales incorrectas. No hay inicio de sesión
                 JOptionPane.showMessageDialog(this, "No se pudo iniciar sesión.\n"
                         + "El nombre de usuario o la contraseña que ingresaste"
@@ -558,11 +633,10 @@ public class Pantalla extends javax.swing.JFrame {
     private void btn_crearUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_crearUsuarioActionPerformed
         String nombre = txt_nuevoUsuarioNombre.getText();
         String contrasena = txt_nuevoUsuarioContrasena.getText();
-        if (nombre.isBlank() || contrasena.isBlank()) {
+        if (nombre.isBlank()) {
             JOptionPane.showMessageDialog(jd_agregarUsuario,
-                    "El usuario debe tener un nombre y una contraseña."
-                    + "\nPor favor llena todos los campos.",
-                    "Advertencia", JOptionPane.WARNING_MESSAGE
+                    "El usuario debe tener un nombre.", "Advertencia",
+                    JOptionPane.WARNING_MESSAGE
             );
         } else if (!isValidUsername(nombre)) {
             JOptionPane.showMessageDialog(jd_agregarUsuario,
@@ -591,6 +665,52 @@ public class Pantalla extends javax.swing.JFrame {
         jd_informacionSistema.setLocationRelativeTo(jd_escritorio);
         jd_informacionSistema.setVisible(true);
     }//GEN-LAST:event_jmi_infoSistemaActionPerformed
+
+    private void jt_usuariosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jt_usuariosMouseClicked
+        if (activeUser.isAdmin()) {
+            // Si se hace click derecho sobre un usuario listado
+            int selectedRow = jt_usuarios.getSelectedRow();
+            if (evt.isMetaDown() && selectedRow != -1) {
+                jpm_editarUsuario.show(jt_usuarios, evt.getX(), evt.getY());
+                /* Obtener el usuario seleccionado. Nota: Se puede usar el ArrayList
+            usuarios porque la lista se crea a partir de él */
+                this.usuarioAEditar = usuarios.get(selectedRow);
+            }
+        }
+    }//GEN-LAST:event_jt_usuariosMouseClicked
+
+    private void jmi_showEditarUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmi_showEditarUsuarioActionPerformed
+        jd_editarUsuario.pack();
+        jd_editarUsuario.setLocationRelativeTo(jd_informacionSistema);
+        txt_nombreEditar.setText(usuarioAEditar.getNombre());
+        txt_contrasenaEditar.setText(usuarioAEditar.getContrasena());
+        jd_editarUsuario.setVisible(true);
+    }//GEN-LAST:event_jmi_showEditarUsuarioActionPerformed
+
+    private void btn_guardarCambiosUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_guardarCambiosUsuarioActionPerformed
+        String nuevoNombre = txt_nombreEditar.getText();
+        String nuevaContrasena = txt_contrasenaEditar.getText();
+        if (nuevoNombre.isBlank()) {
+            JOptionPane.showMessageDialog(jd_editarUsuario,
+                    "No puede dejar el nombre del Usuario en blanco."
+                    + "\nPor favor ingrese un nombre de usuario",
+                    "Editar Usuario", JOptionPane.WARNING_MESSAGE
+            );
+        } else {
+            usuarioAEditar.setNombre(nuevoNombre);
+            usuarioAEditar.setContrasena(nuevaContrasena);
+            JOptionPane.showMessageDialog(jd_editarUsuario,
+                    "Usuario actualizado correctamente!", "Editar Usuario",
+                    JOptionPane.INFORMATION_MESSAGE
+            );
+            saveUserFile();
+        }
+    }//GEN-LAST:event_btn_guardarCambiosUsuarioActionPerformed
+
+    private void jmi_eliminarUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmi_eliminarUsuarioActionPerformed
+        // TODO add your handling code here:
+        
+    }//GEN-LAST:event_jmi_eliminarUsuarioActionPerformed
 
     /**
      * @param args the command line arguments
@@ -654,10 +774,19 @@ public class Pantalla extends javax.swing.JFrame {
         }
     }
 
-    private Usuario getActiveUser(String nombre, String contrasena) {
+    private Usuario getUser(String nombre, String contrasena) {
         for (Usuario usuario : usuarios) {
             if (usuario.getNombre().equals(nombre)
                     && usuario.getContrasena().equals(contrasena)) {
+                return usuario;
+            }
+        }
+        return null; // No encotró al usuario
+    }
+
+    private Usuario getUser(String nombre) {
+        for (Usuario usuario : usuarios) {
+            if (usuario.getNombre().equals(nombre)) {
                 return usuario;
             }
         }
@@ -801,6 +930,7 @@ public class Pantalla extends javax.swing.JFrame {
     // ---------- Variables Globales ----------
     private ArrayList<Usuario> usuarios;
     private Usuario activeUser;
+    private Usuario usuarioAEditar;
     private File currentTextFile;
     private String contenidoGuardado;
     private DefaultTreeModel treeModel;
@@ -816,9 +946,11 @@ public class Pantalla extends javax.swing.JFrame {
     private javax.swing.JButton btn_abrirEditor;
     private javax.swing.JButton btn_abrirExplorador;
     private javax.swing.JButton btn_crearUsuario;
+    private javax.swing.JButton btn_guardarCambiosUsuario;
     private javax.swing.JButton btn_login;
     private javax.swing.JCheckBox chk_admin;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -826,6 +958,7 @@ public class Pantalla extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu3;
     private javax.swing.JMenu jMenu4;
@@ -838,6 +971,7 @@ public class Pantalla extends javax.swing.JFrame {
     private javax.swing.JPopupMenu.Separator jSeparator1;
     private javax.swing.JPopupMenu.Separator jSeparator2;
     private javax.swing.JDialog jd_agregarUsuario;
+    private javax.swing.JDialog jd_editarUsuario;
     private javax.swing.JDialog jd_editor;
     private javax.swing.JDialog jd_escritorio;
     private javax.swing.JDialog jd_explorador;
@@ -846,16 +980,21 @@ public class Pantalla extends javax.swing.JFrame {
     private javax.swing.JMenuItem jmi_agregarUsuario;
     private javax.swing.JMenuItem jmi_cerrarSesion;
     private javax.swing.JMenuItem jmi_configurarSistema;
+    private javax.swing.JMenuItem jmi_eliminarUsuario;
     private javax.swing.JMenuItem jmi_fuenteEditor;
     private javax.swing.JMenuItem jmi_guardarArchivo;
     private javax.swing.JMenuItem jmi_guardarArchivoComo;
     private javax.swing.JMenuItem jmi_infoSistema;
     private javax.swing.JMenuItem jmi_informacionEditor;
+    private javax.swing.JMenuItem jmi_showEditarUsuario;
+    private javax.swing.JPopupMenu jpm_editarUsuario;
     private javax.swing.JTree jt_explorador;
     private javax.swing.JTable jt_usuarios;
+    private javax.swing.JTextField txt_contrasenaEditar;
     private javax.swing.JTextArea txt_editor;
     private javax.swing.JTextField txt_loginConstrasena;
     private javax.swing.JTextField txt_loginUsuario;
+    private javax.swing.JTextField txt_nombreEditar;
     private javax.swing.JTextField txt_nuevoUsuarioContrasena;
     private javax.swing.JTextField txt_nuevoUsuarioNombre;
     // End of variables declaration//GEN-END:variables
