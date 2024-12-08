@@ -79,12 +79,19 @@ public class Pantalla extends javax.swing.JFrame {
         btn_abrirEditor = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
-        jMenuItem2 = new javax.swing.JMenuItem();
-        jMenuItem3 = new javax.swing.JMenuItem();
+        jmi_cerrarSesion = new javax.swing.JMenuItem();
+        jmi_agregarUsuario = new javax.swing.JMenuItem();
         jSeparator1 = new javax.swing.JPopupMenu.Separator();
-        jMenuItem4 = new javax.swing.JMenuItem();
+        jmi_configurarSistema = new javax.swing.JMenuItem();
         jSeparator2 = new javax.swing.JPopupMenu.Separator();
-        jMenuItem5 = new javax.swing.JMenuItem();
+        jmi_infoSistema = new javax.swing.JMenuItem();
+        jd_agregarUsuario = new javax.swing.JDialog();
+        chk_admin = new javax.swing.JCheckBox();
+        jLabel4 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
+        txt_nuevoUsuarioNombre = new javax.swing.JTextField();
+        txt_nuevoUsuarioContrasena = new javax.swing.JTextField();
+        btn_crearUsuario = new javax.swing.JButton();
         txt_loginConstrasena = new javax.swing.JTextField();
         btn_login = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
@@ -198,19 +205,29 @@ public class Pantalla extends javax.swing.JFrame {
 
         jMenu1.setText("Inicio");
 
-        jMenuItem2.setText("Cerrar sesión");
-        jMenu1.add(jMenuItem2);
+        jmi_cerrarSesion.setText("Cerrar sesión");
+        jmi_cerrarSesion.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jmi_cerrarSesionActionPerformed(evt);
+            }
+        });
+        jMenu1.add(jmi_cerrarSesion);
 
-        jMenuItem3.setText("Agregar usuario...");
-        jMenu1.add(jMenuItem3);
+        jmi_agregarUsuario.setText("Agregar usuario...");
+        jmi_agregarUsuario.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jmi_agregarUsuarioActionPerformed(evt);
+            }
+        });
+        jMenu1.add(jmi_agregarUsuario);
         jMenu1.add(jSeparator1);
 
-        jMenuItem4.setText("Configuración...");
-        jMenu1.add(jMenuItem4);
+        jmi_configurarSistema.setText("Configuración...");
+        jMenu1.add(jmi_configurarSistema);
         jMenu1.add(jSeparator2);
 
-        jMenuItem5.setText("Información del Sistema...");
-        jMenu1.add(jMenuItem5);
+        jmi_infoSistema.setText("Información del Sistema...");
+        jMenu1.add(jmi_infoSistema);
 
         jMenuBar1.add(jMenu1);
 
@@ -235,6 +252,58 @@ public class Pantalla extends javax.swing.JFrame {
                 .addGap(39, 39, 39)
                 .addComponent(btn_abrirEditor)
                 .addContainerGap(224, Short.MAX_VALUE))
+        );
+
+        jd_agregarUsuario.setTitle("Agregar Nuevo Usuario");
+
+        chk_admin.setText("El nuevo usuario tiene permisos de Administrador");
+
+        jLabel4.setText("Nombre de Usuario:");
+
+        jLabel5.setText("Contraseña:");
+
+        btn_crearUsuario.setText("Crear Usuario");
+        btn_crearUsuario.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_crearUsuarioActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jd_agregarUsuarioLayout = new javax.swing.GroupLayout(jd_agregarUsuario.getContentPane());
+        jd_agregarUsuario.getContentPane().setLayout(jd_agregarUsuarioLayout);
+        jd_agregarUsuarioLayout.setHorizontalGroup(
+            jd_agregarUsuarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jd_agregarUsuarioLayout.createSequentialGroup()
+                .addGap(48, 48, 48)
+                .addGroup(jd_agregarUsuarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btn_crearUsuario)
+                    .addComponent(chk_admin, javax.swing.GroupLayout.PREFERRED_SIZE, 302, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jd_agregarUsuarioLayout.createSequentialGroup()
+                        .addGroup(jd_agregarUsuarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel4)
+                            .addComponent(jLabel5))
+                        .addGap(18, 18, 18)
+                        .addGroup(jd_agregarUsuarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(txt_nuevoUsuarioContrasena)
+                            .addComponent(txt_nuevoUsuarioNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 216, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap(61, Short.MAX_VALUE))
+        );
+        jd_agregarUsuarioLayout.setVerticalGroup(
+            jd_agregarUsuarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jd_agregarUsuarioLayout.createSequentialGroup()
+                .addGap(43, 43, 43)
+                .addGroup(jd_agregarUsuarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel4)
+                    .addComponent(txt_nuevoUsuarioNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jd_agregarUsuarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txt_nuevoUsuarioContrasena, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel5))
+                .addGap(18, 18, 18)
+                .addComponent(chk_admin)
+                .addGap(18, 18, 18)
+                .addComponent(btn_crearUsuario)
+                .addContainerGap(46, Short.MAX_VALUE))
         );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -329,7 +398,7 @@ public class Pantalla extends javax.swing.JFrame {
             jd_editor.toFront();
         } else {
             jd_editor.pack();
-            jd_editor.setLocationRelativeTo(this);
+            jd_editor.setLocationRelativeTo(jd_escritorio);
             jd_editor.setVisible(true);
             txt_editor.setText("");
             this.currentTextFile = null;
@@ -383,9 +452,47 @@ public class Pantalla extends javax.swing.JFrame {
 
     private void btn_abrirExploradorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_abrirExploradorActionPerformed
         jd_explorador.pack();
-        jd_explorador.setLocationRelativeTo(this);
+        jd_explorador.setLocationRelativeTo(jd_escritorio);
         jd_explorador.setVisible(true);
     }//GEN-LAST:event_btn_abrirExploradorActionPerformed
+
+    private void jmi_cerrarSesionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmi_cerrarSesionActionPerformed
+        this.setVisible(true);
+        jd_escritorio.dispose();
+    }//GEN-LAST:event_jmi_cerrarSesionActionPerformed
+
+    private void jmi_agregarUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmi_agregarUsuarioActionPerformed
+        jd_agregarUsuario.pack();
+        jd_agregarUsuario.setLocationRelativeTo(jd_escritorio);
+        txt_nuevoUsuarioNombre.setText("");
+        txt_nuevoUsuarioContrasena.setText("");
+        chk_admin.setSelected(false);
+        jd_agregarUsuario.setVisible(true);
+    }//GEN-LAST:event_jmi_agregarUsuarioActionPerformed
+
+    private void btn_crearUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_crearUsuarioActionPerformed
+        String nombre = txt_nuevoUsuarioNombre.getText();
+        String contrasena = txt_nuevoUsuarioContrasena.getText();
+        if (nombre.isBlank() || contrasena.isBlank()) {
+            JOptionPane.showMessageDialog(jd_agregarUsuario,
+                    "El usuario debe tener un nombre y una contraseña."
+                    + "\nPor favor llena todos los campos.",
+                    "Advertencia", JOptionPane.WARNING_MESSAGE
+            );
+        } else if (!isValidUsername(nombre)) {
+            JOptionPane.showMessageDialog(jd_agregarUsuario,
+                    "El nombre de usuario ya ha sido utilizado", "Advertencia",
+                    JOptionPane.WARNING_MESSAGE
+            );
+        } else {
+            createUser(nombre, contrasena, chk_admin.isSelected());
+            jd_agregarUsuario.dispose();
+            JOptionPane.showMessageDialog(jd_agregarUsuario,
+                    "El usuario se ha creado con éxito!", "Agregar Usuario",
+                    JOptionPane.INFORMATION_MESSAGE
+            );
+        }
+    }//GEN-LAST:event_btn_crearUsuarioActionPerformed
 
     /**
      * @param args the command line arguments
@@ -550,11 +657,23 @@ public class Pantalla extends javax.swing.JFrame {
         );
     }
 
+    private void createUser(String nombre, String contrasena, boolean admin) {
+        if (admin) {
+            usuarios.add(new Administrador(usuarios, nombre, contrasena));
+        } else {
+            usuarios.add(new Invitado(nombre, contrasena));
+        }
+        saveUserFile();
+    }
+
     private void loadDesktop(Usuario usuario) {
         // Mostrar escritorio
         jd_escritorio.pack();
         jd_escritorio.setLocationRelativeTo(this);
         jd_escritorio.setVisible(true);
+        // Ocultar login screen
+        txt_loginUsuario.setText("");
+        txt_loginConstrasena.setText("");
         this.dispose(); // Cerrar ventana de login
 
         // Cargar modelo
@@ -563,12 +682,21 @@ public class Pantalla extends javax.swing.JFrame {
 
         // Elementos que cambian dependiendo del tipo de usuario
         if (usuario instanceof Administrador) {
-            jMenuItem3.setVisible(true);
+            jmi_agregarUsuario.setVisible(true);
         } else {
-            jMenuItem3.setVisible(false);
+            jmi_agregarUsuario.setVisible(false);
         }
 
         // TODO: Cargar colores y tipo de fuente
+    }
+
+    private boolean isValidUsername(String nombre) {
+        for (Usuario usuario : usuarios) {
+            if (usuario.getNombre().equals(nombre)) {
+                return false;
+            }
+        }
+        return true; // Nombre disponible
     }
 
     // ---------- Variables Globales ----------
@@ -588,35 +716,42 @@ public class Pantalla extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_abrirEditor;
     private javax.swing.JButton btn_abrirExplorador;
+    private javax.swing.JButton btn_crearUsuario;
     private javax.swing.JButton btn_login;
+    private javax.swing.JCheckBox chk_admin;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu3;
     private javax.swing.JMenu jMenu4;
     private javax.swing.JMenu jMenu5;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuBar jMenuBar2;
-    private javax.swing.JMenuItem jMenuItem2;
-    private javax.swing.JMenuItem jMenuItem3;
-    private javax.swing.JMenuItem jMenuItem4;
-    private javax.swing.JMenuItem jMenuItem5;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JPopupMenu.Separator jSeparator1;
     private javax.swing.JPopupMenu.Separator jSeparator2;
+    private javax.swing.JDialog jd_agregarUsuario;
     private javax.swing.JDialog jd_editor;
     private javax.swing.JDialog jd_escritorio;
     private javax.swing.JDialog jd_explorador;
     private javax.swing.JMenuItem jmi_abrirArchivo;
+    private javax.swing.JMenuItem jmi_agregarUsuario;
+    private javax.swing.JMenuItem jmi_cerrarSesion;
+    private javax.swing.JMenuItem jmi_configurarSistema;
     private javax.swing.JMenuItem jmi_fuenteEditor;
     private javax.swing.JMenuItem jmi_guardarArchivo;
     private javax.swing.JMenuItem jmi_guardarArchivoComo;
+    private javax.swing.JMenuItem jmi_infoSistema;
     private javax.swing.JMenuItem jmi_informacionEditor;
     private javax.swing.JTree jt_explorador;
     private javax.swing.JTextArea txt_editor;
     private javax.swing.JTextField txt_loginConstrasena;
     private javax.swing.JTextField txt_loginUsuario;
+    private javax.swing.JTextField txt_nuevoUsuarioContrasena;
+    private javax.swing.JTextField txt_nuevoUsuarioNombre;
     // End of variables declaration//GEN-END:variables
 }
