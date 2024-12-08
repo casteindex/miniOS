@@ -131,7 +131,7 @@
                 <Property name="text" type="java.lang.String" value="Archivo"/>
               </Properties>
               <SubComponents>
-                <MenuItem class="javax.swing.JMenuItem" name="jmi_abrir">
+                <MenuItem class="javax.swing.JMenuItem" name="jmi_abrirArchivo">
                   <Properties>
                     <Property name="accelerator" type="javax.swing.KeyStroke" editor="org.netbeans.modules.form.editors.KeyStrokeEditor">
                       <KeyStroke key="Ctrl+O"/>
@@ -139,10 +139,10 @@
                     <Property name="text" type="java.lang.String" value="Abrir..."/>
                   </Properties>
                   <Events>
-                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jmi_abrirActionPerformed"/>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jmi_abrirArchivoActionPerformed"/>
                   </Events>
                 </MenuItem>
-                <MenuItem class="javax.swing.JMenuItem" name="jmi_guardar">
+                <MenuItem class="javax.swing.JMenuItem" name="jmi_guardarArchivo">
                   <Properties>
                     <Property name="accelerator" type="javax.swing.KeyStroke" editor="org.netbeans.modules.form.editors.KeyStrokeEditor">
                       <KeyStroke key="Ctrl+S"/>
@@ -150,10 +150,10 @@
                     <Property name="text" type="java.lang.String" value="Guardar"/>
                   </Properties>
                   <Events>
-                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jmi_guardarActionPerformed"/>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jmi_guardarArchivoActionPerformed"/>
                   </Events>
                 </MenuItem>
-                <MenuItem class="javax.swing.JMenuItem" name="jmi_guardarComo">
+                <MenuItem class="javax.swing.JMenuItem" name="jmi_guardarArchivoComo">
                   <Properties>
                     <Property name="accelerator" type="javax.swing.KeyStroke" editor="org.netbeans.modules.form.editors.KeyStrokeEditor">
                       <KeyStroke key="Shift+Ctrl+S"/>
@@ -161,7 +161,7 @@
                     <Property name="text" type="java.lang.String" value="Guardar como..."/>
                   </Properties>
                   <Events>
-                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jmi_guardarComoActionPerformed"/>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jmi_guardarArchivoComoActionPerformed"/>
                   </Events>
                 </MenuItem>
               </SubComponents>
@@ -205,12 +205,12 @@
       <Layout>
         <DimensionLayout dim="0">
           <Group type="103" groupAlignment="0" attributes="0">
-              <Component id="jScrollPane2" alignment="1" pref="646" max="32767" attributes="0"/>
+              <Component id="jScrollPane2" alignment="1" pref="552" max="32767" attributes="0"/>
           </Group>
         </DimensionLayout>
         <DimensionLayout dim="1">
           <Group type="103" groupAlignment="0" attributes="0">
-              <Component id="jScrollPane2" alignment="0" pref="415" max="32767" attributes="0"/>
+              <Component id="jScrollPane2" alignment="0" pref="357" max="32767" attributes="0"/>
           </Group>
         </DimensionLayout>
       </Layout>

@@ -35,20 +35,17 @@ public class Pantalla extends javax.swing.JFrame {
 
         /* Cargar el archivo binario que contiene toda la información del
         sistema: la lista de todos los usuarios y su información */
-        this.usuarios = loadUsuarios();
+        this.usuarios = loadUserFile();
         System.out.println(usuarios);
 
-        /*
-        // Ingreso manual de usuarios (BORRAR DESPUÉS):
-        this.usuarios = new ArrayList();
-        usuarios.add(new Administrador(usuarios, "admin", "admin"));
-        usuarios.add(new Administrador(usuarios, "alejandro", "admin"));
-        usuarios.add(new Invitado("guest", "temp"));
-        usuarios.add(new Invitado("guest2", "temp"));
-        saveUsuarios();
-         */
-
- /* Cuando inicie el programa, ocultar el JFrame principal hasta que el
+//        // Ingreso manual de usuarios (BORRAR DESPUÉS):
+//        this.usuarios = new ArrayList();
+//        usuarios.add(new Administrador(usuarios, "admin", "admin"));
+//        usuarios.add(new Administrador(usuarios, "alejandro", "admin"));
+//        usuarios.add(new Invitado("guest", "temp"));
+//        usuarios.add(new Invitado("guest2", "temp"));
+//        saveUserFile();
+        /* Cuando inicie el programa, ocultar el JFrame principal hasta que el
         usuario inicie sesión */
 //        jd_login.pack();
 //        jd_login.setLocationRelativeTo(this);
@@ -76,9 +73,9 @@ public class Pantalla extends javax.swing.JFrame {
         txt_editor = new javax.swing.JTextArea();
         jMenuBar2 = new javax.swing.JMenuBar();
         jMenu3 = new javax.swing.JMenu();
-        jmi_abrir = new javax.swing.JMenuItem();
-        jmi_guardar = new javax.swing.JMenuItem();
-        jmi_guardarComo = new javax.swing.JMenuItem();
+        jmi_abrirArchivo = new javax.swing.JMenuItem();
+        jmi_guardarArchivo = new javax.swing.JMenuItem();
+        jmi_guardarArchivoComo = new javax.swing.JMenuItem();
         jMenu4 = new javax.swing.JMenu();
         jmi_fuenteEditor = new javax.swing.JMenuItem();
         jMenu5 = new javax.swing.JMenu();
@@ -159,32 +156,32 @@ public class Pantalla extends javax.swing.JFrame {
 
         jMenu3.setText("Archivo");
 
-        jmi_abrir.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_O, java.awt.event.InputEvent.CTRL_DOWN_MASK));
-        jmi_abrir.setText("Abrir...");
-        jmi_abrir.addActionListener(new java.awt.event.ActionListener() {
+        jmi_abrirArchivo.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_O, java.awt.event.InputEvent.CTRL_DOWN_MASK));
+        jmi_abrirArchivo.setText("Abrir...");
+        jmi_abrirArchivo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jmi_abrirActionPerformed(evt);
+                jmi_abrirArchivoActionPerformed(evt);
             }
         });
-        jMenu3.add(jmi_abrir);
+        jMenu3.add(jmi_abrirArchivo);
 
-        jmi_guardar.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_S, java.awt.event.InputEvent.CTRL_DOWN_MASK));
-        jmi_guardar.setText("Guardar");
-        jmi_guardar.addActionListener(new java.awt.event.ActionListener() {
+        jmi_guardarArchivo.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_S, java.awt.event.InputEvent.CTRL_DOWN_MASK));
+        jmi_guardarArchivo.setText("Guardar");
+        jmi_guardarArchivo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jmi_guardarActionPerformed(evt);
+                jmi_guardarArchivoActionPerformed(evt);
             }
         });
-        jMenu3.add(jmi_guardar);
+        jMenu3.add(jmi_guardarArchivo);
 
-        jmi_guardarComo.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_S, java.awt.event.InputEvent.SHIFT_DOWN_MASK | java.awt.event.InputEvent.CTRL_DOWN_MASK));
-        jmi_guardarComo.setText("Guardar como...");
-        jmi_guardarComo.addActionListener(new java.awt.event.ActionListener() {
+        jmi_guardarArchivoComo.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_S, java.awt.event.InputEvent.SHIFT_DOWN_MASK | java.awt.event.InputEvent.CTRL_DOWN_MASK));
+        jmi_guardarArchivoComo.setText("Guardar como...");
+        jmi_guardarArchivoComo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jmi_guardarComoActionPerformed(evt);
+                jmi_guardarArchivoComoActionPerformed(evt);
             }
         });
-        jMenu3.add(jmi_guardarComo);
+        jMenu3.add(jmi_guardarArchivoComo);
 
         jMenuBar2.add(jMenu3);
 
@@ -228,11 +225,11 @@ public class Pantalla extends javax.swing.JFrame {
         jd_explorador.getContentPane().setLayout(jd_exploradorLayout);
         jd_exploradorLayout.setHorizontalGroup(
             jd_exploradorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 646, Short.MAX_VALUE)
+            .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 552, Short.MAX_VALUE)
         );
         jd_exploradorLayout.setVerticalGroup(
             jd_exploradorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 415, Short.MAX_VALUE)
+            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 357, Short.MAX_VALUE)
         );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -286,53 +283,57 @@ public class Pantalla extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btn_loginMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_loginMouseClicked
-        activeUser = null;
-        for (Usuario usuario : usuarios) {
-            if (usuario.getNombre().equals(txt_loginUsuario.getText())
-                    && usuario.getContrasena().equals(txt_loginConstrasena.getText())) {
-                activeUser = usuario;
-                JOptionPane.showMessageDialog(jd_login, "Bienvenido");
-            }
-        }
-        if (activeUser == null) {
-            JOptionPane.showMessageDialog(jd_login, "Usuario no encontrado");
+        /* Iniciar sesión significa cargar la configuración del sistema */
+        this.activeUser = getActiveUser(txt_loginUsuario.getText(),
+                txt_loginConstrasena.getText()
+        );
+        if (activeUser != null) {
+            JOptionPane.showMessageDialog(jd_login, "Bienvenido",
+                    "Bienvendia", JOptionPane.PLAIN_MESSAGE
+            );
+        } else {
+            JOptionPane.showMessageDialog(jd_login, "Usuario no encontrado",
+                    "Avertencia", JOptionPane.WARNING_MESSAGE
+            );
         }
     }//GEN-LAST:event_btn_loginMouseClicked
 
     private void btn_abrirEditorMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_abrirEditorMouseClicked
-        jd_editor.pack();
-        jd_editor.setLocationRelativeTo(this);
-        jd_editor.setVisible(true);
-        txt_editor.setText("");
-        currentFile = null;
-        contenidoGuardado = "";
+        // Si ya hay una instancia del editor abierta, mostrarla
+        if (jd_editor.isVisible()) {
+            jd_editor.toFront();
+        } else {
+            jd_editor.pack();
+            jd_editor.setLocationRelativeTo(this);
+            jd_editor.setVisible(true);
+            txt_editor.setText("");
+            this.currentTextFile = null;
+            this.contenidoGuardado = "";
+        }
     }//GEN-LAST:event_btn_abrirEditorMouseClicked
 
-    private void jmi_abrirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmi_abrirActionPerformed
-        currentFile = selectFile();
-        if (currentFile == null) {
+    private void jmi_abrirArchivoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmi_abrirArchivoActionPerformed
+        this.currentTextFile = selectFile();
+        if (currentTextFile == null) {
             return;
         }
-        readFile();
-    }//GEN-LAST:event_jmi_abrirActionPerformed
+        String fileContent = getFileText(currentTextFile);
+        txt_editor.setText(fileContent);
+        this.contenidoGuardado = fileContent;
+    }//GEN-LAST:event_jmi_abrirArchivoActionPerformed
 
-    private void jmi_guardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmi_guardarActionPerformed
-        saveFile();
-    }//GEN-LAST:event_jmi_guardarActionPerformed
+    private void jmi_guardarArchivoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmi_guardarArchivoActionPerformed
+        saveFile(currentTextFile, txt_editor.getText());
+    }//GEN-LAST:event_jmi_guardarArchivoActionPerformed
 
-    private void jmi_guardarComoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmi_guardarComoActionPerformed
-        saveFileAs();
-    }//GEN-LAST:event_jmi_guardarComoActionPerformed
+    private void jmi_guardarArchivoComoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmi_guardarArchivoComoActionPerformed
+        saveFileAs(txt_editor.getText());
+    }//GEN-LAST:event_jmi_guardarArchivoComoActionPerformed
 
     private void jmi_informacionEditorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmi_informacionEditorActionPerformed
         JOptionPane.showMessageDialog(jd_editor,
-                "Este editor de texto ha sido desarrollado por Alejandro\n"
-                + "Castellanos como parte de un proyecto educativo.\n\n"
-                + "Ofrece funcionalidades básicas para abrir, editar y guardar\n"
-                + "archivos, además de una interfaz sencilla y eficiente.\n\n"
-                + "¡Gracias por usarlo!",
-                "Acerca del Editor",
-                JOptionPane.INFORMATION_MESSAGE);
+                TEXT_EDITOR_ABOUT, "Acerca del Editor", JOptionPane.INFORMATION_MESSAGE
+        );
     }//GEN-LAST:event_jmi_informacionEditorActionPerformed
 
     private void jd_editorWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_jd_editorWindowClosing
@@ -349,7 +350,7 @@ public class Pantalla extends javax.swing.JFrame {
             );
         }
         if (opcion == JOptionPane.YES_OPTION) {
-            saveFile();
+            saveFile(currentTextFile, txt_editor.getText()); // No hay archivo seleccionado
             jd_editor.dispose();
         } else {
             jd_editor.dispose();
@@ -399,7 +400,7 @@ public class Pantalla extends javax.swing.JFrame {
 
     // ========== Helper Methods ==========
     // ---------- Archivos Binarios ----------
-    private ArrayList<Usuario> loadUsuarios() {
+    private ArrayList<Usuario> loadUserFile() {
         File file = new File(CONFIG_FILE_PATH);
         try {
             // Comenzar con la lectura del archivo
@@ -413,16 +414,27 @@ public class Pantalla extends javax.swing.JFrame {
         return new ArrayList(); // No encontró nada en el archivo binario
     }
 
-    private void saveUsuarios() {
+    private void saveUserFile() {
         File file = new File(CONFIG_FILE_PATH);
         try {
             // Escritura del archivo
             FileOutputStream os = new FileOutputStream(file);
             ObjectOutputStream objectWriter = new ObjectOutputStream(os);
             objectWriter.writeObject(usuarios);
+            System.out.println("User file saved");
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Ocurrió un error");
         }
+    }
+
+    private Usuario getActiveUser(String nombre, String contrasena) {
+        for (Usuario usuario : usuarios) {
+            if (usuario.getNombre().equals(nombre)
+                    && usuario.getContrasena().equals(contrasena)) {
+                return usuario;
+            }
+        }
+        return null; // No encotrón a un usuario con ese nombre
     }
 
     // ---------- Archivos de Texto ----------
@@ -438,67 +450,79 @@ public class Pantalla extends javax.swing.JFrame {
         }
     }
 
-    private void readFile() {
+    private String getFileText(File file) {
         try {
-            String textoCompleto = "";
-            try (BufferedReader br = new BufferedReader(new FileReader(currentFile))) {
+            String texto = "";
+            try (BufferedReader br = new BufferedReader(new FileReader(file))) {
                 String linea;
                 while ((linea = br.readLine()) != null) {
-                    textoCompleto += linea + "\n";
+                    texto += linea + "\n";
                 }
             }
-            txt_editor.setText(textoCompleto.stripTrailing());
+            return texto.stripTrailing();
         } catch (FileNotFoundException ex) {
             JOptionPane.showMessageDialog(jd_editor,
                     "El archivo no se encontró.", "Error", JOptionPane.ERROR_MESSAGE
             );
             Logger.getLogger(Pantalla.class.getName()).log(Level.SEVERE, null, ex);
+            return "";
         } catch (IOException ex) {
             JOptionPane.showMessageDialog(jd_editor,
                     "Error al leer el archivo.", "Error", JOptionPane.ERROR_MESSAGE
             );
             Logger.getLogger(Pantalla.class.getName()).log(Level.SEVERE, null, ex);
+            return "";
         }
     }
 
-    private void saveFile() {
+    private void writeFile(File file, String text) {
+        try {
+            try (BufferedWriter bw = new BufferedWriter(new FileWriter(file, false))) {
+                bw.write(text);
+            }
+            JOptionPane.showMessageDialog(jd_editor, "Se guardó el archivo.",
+                    "Información", JOptionPane.INFORMATION_MESSAGE
+            );
+        } catch (IOException ex) {
+            JOptionPane.showMessageDialog(jd_editor,
+                    "Algo salió mal. Error al escribir el archivo.", "Error",
+                    JOptionPane.ERROR_MESSAGE
+            );
+            Logger.getLogger(Pantalla.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    private void saveFile(File file, String text) {
         /* Si no hay un archivo abierto, se le pide al usuario guardar el
         archivo actual como un archivo nuevo */
-        if (currentFile == null) {
-            saveFileAs();
+        if (currentTextFile == null) {
+            saveFileAs(text);
         } else {
             // Escribir el contendio del textArea en el archivo seleccionado
-            try {
-                try (BufferedWriter bw = new BufferedWriter(new FileWriter(currentFile, false))) {
-                    bw.write(txt_editor.getText());
-                }
-                JOptionPane.showMessageDialog(jd_editor, "Se guardó el archivo.",
-                        "Información", JOptionPane.INFORMATION_MESSAGE
-                );
-            } catch (IOException ex) {
-                JOptionPane.showMessageDialog(jd_editor,
-                        "Algo salió mal. Error al escribir el archivo.", "Error",
-                        JOptionPane.ERROR_MESSAGE
-                );
-                Logger.getLogger(Pantalla.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            contenidoGuardado = txt_editor.getText(); // Log del último texto guardado
+            writeFile(file, text);
+            this.contenidoGuardado = text; // Log del último texto guardado
         }
     }
 
-    private void saveFileAs() {
-        currentFile = selectFile();
-        if (currentFile != null) {
-            saveFile();
+    private void saveFileAs(String text) {
+        this.currentTextFile = selectFile();
+        if (currentTextFile != null) {
+            saveFile(currentTextFile, text);
         }
     }
 
-    // Variables Globales
-    private static final String CONFIG_FILE_PATH = "./data/users.dat";
+    // ---------- Variables Globales ----------
     private ArrayList<Usuario> usuarios;
     private Usuario activeUser;
-    private File currentFile;
+    private File currentTextFile;
     private String contenidoGuardado;
+    private static final String CONFIG_FILE_PATH = "./data/users.dat";
+    private static final String TEXT_EDITOR_ABOUT = "Este editor de texto ha sido"
+            + "desarrollado por Alejandro\n"
+            + "Castellanos como parte de un proyecto educativo.\n\n"
+            + "Ofrece funcionalidades básicas para abrir, editar y guardar\n"
+            + "archivos, además de una interfaz sencilla y eficiente.\n\n"
+            + "¡Gracias por usarlo!";
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_abrirEditor;
@@ -520,10 +544,10 @@ public class Pantalla extends javax.swing.JFrame {
     private javax.swing.JDialog jd_editor;
     private javax.swing.JDialog jd_explorador;
     private javax.swing.JDialog jd_login;
-    private javax.swing.JMenuItem jmi_abrir;
+    private javax.swing.JMenuItem jmi_abrirArchivo;
     private javax.swing.JMenuItem jmi_fuenteEditor;
-    private javax.swing.JMenuItem jmi_guardar;
-    private javax.swing.JMenuItem jmi_guardarComo;
+    private javax.swing.JMenuItem jmi_guardarArchivo;
+    private javax.swing.JMenuItem jmi_guardarArchivoComo;
     private javax.swing.JMenuItem jmi_informacionEditor;
     private javax.swing.JTextArea txt_editor;
     private javax.swing.JTextField txt_loginConstrasena;

@@ -5,6 +5,7 @@
 package minios;
 
 import java.io.Serializable;
+import javax.swing.tree.DefaultMutableTreeNode;
 
 /**
  *
@@ -15,11 +16,13 @@ public abstract class Usuario implements Serializable {
     protected String nombre;
     protected String contrasena;
     protected Configuracion config;
+    protected DefaultMutableTreeNode raiz;
 
     public Usuario(String nombre, String contrasena) {
         this.nombre = nombre;
         this.contrasena = contrasena;
         this.config = new Configuracion();
+        this.raiz = new DefaultMutableTreeNode("Documentos");
     }
 
     public String getNombre() {
@@ -46,9 +49,17 @@ public abstract class Usuario implements Serializable {
         this.config = config;
     }
 
+    public DefaultMutableTreeNode getRaiz() {
+        return raiz;
+    }
+
+    public void setRaiz(DefaultMutableTreeNode raiz) {
+        this.raiz = raiz;
+    }
+
     @Override
     public String toString() {
-        return "Usuario{" + "nombre=" + nombre + ", contrasena=" + contrasena + ", config=" + config + '}';
+        return "Usuario{" + "nombre=" + nombre + ", contrasena=" + contrasena + ", config=" + config + ", raiz=" + raiz + '}';
     }
 
 }
