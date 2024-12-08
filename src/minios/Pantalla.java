@@ -38,18 +38,15 @@ public class Pantalla extends javax.swing.JFrame {
         this.usuarios = loadUserFile();
         System.out.println(usuarios);
 
-//        // Ingreso manual de usuarios (BORRAR DESPUÉS):
-//        this.usuarios = new ArrayList();
-//        usuarios.add(new Administrador(usuarios, "admin", "admin"));
-//        usuarios.add(new Administrador(usuarios, "alejandro", "admin"));
-//        usuarios.add(new Invitado("guest", "temp"));
-//        usuarios.add(new Invitado("guest2", "temp"));
-//        saveUserFile();
-        /* Cuando inicie el programa, ocultar el JFrame principal hasta que el
-        usuario inicie sesión */
-//        jd_login.pack();
-//        jd_login.setLocationRelativeTo(this);
-//        jd_login.setVisible(true);
+        /*
+        // Ingreso manual de usuarios (BORRAR DESPUÉS):
+        this.usuarios = new ArrayList();
+        usuarios.add(new Administrador(usuarios, "admin", "admin"));
+        usuarios.add(new Administrador(usuarios, "alejandro", "admin"));
+        usuarios.add(new Invitado("guest", "temp"));
+        usuarios.add(new Invitado("guest2", "temp"));
+        saveUserFile();
+         */
     }
 
     /**
@@ -61,13 +58,6 @@ public class Pantalla extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jd_login = new javax.swing.JDialog();
-        jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
-        txt_loginUsuario = new javax.swing.JTextField();
-        txt_loginConstrasena = new javax.swing.JTextField();
-        btn_login = new javax.swing.JButton();
         jd_editor = new javax.swing.JDialog();
         jScrollPane1 = new javax.swing.JScrollPane();
         txt_editor = new javax.swing.JTextArea();
@@ -82,65 +72,19 @@ public class Pantalla extends javax.swing.JFrame {
         jmi_informacionEditor = new javax.swing.JMenuItem();
         jd_explorador = new javax.swing.JDialog();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jTree1 = new javax.swing.JTree();
+        jt_explorador = new javax.swing.JTree();
+        jd_escritorio = new javax.swing.JDialog();
         btn_abrirExplorador = new javax.swing.JButton();
         btn_abrirEditor = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenu2 = new javax.swing.JMenu();
-
-        jLabel1.setText("Bienvenido");
-
-        jLabel2.setText("Nombre de Usuario:");
-
-        jLabel3.setText("Contraseña:");
-
-        btn_login.setText("Iniciar Sesión");
-        btn_login.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                btn_loginMouseClicked(evt);
-            }
-        });
-
-        javax.swing.GroupLayout jd_loginLayout = new javax.swing.GroupLayout(jd_login.getContentPane());
-        jd_login.getContentPane().setLayout(jd_loginLayout);
-        jd_loginLayout.setHorizontalGroup(
-            jd_loginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jd_loginLayout.createSequentialGroup()
-                .addGroup(jd_loginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jd_loginLayout.createSequentialGroup()
-                        .addGap(123, 123, 123)
-                        .addGroup(jd_loginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel2)
-                            .addComponent(jLabel3))
-                        .addGap(18, 18, 18)
-                        .addGroup(jd_loginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(btn_login)
-                            .addGroup(jd_loginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(txt_loginUsuario)
-                                .addComponent(txt_loginConstrasena, javax.swing.GroupLayout.DEFAULT_SIZE, 296, Short.MAX_VALUE))))
-                    .addGroup(jd_loginLayout.createSequentialGroup()
-                        .addGap(271, 271, 271)
-                        .addComponent(jLabel1)))
-                .addContainerGap(116, Short.MAX_VALUE))
-        );
-        jd_loginLayout.setVerticalGroup(
-            jd_loginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jd_loginLayout.createSequentialGroup()
-                .addGap(81, 81, 81)
-                .addComponent(jLabel1)
-                .addGap(57, 57, 57)
-                .addGroup(jd_loginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jLabel2)
-                    .addComponent(txt_loginUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(jd_loginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel3)
-                    .addComponent(txt_loginConstrasena, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(38, 38, 38)
-                .addComponent(btn_login)
-                .addContainerGap(139, Short.MAX_VALUE))
-        );
+        txt_loginConstrasena = new javax.swing.JTextField();
+        btn_login = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        txt_loginUsuario = new javax.swing.JTextField();
 
         jd_editor.setTitle("Editor de Texto");
         jd_editor.addWindowListener(new java.awt.event.WindowAdapter() {
@@ -219,7 +163,7 @@ public class Pantalla extends javax.swing.JFrame {
 
         jd_explorador.setTitle("Explorador de Archivos");
 
-        jScrollPane2.setViewportView(jTree1);
+        jScrollPane2.setViewportView(jt_explorador);
 
         javax.swing.GroupLayout jd_exploradorLayout = new javax.swing.GroupLayout(jd_explorador.getContentPane());
         jd_explorador.getContentPane().setLayout(jd_exploradorLayout);
@@ -231,9 +175,6 @@ public class Pantalla extends javax.swing.JFrame {
             jd_exploradorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 357, Short.MAX_VALUE)
         );
-
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("MiniOS");
 
         btn_abrirExplorador.setText("explorador");
         btn_abrirExplorador.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -255,27 +196,82 @@ public class Pantalla extends javax.swing.JFrame {
         jMenu2.setText("Edit");
         jMenuBar1.add(jMenu2);
 
-        setJMenuBar(jMenuBar1);
+        jd_escritorio.setJMenuBar(jMenuBar1);
+
+        javax.swing.GroupLayout jd_escritorioLayout = new javax.swing.GroupLayout(jd_escritorio.getContentPane());
+        jd_escritorio.getContentPane().setLayout(jd_escritorioLayout);
+        jd_escritorioLayout.setHorizontalGroup(
+            jd_escritorioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jd_escritorioLayout.createSequentialGroup()
+                .addGap(23, 23, 23)
+                .addGroup(jd_escritorioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btn_abrirExplorador)
+                    .addComponent(btn_abrirEditor))
+                .addContainerGap(656, Short.MAX_VALUE))
+        );
+        jd_escritorioLayout.setVerticalGroup(
+            jd_escritorioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jd_escritorioLayout.createSequentialGroup()
+                .addGap(65, 65, 65)
+                .addComponent(btn_abrirExplorador)
+                .addGap(52, 52, 52)
+                .addComponent(btn_abrirEditor)
+                .addContainerGap(286, Short.MAX_VALUE))
+        );
+
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+
+        btn_login.setText("Iniciar Sesión");
+        btn_login.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btn_loginMouseClicked(evt);
+            }
+        });
+
+        jLabel1.setText("Bienvenido");
+
+        jLabel2.setText("Nombre de Usuario:");
+
+        jLabel3.setText("Contraseña:");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(23, 23, 23)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btn_abrirExplorador)
-                    .addComponent(btn_abrirEditor))
-                .addContainerGap(665, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(123, 123, 123)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel2)
+                            .addComponent(jLabel3))
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(btn_login)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(txt_loginUsuario)
+                                .addComponent(txt_loginConstrasena, javax.swing.GroupLayout.DEFAULT_SIZE, 296, Short.MAX_VALUE))))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(271, 271, 271)
+                        .addComponent(jLabel1)))
+                .addContainerGap(115, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(65, 65, 65)
-                .addComponent(btn_abrirExplorador)
-                .addGap(52, 52, 52)
-                .addComponent(btn_abrirEditor)
-                .addContainerGap(279, Short.MAX_VALUE))
+                .addGap(81, 81, 81)
+                .addComponent(jLabel1)
+                .addGap(57, 57, 57)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel2)
+                    .addComponent(txt_loginUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel3)
+                    .addComponent(txt_loginConstrasena, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(38, 38, 38)
+                .addComponent(btn_login)
+                .addContainerGap(131, Short.MAX_VALUE))
         );
 
         pack();
@@ -283,19 +279,40 @@ public class Pantalla extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btn_loginMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_loginMouseClicked
-        /* Iniciar sesión significa cargar la configuración del sistema */
-        this.activeUser = getActiveUser(txt_loginUsuario.getText(),
-                txt_loginConstrasena.getText()
-        );
-        if (activeUser != null) {
-            JOptionPane.showMessageDialog(jd_login, "Bienvenido",
-                    "Bienvendia", JOptionPane.PLAIN_MESSAGE
+        /* Iniciar sesión significa cargar la configuración del sistema.
+        Nota: Si el ArrayList de usuarios está vacío, significa que es la primera
+        vez que se inicia sesión -> Crear usuario Administrador con las credenciales
+        que introdujo el usuario */
+        if (usuarios.isEmpty()) {
+            Administrador admin = new Administrador(
+                    usuarios, txt_loginUsuario.getText(),
+                    txt_loginConstrasena.getText()
+            );
+            usuarios.add(admin);
+            saveUserFile();
+            this.activeUser = admin;
+            JOptionPane.showMessageDialog(this,
+                    "Bienvenido!\n\nUsuario creado exitosamente",
+                    "Mensaje de Bienvenida", JOptionPane.INFORMATION_MESSAGE
             );
         } else {
-            JOptionPane.showMessageDialog(jd_login, "Usuario no encontrado",
-                    "Avertencia", JOptionPane.WARNING_MESSAGE
+            this.activeUser = getActiveUser(txt_loginUsuario.getText(),
+                    txt_loginConstrasena.getText()
             );
+            if (activeUser != null) {
+                JOptionPane.showMessageDialog(this, "Bienvenido",
+                        "Mensaje de Bienvendia", JOptionPane.PLAIN_MESSAGE
+                );
+            } else {
+                JOptionPane.showMessageDialog(this, "Usuario no encontrado",
+                        "Avertencia", JOptionPane.WARNING_MESSAGE
+                );
+            }
         }
+        // Cargar la información del Usuario y mostrar el escritorio
+        jd_escritorio.pack();
+        jd_escritorio.setLocationRelativeTo(this);
+        jd_escritorio.setVisible(true);
     }//GEN-LAST:event_btn_loginMouseClicked
 
     private void btn_abrirEditorMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_abrirEditorMouseClicked
@@ -314,12 +331,11 @@ public class Pantalla extends javax.swing.JFrame {
 
     private void jmi_abrirArchivoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmi_abrirArchivoActionPerformed
         this.currentTextFile = selectFile();
-        if (currentTextFile == null) {
-            return;
+        if (currentTextFile != null) {
+            String fileContent = getFileText(currentTextFile);
+            txt_editor.setText(fileContent);
+            this.contenidoGuardado = fileContent;
         }
-        String fileContent = getFileText(currentTextFile);
-        txt_editor.setText(fileContent);
-        this.contenidoGuardado = fileContent;
     }//GEN-LAST:event_jmi_abrirArchivoActionPerformed
 
     private void jmi_guardarArchivoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmi_guardarArchivoActionPerformed
@@ -389,12 +405,11 @@ public class Pantalla extends javax.swing.JFrame {
             java.util.logging.Logger.getLogger(Pantalla.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
+        //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new Pantalla().setVisible(true);
-            }
+        java.awt.EventQueue.invokeLater(() -> {
+            new Pantalla().setVisible(true);
         });
     }
 
@@ -434,7 +449,7 @@ public class Pantalla extends javax.swing.JFrame {
                 return usuario;
             }
         }
-        return null; // No encotrón a un usuario con ese nombre
+        return null; // No encotró al usuario
     }
 
     // ---------- Archivos de Texto ----------
@@ -540,15 +555,15 @@ public class Pantalla extends javax.swing.JFrame {
     private javax.swing.JMenuBar jMenuBar2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTree jTree1;
     private javax.swing.JDialog jd_editor;
+    private javax.swing.JDialog jd_escritorio;
     private javax.swing.JDialog jd_explorador;
-    private javax.swing.JDialog jd_login;
     private javax.swing.JMenuItem jmi_abrirArchivo;
     private javax.swing.JMenuItem jmi_fuenteEditor;
     private javax.swing.JMenuItem jmi_guardarArchivo;
     private javax.swing.JMenuItem jmi_guardarArchivoComo;
     private javax.swing.JMenuItem jmi_informacionEditor;
+    private javax.swing.JTree jt_explorador;
     private javax.swing.JTextArea txt_editor;
     private javax.swing.JTextField txt_loginConstrasena;
     private javax.swing.JTextField txt_loginUsuario;
