@@ -39,15 +39,11 @@ public class Pantalla extends javax.swing.JFrame {
         this.usuarios = loadUserFile();
         System.out.println(usuarios);
 
-        /*
-        // Ingreso manual de usuarios (BORRAR DESPUÉS):
-        this.usuarios = new ArrayList();
-        usuarios.add(new Administrador(usuarios, "admin", "admin"));
-        usuarios.add(new Administrador(usuarios, "alejandro", "admin"));
-        usuarios.add(new Invitado("guest", "temp"));
-        usuarios.add(new Invitado("guest2", "temp"));
-        saveUserFile();
-         */
+//        // Ingreso manual de usuarios (BORRAR DESPUÉS):
+//        this.usuarios = new ArrayList();
+//        usuarios.add(new Usuario("admin", "admin", true));
+//        usuarios.add(new Usuario("guest", "guest", false));
+//        saveUserFile();
     }
 
     /**
@@ -189,6 +185,12 @@ public class Pantalla extends javax.swing.JFrame {
             .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 357, Short.MAX_VALUE)
         );
 
+        jd_escritorio.addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                jd_escritorioWindowClosing(evt);
+            }
+        });
+
         btn_abrirExplorador.setText("explorador");
         btn_abrirExplorador.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -227,6 +229,11 @@ public class Pantalla extends javax.swing.JFrame {
         jMenu1.add(jSeparator2);
 
         jmi_infoSistema.setText("Información del Sistema...");
+        jmi_infoSistema.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jmi_infoSistemaActionPerformed(evt);
+            }
+        });
         jMenu1.add(jmi_infoSistema);
 
         jMenuBar1.add(jMenu1);
@@ -366,14 +373,33 @@ public class Pantalla extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btn_loginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_loginActionPerformed
-        /* Iniciar sesión significa cargar la configuración del sistema.
-        Nota: Si el ArrayList de usuarios está vacío, significa que es la primera
-        vez que se inicia sesión -> Crear usuario Administrador con las credenciales
-        que introdujo el usuario */
-        if (usuarios.isEmpty()) { // No hay usuarios registrados. Crear usuario
-            createFirstUser();
+        String nombre = txt_loginUsuario.getText();
+        String contrasena = txt_loginConstrasena.getText();
+
+        // Si no hay nombre de usuario, salir
+        if (nombre.isBlank()) {
+            JOptionPane.showMessageDialog(this,
+                    "Por favor ingresa un nombre de usuario",
+                    "Advertencia de Inicio de Sesión", JOptionPane.WARNING_MESSAGE
+            );
+            return;
+        }
+
+        /* Si el ArrayList de usuarios está vació es porque no hay usuarios
+        registrados, por lo tanto, se debe crear el primero */
+        if (usuarios.isEmpty()) {
+            Usuario usuario = new Usuario(nombre, contrasena, true);
+            this.activeUser = usuario;
+            usuarios.add(usuario);
+            saveUserFile();
+            JOptionPane.showMessageDialog(this, "¡Bienvenido! \n\n"
+                    + "Tu usuario ha sido creado con éxito.\n"
+                    + "¡Gracias por unirte a nuestra plataforma "
+                    + activeUser.getNombre() + "!", "Primer Usuario",
+                    JOptionPane.INFORMATION_MESSAGE
+            );
         } else {
-            this.activeUser = getActiveUser(txt_loginUsuario.getText(), txt_loginConstrasena.getText());
+            this.activeUser = getActiveUser(nombre, contrasena);
             if (activeUser == null) { // Credenciales incorrectas. No hay inicio de sesión
                 JOptionPane.showMessageDialog(this, "No se pudo iniciar sesión.\n"
                         + "El nombre de usuario o la contraseña que ingresaste"
@@ -485,7 +511,8 @@ public class Pantalla extends javax.swing.JFrame {
                     JOptionPane.WARNING_MESSAGE
             );
         } else {
-            createUser(nombre, contrasena, chk_admin.isSelected());
+            usuarios.add(new Usuario(nombre, contrasena, chk_admin.isSelected()));
+            saveUserFile();
             jd_agregarUsuario.dispose();
             JOptionPane.showMessageDialog(jd_agregarUsuario,
                     "El usuario se ha creado con éxito!", "Agregar Usuario",
@@ -493,6 +520,15 @@ public class Pantalla extends javax.swing.JFrame {
             );
         }
     }//GEN-LAST:event_btn_crearUsuarioActionPerformed
+
+    private void jd_escritorioWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_jd_escritorioWindowClosing
+        // Si el usuario cierra el escritorio, el programa termina
+        System.exit(0);
+    }//GEN-LAST:event_jd_escritorioWindowClosing
+
+    private void jmi_infoSistemaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmi_infoSistemaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jmi_infoSistemaActionPerformed
 
     /**
      * @param args the command line arguments
@@ -641,31 +677,6 @@ public class Pantalla extends javax.swing.JFrame {
     }
 
     // ---------- Otros ----------
-    private void createFirstUser() {
-        Administrador usuario = new Administrador(
-                usuarios, txt_loginUsuario.getText(),
-                txt_loginConstrasena.getText()
-        );
-        usuarios.add(usuario);
-        saveUserFile();
-        this.activeUser = usuario;
-        JOptionPane.showMessageDialog(this, "¡Bienvenido! \n\n"
-                + "Tu usuario ha sido creado con éxito.\n"
-                + "¡Gracias por unirte a nuestra plataforma "
-                + activeUser.getNombre() + "!", "Primer Usuario",
-                JOptionPane.INFORMATION_MESSAGE
-        );
-    }
-
-    private void createUser(String nombre, String contrasena, boolean admin) {
-        if (admin) {
-            usuarios.add(new Administrador(usuarios, nombre, contrasena));
-        } else {
-            usuarios.add(new Invitado(nombre, contrasena));
-        }
-        saveUserFile();
-    }
-
     private void loadDesktop(Usuario usuario) {
         // Mostrar escritorio
         jd_escritorio.pack();
@@ -681,7 +692,7 @@ public class Pantalla extends javax.swing.JFrame {
         jt_explorador.setModel(treeModel);
 
         // Elementos que cambian dependiendo del tipo de usuario
-        if (usuario instanceof Administrador) {
+        if (usuario.isAdmin()) {
             jmi_agregarUsuario.setVisible(true);
         } else {
             jmi_agregarUsuario.setVisible(false);

@@ -146,6 +146,9 @@
       </SubComponents>
     </Container>
     <Container class="javax.swing.JDialog" name="jd_escritorio">
+      <Events>
+        <EventHandler event="windowClosing" listener="java.awt.event.WindowListener" parameters="java.awt.event.WindowEvent" handler="jd_escritorioWindowClosing"/>
+      </Events>
 
       <Layout>
         <DimensionLayout dim="0">
@@ -225,6 +228,9 @@
                   <Properties>
                     <Property name="text" type="java.lang.String" value="Informaci&#xf3;n del Sistema..."/>
                   </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jmi_infoSistemaActionPerformed"/>
+                  </Events>
                 </MenuItem>
               </SubComponents>
             </Menu>

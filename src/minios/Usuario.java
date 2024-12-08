@@ -11,16 +11,18 @@ import javax.swing.tree.DefaultMutableTreeNode;
  *
  * @author Alejandro
  */
-public abstract class Usuario implements Serializable {
+public class Usuario implements Serializable {
 
     protected String nombre;
     protected String contrasena;
+    protected boolean admin;
     protected Configuracion config;
     protected DefaultMutableTreeNode raiz;
 
-    public Usuario(String nombre, String contrasena) {
+    public Usuario(String nombre, String contrasena, boolean admin) {
         this.nombre = nombre;
         this.contrasena = contrasena;
+        this.admin = admin;
         this.config = new Configuracion();
         this.raiz = new DefaultMutableTreeNode("Documentos");
     }
@@ -57,9 +59,17 @@ public abstract class Usuario implements Serializable {
         this.raiz = raiz;
     }
 
+    public boolean isAdmin() {
+        return admin;
+    }
+
+    public void setAdmin(boolean admin) {
+        this.admin = admin;
+    }
+
     @Override
     public String toString() {
-        return "Usuario{" + "nombre=" + nombre + ", contrasena=" + contrasena + ", config=" + config + ", raiz=" + raiz + '}';
+        return "Usuario{" + "nombre=" + nombre + ", contrasena=" + contrasena + ", admin=" + admin + '}';
     }
 
 }
