@@ -95,15 +95,14 @@ public class Pantalla extends javax.swing.JFrame {
         jLabel7 = new javax.swing.JLabel();
         jScrollPane3 = new javax.swing.JScrollPane();
         jt_usuarios = new javax.swing.JTable();
-        jpm_editarUsuario = new javax.swing.JPopupMenu();
-        jmi_showEditarUsuario = new javax.swing.JMenuItem();
-        jmi_eliminarUsuario = new javax.swing.JMenuItem();
+        btn_editarUsuario = new javax.swing.JButton();
         jd_editarUsuario = new javax.swing.JDialog();
         jLabel9 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
         txt_nombreEditar = new javax.swing.JTextField();
         txt_contrasenaEditar = new javax.swing.JTextField();
         btn_guardarCambiosUsuario = new javax.swing.JButton();
+        btn_eliminarUsuario = new javax.swing.JButton();
         txt_loginConstrasena = new javax.swing.JTextField();
         btn_login = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
@@ -332,7 +331,7 @@ public class Pantalla extends javax.swing.JFrame {
         jLabel6.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel6.setText("Información del Sistema");
 
-        jLabel8.setText("<html>\n<div>\n    <b>MiniOS</b><br>\n    Versión: 1.0.0<br>\n    Última actualización: 11 de diciembre de 2024<br><br>\n    \n    Este sistema operativo ha sido diseñado para ofrecer una experiencia sencilla, intuitiva y eficiente.<br>\n    Fue creado como parte de un proyecto académico para la asignatura de Programación II en la Universidad Tecnológica Centroamericana.<br><br>\n    \n    <b>Desarrollado por:</b> Alejandro Castellanos\n</div>\n</html>");
+        jLabel8.setText("<html>\n<div>\n    <b>MiniOS</b><br>\n    Versión: 1.0.0<br>\n    Última actualización: 11 de diciembre de 2024<br><br>\n    \n    Este sistema operativo ha sido diseñado para ofrecer una experiencia sencilla, intuitiva y eficiente.<br><br>\n    \n    <b>Desarrollado por:</b> Alejandro Castellanos\n</div>\n</html>");
 
         jLabel7.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel7.setText("Usuarios Registrados");
@@ -348,29 +347,32 @@ public class Pantalla extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        jt_usuarios.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jt_usuariosMouseClicked(evt);
+        jScrollPane3.setViewportView(jt_usuarios);
+
+        btn_editarUsuario.setText("Editar usuario");
+        btn_editarUsuario.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_editarUsuarioActionPerformed(evt);
             }
         });
-        jScrollPane3.setViewportView(jt_usuarios);
 
         javax.swing.GroupLayout jd_informacionSistemaLayout = new javax.swing.GroupLayout(jd_informacionSistema.getContentPane());
         jd_informacionSistema.getContentPane().setLayout(jd_informacionSistemaLayout);
         jd_informacionSistemaLayout.setHorizontalGroup(
             jd_informacionSistemaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jd_informacionSistemaLayout.createSequentialGroup()
+                .addGap(31, 31, 31)
                 .addGroup(jd_informacionSistemaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jd_informacionSistemaLayout.createSequentialGroup()
-                        .addGap(31, 31, 31)
-                        .addGroup(jd_informacionSistemaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 225, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel7)))
-                    .addGroup(jd_informacionSistemaLayout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 456, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(31, Short.MAX_VALUE))
+                    .addGroup(jd_informacionSistemaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 410, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 225, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jd_informacionSistemaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addGroup(jd_informacionSistemaLayout.createSequentialGroup()
+                            .addComponent(jLabel7)
+                            .addGap(167, 167, 167)
+                            .addComponent(btn_editarUsuario))
+                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 410, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(38, Short.MAX_VALUE))
         );
         jd_informacionSistemaLayout.setVerticalGroup(
             jd_informacionSistemaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -378,29 +380,15 @@ public class Pantalla extends javax.swing.JFrame {
                 .addGap(24, 24, 24)
                 .addComponent(jLabel6)
                 .addGap(18, 18, 18)
-                .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(24, 24, 24)
-                .addComponent(jLabel7)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(23, Short.MAX_VALUE))
+                .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(48, 48, 48)
+                .addGroup(jd_informacionSistemaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel7)
+                    .addComponent(btn_editarUsuario))
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(43, 43, 43))
         );
-
-        jmi_showEditarUsuario.setText("Editar usuario...");
-        jmi_showEditarUsuario.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jmi_showEditarUsuarioActionPerformed(evt);
-            }
-        });
-        jpm_editarUsuario.add(jmi_showEditarUsuario);
-
-        jmi_eliminarUsuario.setText("Eliminar Usuario");
-        jmi_eliminarUsuario.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jmi_eliminarUsuarioActionPerformed(evt);
-            }
-        });
-        jpm_editarUsuario.add(jmi_eliminarUsuario);
 
         jLabel9.setText("Nombre de Usuario:");
 
@@ -410,6 +398,13 @@ public class Pantalla extends javax.swing.JFrame {
         btn_guardarCambiosUsuario.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btn_guardarCambiosUsuarioActionPerformed(evt);
+            }
+        });
+
+        btn_eliminarUsuario.setText("Eliminar Usuario");
+        btn_eliminarUsuario.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_eliminarUsuarioActionPerformed(evt);
             }
         });
 
@@ -428,7 +423,8 @@ public class Pantalla extends javax.swing.JFrame {
                         .addGap(18, 18, 18)
                         .addGroup(jd_editarUsuarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(txt_nombreEditar)
-                            .addComponent(txt_contrasenaEditar, javax.swing.GroupLayout.DEFAULT_SIZE, 220, Short.MAX_VALUE))))
+                            .addComponent(txt_contrasenaEditar, javax.swing.GroupLayout.DEFAULT_SIZE, 220, Short.MAX_VALUE)))
+                    .addComponent(btn_eliminarUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(40, Short.MAX_VALUE))
         );
         jd_editarUsuarioLayout.setVerticalGroup(
@@ -444,7 +440,9 @@ public class Pantalla extends javax.swing.JFrame {
                     .addComponent(txt_contrasenaEditar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addComponent(btn_guardarCambiosUsuario)
-                .addContainerGap(32, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addComponent(btn_eliminarUsuario)
+                .addContainerGap(23, Short.MAX_VALUE))
         );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -666,26 +664,30 @@ public class Pantalla extends javax.swing.JFrame {
         jd_informacionSistema.setVisible(true);
     }//GEN-LAST:event_jmi_infoSistemaActionPerformed
 
-    private void jt_usuariosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jt_usuariosMouseClicked
-        if (activeUser.isAdmin()) {
-            // Si se hace click derecho sobre un usuario listado
-            int selectedRow = jt_usuarios.getSelectedRow();
-            if (evt.isMetaDown() && selectedRow != -1) {
-                jpm_editarUsuario.show(jt_usuarios, evt.getX(), evt.getY());
-                /* Obtener el usuario seleccionado. Nota: Se puede usar el ArrayList
-            usuarios porque la lista se crea a partir de él */
-                this.usuarioAEditar = usuarios.get(selectedRow);
-            }
+    private void btn_editarUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_editarUsuarioActionPerformed
+        /* Nota: Los administradores pueden modificar y eliminar invitados pero
+        no pueden modificar o editar a otros administradores.
+        Los invitados solo pueden editar sus propias cuentas. */
+        int filaSeleccionada = jt_usuarios.getSelectedRow();
+        if (filaSeleccionada == -1) { // Si no hay un usuario seleccionado, salir
+            return;
         }
-    }//GEN-LAST:event_jt_usuariosMouseClicked
-
-    private void jmi_showEditarUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmi_showEditarUsuarioActionPerformed
-        jd_editarUsuario.pack();
-        jd_editarUsuario.setLocationRelativeTo(jd_informacionSistema);
-        txt_nombreEditar.setText(usuarioAEditar.getNombre());
-        txt_contrasenaEditar.setText(usuarioAEditar.getContrasena());
-        jd_editarUsuario.setVisible(true);
-    }//GEN-LAST:event_jmi_showEditarUsuarioActionPerformed
+        // Obtener el usuario seleccionado
+        this.usuarioAEditar = usuarios.get(filaSeleccionada);
+        if ((activeUser.isAdmin() && !usuarioAEditar.isAdmin())
+                || activeUser == usuarioAEditar) {
+            jd_editarUsuario.pack();
+            jd_editarUsuario.setLocationRelativeTo(jd_informacionSistema);
+            txt_nombreEditar.setText(usuarioAEditar.getNombre());
+            txt_contrasenaEditar.setText(usuarioAEditar.getContrasena());
+            jd_editarUsuario.setVisible(true);
+        } else {
+            JOptionPane.showMessageDialog(jd_informacionSistema,
+                    "No tiene los permisos para editar a este usuario",
+                    "Editar Usuario", JOptionPane.WARNING_MESSAGE
+            );
+        }
+    }//GEN-LAST:event_btn_editarUsuarioActionPerformed
 
     private void btn_guardarCambiosUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_guardarCambiosUsuarioActionPerformed
         String nuevoNombre = txt_nombreEditar.getText();
@@ -704,13 +706,26 @@ public class Pantalla extends javax.swing.JFrame {
                     JOptionPane.INFORMATION_MESSAGE
             );
             saveUserFile();
+            llenarUserTable();
         }
     }//GEN-LAST:event_btn_guardarCambiosUsuarioActionPerformed
 
-    private void jmi_eliminarUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmi_eliminarUsuarioActionPerformed
-        // TODO add your handling code here:
-        
-    }//GEN-LAST:event_jmi_eliminarUsuarioActionPerformed
+    private void btn_eliminarUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_eliminarUsuarioActionPerformed
+        int opcion = JOptionPane.showConfirmDialog(jd_editor,
+                "Esta accion eliminará a " + usuarioAEditar.getNombre()
+                + ". ¿Desea continuar?", "Advertencia",
+                JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE
+        );
+        if (opcion == JOptionPane.YES_OPTION) {
+            usuarios.remove(usuarioAEditar);
+            saveUserFile();
+            llenarUserTable();
+            jd_editarUsuario.dispose();
+            JOptionPane.showMessageDialog(null, "Usuario eliminado con exito",
+                    "Eliminar Usuario", JOptionPane.INFORMATION_MESSAGE
+            );
+        }
+    }//GEN-LAST:event_btn_eliminarUsuarioActionPerformed
 
     /**
      * @param args the command line arguments
@@ -914,7 +929,6 @@ public class Pantalla extends javax.swing.JFrame {
                 modelo.addRow(new Object[]{nombre, tipo});
             }
         }
-
         jt_usuarios.setModel(modelo);
     }
 
@@ -946,6 +960,8 @@ public class Pantalla extends javax.swing.JFrame {
     private javax.swing.JButton btn_abrirEditor;
     private javax.swing.JButton btn_abrirExplorador;
     private javax.swing.JButton btn_crearUsuario;
+    private javax.swing.JButton btn_editarUsuario;
+    private javax.swing.JButton btn_eliminarUsuario;
     private javax.swing.JButton btn_guardarCambiosUsuario;
     private javax.swing.JButton btn_login;
     private javax.swing.JCheckBox chk_admin;
@@ -980,14 +996,11 @@ public class Pantalla extends javax.swing.JFrame {
     private javax.swing.JMenuItem jmi_agregarUsuario;
     private javax.swing.JMenuItem jmi_cerrarSesion;
     private javax.swing.JMenuItem jmi_configurarSistema;
-    private javax.swing.JMenuItem jmi_eliminarUsuario;
     private javax.swing.JMenuItem jmi_fuenteEditor;
     private javax.swing.JMenuItem jmi_guardarArchivo;
     private javax.swing.JMenuItem jmi_guardarArchivoComo;
     private javax.swing.JMenuItem jmi_infoSistema;
     private javax.swing.JMenuItem jmi_informacionEditor;
-    private javax.swing.JMenuItem jmi_showEditarUsuario;
-    private javax.swing.JPopupMenu jpm_editarUsuario;
     private javax.swing.JTree jt_explorador;
     private javax.swing.JTable jt_usuarios;
     private javax.swing.JTextField txt_contrasenaEditar;
