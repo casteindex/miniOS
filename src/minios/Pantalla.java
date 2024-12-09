@@ -20,8 +20,10 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
+import javax.swing.SwingUtilities;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.tree.DefaultTreeModel;
+import javax.swing.tree.TreePath;
 
 /**
  *
@@ -39,12 +41,6 @@ public class Pantalla extends javax.swing.JFrame {
         sistema: la lista de todos los usuarios y su información */
         this.usuarios = loadUserFile();
         System.out.println(usuarios);
-
-//        // Ingreso manual de usuarios (BORRAR DESPUÉS):
-//        this.usuarios = new ArrayList();
-//        usuarios.add(new Usuario("admin", "admin", true));
-//        usuarios.add(new Usuario("guest", "guest", false));
-//        saveUserFile();
     }
 
     /**
@@ -103,6 +99,10 @@ public class Pantalla extends javax.swing.JFrame {
         txt_contrasenaEditar = new javax.swing.JTextField();
         btn_guardarCambiosUsuario = new javax.swing.JButton();
         btn_eliminarUsuario = new javax.swing.JButton();
+        jpm_explorador = new javax.swing.JPopupMenu();
+        jmi_nuevoNodo = new javax.swing.JMenuItem();
+        jmi_eliminarNodo = new javax.swing.JMenuItem();
+        jmi_cambiarNombreNodo = new javax.swing.JMenuItem();
         txt_loginConstrasena = new javax.swing.JTextField();
         btn_login = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
@@ -187,6 +187,11 @@ public class Pantalla extends javax.swing.JFrame {
 
         jd_explorador.setTitle("Explorador de Archivos");
 
+        jt_explorador.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jt_exploradorMouseClicked(evt);
+            }
+        });
         jScrollPane2.setViewportView(jt_explorador);
 
         javax.swing.GroupLayout jd_exploradorLayout = new javax.swing.GroupLayout(jd_explorador.getContentPane());
@@ -445,6 +450,30 @@ public class Pantalla extends javax.swing.JFrame {
                 .addContainerGap(23, Short.MAX_VALUE))
         );
 
+        jmi_nuevoNodo.setText("Nuevo nodo");
+        jmi_nuevoNodo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jmi_nuevoNodoActionPerformed(evt);
+            }
+        });
+        jpm_explorador.add(jmi_nuevoNodo);
+
+        jmi_eliminarNodo.setText("Eliminar");
+        jmi_eliminarNodo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jmi_eliminarNodoActionPerformed(evt);
+            }
+        });
+        jpm_explorador.add(jmi_eliminarNodo);
+
+        jmi_cambiarNombreNodo.setText("Cambiar nombre");
+        jmi_cambiarNombreNodo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jmi_cambiarNombreNodoActionPerformed(evt);
+            }
+        });
+        jpm_explorador.add(jmi_cambiarNombreNodo);
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         btn_login.setText("Iniciar Sesión");
@@ -608,12 +637,6 @@ public class Pantalla extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jd_editorWindowClosing
 
-    private void btn_abrirExploradorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_abrirExploradorActionPerformed
-        jd_explorador.pack();
-        jd_explorador.setLocationRelativeTo(jd_escritorio);
-        jd_explorador.setVisible(true);
-    }//GEN-LAST:event_btn_abrirExploradorActionPerformed
-
     private void jmi_cerrarSesionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmi_cerrarSesionActionPerformed
         this.setVisible(true);
         jd_escritorio.dispose();
@@ -726,6 +749,46 @@ public class Pantalla extends javax.swing.JFrame {
             );
         }
     }//GEN-LAST:event_btn_eliminarUsuarioActionPerformed
+
+    private void btn_abrirExploradorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_abrirExploradorActionPerformed
+        jd_explorador.pack();
+        jd_explorador.setLocationRelativeTo(jd_escritorio);
+        jd_explorador.setVisible(true);
+    }//GEN-LAST:event_btn_abrirExploradorActionPerformed
+
+    private void jt_exploradorMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jt_exploradorMouseClicked
+        /* Si el usuario hizo click en el espacio en blanco, dar la opción de crear
+        un nodo en la raiz. Si hizo click en un nodo, dar la opcion de crear,
+        eliminar o renombrarlo */
+        TreePath path = jt_explorador.getPathForLocation(evt.getX(), evt.getY());
+        if (path == null) {
+            // No se seleccionó ningún nodo
+            jt_explorador.clearSelection();
+            if (SwingUtilities.isRightMouseButton(evt)) {
+                // Hizo click derecho en el whitespace, solo mostrar crear nodo
+                jmi_cambiarNombreNodo.setVisible(false);
+                jmi_eliminarNodo.setVisible(false);
+                jpm_explorador.show(jt_explorador, evt.getX(), evt.getY());
+            }
+        } else if (SwingUtilities.isRightMouseButton(evt)) {
+            // Hizo click derecho en un nodo, mostrar todas las opciones
+            jmi_cambiarNombreNodo.setVisible(true);
+            jmi_eliminarNodo.setVisible(true);
+            jpm_explorador.show(jt_explorador, evt.getX(), evt.getY());
+        }
+    }//GEN-LAST:event_jt_exploradorMouseClicked
+
+    private void jmi_nuevoNodoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmi_nuevoNodoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jmi_nuevoNodoActionPerformed
+
+    private void jmi_eliminarNodoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmi_eliminarNodoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jmi_eliminarNodoActionPerformed
+
+    private void jmi_cambiarNombreNodoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmi_cambiarNombreNodoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jmi_cambiarNombreNodoActionPerformed
 
     /**
      * @param args the command line arguments
@@ -924,7 +987,7 @@ public class Pantalla extends javax.swing.JFrame {
             }
             // Indicar cuál es el usuario actual
             if (usuario == activeUser) {
-                modelo.addRow(new Object[]{nombre + " (Sesión Actual)", tipo});
+                modelo.addRow(new Object[]{nombre + " (sesión actual)", tipo});
             } else {
                 modelo.addRow(new Object[]{nombre, tipo});
             }
@@ -994,13 +1057,17 @@ public class Pantalla extends javax.swing.JFrame {
     private javax.swing.JDialog jd_informacionSistema;
     private javax.swing.JMenuItem jmi_abrirArchivo;
     private javax.swing.JMenuItem jmi_agregarUsuario;
+    private javax.swing.JMenuItem jmi_cambiarNombreNodo;
     private javax.swing.JMenuItem jmi_cerrarSesion;
     private javax.swing.JMenuItem jmi_configurarSistema;
+    private javax.swing.JMenuItem jmi_eliminarNodo;
     private javax.swing.JMenuItem jmi_fuenteEditor;
     private javax.swing.JMenuItem jmi_guardarArchivo;
     private javax.swing.JMenuItem jmi_guardarArchivoComo;
     private javax.swing.JMenuItem jmi_infoSistema;
     private javax.swing.JMenuItem jmi_informacionEditor;
+    private javax.swing.JMenuItem jmi_nuevoNodo;
+    private javax.swing.JPopupMenu jpm_explorador;
     private javax.swing.JTree jt_explorador;
     private javax.swing.JTable jt_usuarios;
     private javax.swing.JTextField txt_contrasenaEditar;
