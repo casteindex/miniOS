@@ -22,6 +22,7 @@ import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreePath;
 
@@ -450,6 +451,7 @@ public class Pantalla extends javax.swing.JFrame {
                 .addContainerGap(23, Short.MAX_VALUE))
         );
 
+        jmi_nuevoNodo.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_N, java.awt.event.InputEvent.CTRL_DOWN_MASK));
         jmi_nuevoNodo.setText("Nuevo nodo");
         jmi_nuevoNodo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -458,6 +460,7 @@ public class Pantalla extends javax.swing.JFrame {
         });
         jpm_explorador.add(jmi_nuevoNodo);
 
+        jmi_eliminarNodo.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_DELETE, 0));
         jmi_eliminarNodo.setText("Eliminar");
         jmi_eliminarNodo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -466,6 +469,7 @@ public class Pantalla extends javax.swing.JFrame {
         });
         jpm_explorador.add(jmi_eliminarNodo);
 
+        jmi_cambiarNombreNodo.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_R, java.awt.event.InputEvent.CTRL_DOWN_MASK));
         jmi_cambiarNombreNodo.setText("Cambiar nombre");
         jmi_cambiarNombreNodo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -769,25 +773,57 @@ public class Pantalla extends javax.swing.JFrame {
                 jmi_cambiarNombreNodo.setVisible(false);
                 jmi_eliminarNodo.setVisible(false);
                 jpm_explorador.show(jt_explorador, evt.getX(), evt.getY());
+                this.selectedNode = (DefaultMutableTreeNode) fileTreeModel.getRoot();
             }
         } else if (SwingUtilities.isRightMouseButton(evt)) {
             // Hizo click derecho en un nodo, mostrar todas las opciones
+            jt_explorador.setSelectionPath(path); // Seleccionar el nodo
             jmi_cambiarNombreNodo.setVisible(true);
             jmi_eliminarNodo.setVisible(true);
             jpm_explorador.show(jt_explorador, evt.getX(), evt.getY());
+            this.selectedNode = (DefaultMutableTreeNode) path.getLastPathComponent();
         }
     }//GEN-LAST:event_jt_exploradorMouseClicked
 
     private void jmi_nuevoNodoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmi_nuevoNodoActionPerformed
-        // TODO add your handling code here:
+        selectedNode.add(new DefaultMutableTreeNode("Nuevo nodo"));
+        /*
+        Nota: Cuando se hace el reload al modelo se cierran todas las caprpetas,
+        por lo tanto se necesita guardar el estado actual del modelo.
+        https://tinyurl.com/5xcc34rx (Stack Overflow)
+         */
+        ArrayList<TreePath> expanded = new ArrayList<>();
+        for (int i = 0; i < jt_explorador.getRowCount(); i++) {
+            TreePath currPath = jt_explorador.getPathForRow(i);
+            if (i + 1 < jt_explorador.getRowCount()) {
+                TreePath nextPath = jt_explorador.getPathForRow(i + 1);
+                if (currPath != null && currPath.isDescendant(nextPath)) {
+                    expanded.add(currPath);
+                }
+            }
+        }
+
+        // Reload modelo and restaurar expanded paths
+        fileTreeModel.reload();
+        saveUserFile();
+        for (TreePath path : expanded) {
+            jt_explorador.expandPath(path);
+        }
     }//GEN-LAST:event_jmi_nuevoNodoActionPerformed
 
     private void jmi_eliminarNodoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmi_eliminarNodoActionPerformed
-        // TODO add your handling code here:
+        selectedNode.removeFromParent();
+        fileTreeModel.reload();
+        saveUserFile();
     }//GEN-LAST:event_jmi_eliminarNodoActionPerformed
 
     private void jmi_cambiarNombreNodoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmi_cambiarNombreNodoActionPerformed
-        // TODO add your handling code here:
+        String nombre = JOptionPane.showInputDialog(jt_explorador,
+                "Ingrese el nuevo nombre del nodo", selectedNode.getUserObject()
+        );
+        selectedNode.setUserObject(nombre);
+        fileTreeModel.reload();
+        saveUserFile();
     }//GEN-LAST:event_jmi_cambiarNombreNodoActionPerformed
 
     /**
@@ -825,6 +861,18 @@ public class Pantalla extends javax.swing.JFrame {
     }
 
     // ========== Helper Methods ==========
+    private File selectFile() {
+        JFileChooser fileChooser = new JFileChooser();
+        int estado = fileChooser.showSaveDialog(jd_editor);
+        /* Nota: si el estado no es JFileChooser.APPROVE_OPTION puede ser que el
+        usuario haya cancelado o que haya ocurrido un error. Salir. */
+        if (estado == JFileChooser.APPROVE_OPTION) {
+            return fileChooser.getSelectedFile();
+        } else {
+            return null;
+        }
+    }
+
     // ---------- Archivos Binarios ----------
     private ArrayList<Usuario> loadUserFile() {
         File file = new File(CONFIG_FILE_PATH);
@@ -872,18 +920,6 @@ public class Pantalla extends javax.swing.JFrame {
     }
 
     // ---------- Archivos de Texto ----------
-    private File selectFile() {
-        JFileChooser fileChooser = new JFileChooser();
-        int estado = fileChooser.showSaveDialog(jd_editor);
-        /* Nota: si el estado no es JFileChooser.APPROVE_OPTION puede ser que el
-        usuario haya cancelado o que haya ocurrido un error. Salir. */
-        if (estado == JFileChooser.APPROVE_OPTION) {
-            return fileChooser.getSelectedFile();
-        } else {
-            return null;
-        }
-    }
-
     private String getFileText(File file) {
         try {
             String texto = "";
@@ -958,8 +994,8 @@ public class Pantalla extends javax.swing.JFrame {
         this.dispose(); // Cerrar ventana de login
 
         // Cargar modelo
-        this.treeModel = new DefaultTreeModel(usuario.getRaiz());
-        jt_explorador.setModel(treeModel);
+        this.fileTreeModel = new DefaultTreeModel(usuario.getRaiz());
+        jt_explorador.setModel(fileTreeModel);
 
         // Elementos que cambian dependiendo del tipo de usuario
         if (usuario.isAdmin()) {
@@ -1010,7 +1046,8 @@ public class Pantalla extends javax.swing.JFrame {
     private Usuario usuarioAEditar;
     private File currentTextFile;
     private String contenidoGuardado;
-    private DefaultTreeModel treeModel;
+    private DefaultTreeModel fileTreeModel;
+    private DefaultMutableTreeNode selectedNode;
     private static final String CONFIG_FILE_PATH = "./data/users.dat";
     private static final String TEXT_EDITOR_ABOUT = "Este editor de texto ha sido"
             + "desarrollado por Alejandro\n"
