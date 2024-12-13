@@ -501,7 +501,6 @@ public class Pantalla extends javax.swing.JFrame {
                 .addContainerGap(23, Short.MAX_VALUE))
         );
 
-        jmi_nuevoNodo.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_N, java.awt.event.InputEvent.CTRL_DOWN_MASK));
         jmi_nuevoNodo.setText("Nuevo nodo");
         jmi_nuevoNodo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -510,7 +509,6 @@ public class Pantalla extends javax.swing.JFrame {
         });
         jpm_explorador.add(jmi_nuevoNodo);
 
-        jmi_eliminarNodo.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_DELETE, 0));
         jmi_eliminarNodo.setText("Eliminar");
         jmi_eliminarNodo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -519,7 +517,6 @@ public class Pantalla extends javax.swing.JFrame {
         });
         jpm_explorador.add(jmi_eliminarNodo);
 
-        jmi_cambiarNombreNodo.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_R, java.awt.event.InputEvent.CTRL_DOWN_MASK));
         jmi_cambiarNombreNodo.setText("Cambiar nombre");
         jmi_cambiarNombreNodo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -599,36 +596,12 @@ public class Pantalla extends javax.swing.JFrame {
             );
             return;
         }
-
         /* Si el ArrayList de usuarios está vació es porque no hay usuarios
         registrados, por lo tanto, se debe crear el primero */
         if (usuarios.isEmpty()) {
-            Usuario usuario = new Usuario(nombre, contrasena, true);
-            this.activeUser = usuario;
-            usuarios.add(usuario);
-            saveUserFile();
-            JOptionPane.showMessageDialog(this, "¡Bienvenido! \n\n"
-                    + "Tu usuario ha sido creado con éxito.\n"
-                    + "¡Gracias por unirte a nuestra plataforma "
-                    + activeUser.getNombre() + "!", "Primer Usuario",
-                    JOptionPane.INFORMATION_MESSAGE
-            );
-        } else {
-            this.activeUser = getUser(nombre, contrasena);
-            if (activeUser == null) { // Credenciales incorrectas. No hay inicio de sesión
-                JOptionPane.showMessageDialog(this, "No se pudo iniciar sesión.\n"
-                        + "El nombre de usuario o la contraseña que ingresaste"
-                        + " no son correctos.", "Error de Inicio de Sesión",
-                        JOptionPane.ERROR_MESSAGE
-                );
-                return; // Salir del método
-            } else { // Usuario encontrado
-                JOptionPane.showMessageDialog(this,
-                        "¡Hola de nuevo, " + activeUser.getNombre() + "!\n"
-                        + "Nos alegra verte de vuelta. ¡Que tengas un gran día!",
-                        "Bienvenido", JOptionPane.INFORMATION_MESSAGE
-                );
-            }
+            crearPrimerUsuario(nombre, contrasena);
+        } else if (!usuarioValidado(nombre, contrasena)) {
+            return;
         }
         loadDesktop(activeUser); // Cargar escritorio del usuario
     }//GEN-LAST:event_btn_loginActionPerformed
@@ -730,7 +703,9 @@ public class Pantalla extends javax.swing.JFrame {
     }//GEN-LAST:event_btn_crearUsuarioActionPerformed
 
     private void jd_escritorioWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_jd_escritorioWindowClosing
-        // Si el usuario cierra el escritorio, el programa termina
+        /* Si el usuario cierra el escritorio, guardar la configuración de los
+        usuarios (porque se cerró inesperadamente) y terminar el programa */
+        saveUserFile();
         System.exit(0);
     }//GEN-LAST:event_jd_escritorioWindowClosing
 
@@ -1079,7 +1054,39 @@ public class Pantalla extends javax.swing.JFrame {
         jt_explorador.startEditingAtPath(path);
     }
 
-    // ---------- Otros ----------
+    // ---------- Inicio de Sesión ----------
+    private void crearPrimerUsuario(String nombre, String contrasena) {
+        Usuario usuario = new Usuario(nombre, contrasena, true);
+        this.activeUser = usuario;
+        usuarios.add(usuario);
+        saveUserFile();
+        JOptionPane.showMessageDialog(this, "¡Bienvenido! \n\n"
+                + "Tu usuario ha sido creado con éxito.\n"
+                + "¡Gracias por unirte a nuestra plataforma "
+                + activeUser.getNombre() + "!", "Primer Usuario",
+                JOptionPane.INFORMATION_MESSAGE
+        );
+    }
+
+    private boolean usuarioValidado(String nombre, String contrasena) {
+        this.activeUser = getUser(nombre, contrasena);
+        if (activeUser == null) {
+            JOptionPane.showMessageDialog(this, "No se pudo iniciar sesión.\n"
+                    + "El nombre de usuario o la contraseña que ingresaste"
+                    + " no son correctos.", "Error de Inicio de Sesión",
+                    JOptionPane.ERROR_MESSAGE
+            );
+            return false;
+        } else {
+            JOptionPane.showMessageDialog(this,
+                    "¡Hola de nuevo, " + activeUser.getNombre() + "!\n"
+                    + "Nos alegra verte de vuelta. ¡Que tengas un gran día!",
+                    "Bienvenido", JOptionPane.INFORMATION_MESSAGE
+            );
+            return true;
+        }
+    }
+
     private void loadDesktop(Usuario usuario) {
         // Mostrar escritorio
         jd_escritorio.pack();
@@ -1105,6 +1112,7 @@ public class Pantalla extends javax.swing.JFrame {
         // TODO: Cargar colores y tipo de fuente
     }
 
+    // ---------- Otros ----------
     private void llenarUserTable() {
         DefaultTableModel modelo = new DefaultTableModel();
         modelo.addColumn("Nombre");

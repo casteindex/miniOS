@@ -564,9 +564,6 @@
       <SubComponents>
         <MenuItem class="javax.swing.JMenuItem" name="jmi_nuevoNodo">
           <Properties>
-            <Property name="accelerator" type="javax.swing.KeyStroke" editor="org.netbeans.modules.form.editors.KeyStrokeEditor">
-              <KeyStroke key="Ctrl+N"/>
-            </Property>
             <Property name="text" type="java.lang.String" value="Nuevo nodo"/>
           </Properties>
           <Events>
@@ -575,9 +572,6 @@
         </MenuItem>
         <MenuItem class="javax.swing.JMenuItem" name="jmi_eliminarNodo">
           <Properties>
-            <Property name="accelerator" type="javax.swing.KeyStroke" editor="org.netbeans.modules.form.editors.KeyStrokeEditor">
-              <KeyStroke key="DELETE"/>
-            </Property>
             <Property name="text" type="java.lang.String" value="Eliminar"/>
           </Properties>
           <Events>
@@ -586,9 +580,6 @@
         </MenuItem>
         <MenuItem class="javax.swing.JMenuItem" name="jmi_cambiarNombreNodo">
           <Properties>
-            <Property name="accelerator" type="javax.swing.KeyStroke" editor="org.netbeans.modules.form.editors.KeyStrokeEditor">
-              <KeyStroke key="Ctrl+R"/>
-            </Property>
             <Property name="text" type="java.lang.String" value="Cambiar nombre"/>
           </Properties>
           <Events>
