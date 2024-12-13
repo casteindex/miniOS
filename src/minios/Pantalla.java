@@ -69,6 +69,12 @@ public class Pantalla extends javax.swing.JFrame {
         jd_explorador = new javax.swing.JDialog();
         jScrollPane2 = new javax.swing.JScrollPane();
         jt_explorador = new javax.swing.JTree();
+        jMenuBar3 = new javax.swing.JMenuBar();
+        jMenu2 = new javax.swing.JMenu();
+        jmi_nuevoNodo1 = new javax.swing.JMenuItem();
+        jMenu6 = new javax.swing.JMenu();
+        jmi_cambiarNombreNodo1 = new javax.swing.JMenuItem();
+        jmi_eliminarNodo1 = new javax.swing.JMenuItem();
         jd_escritorio = new javax.swing.JDialog();
         btn_abrirExplorador = new javax.swing.JButton();
         btn_abrirEditor = new javax.swing.JButton();
@@ -201,6 +207,43 @@ public class Pantalla extends javax.swing.JFrame {
         });
         jScrollPane2.setViewportView(jt_explorador);
 
+        jMenu2.setText("Nuevo");
+
+        jmi_nuevoNodo1.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_N, java.awt.event.InputEvent.CTRL_DOWN_MASK));
+        jmi_nuevoNodo1.setText("Nuevo nodo");
+        jmi_nuevoNodo1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jmi_nuevoNodo1ActionPerformed(evt);
+            }
+        });
+        jMenu2.add(jmi_nuevoNodo1);
+
+        jMenuBar3.add(jMenu2);
+
+        jMenu6.setText("Edit");
+
+        jmi_cambiarNombreNodo1.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_R, java.awt.event.InputEvent.CTRL_DOWN_MASK));
+        jmi_cambiarNombreNodo1.setText("Cambiar nombre");
+        jmi_cambiarNombreNodo1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jmi_cambiarNombreNodo1ActionPerformed(evt);
+            }
+        });
+        jMenu6.add(jmi_cambiarNombreNodo1);
+
+        jmi_eliminarNodo1.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_DELETE, 0));
+        jmi_eliminarNodo1.setText("Eliminar");
+        jmi_eliminarNodo1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jmi_eliminarNodo1ActionPerformed(evt);
+            }
+        });
+        jMenu6.add(jmi_eliminarNodo1);
+
+        jMenuBar3.add(jMenu6);
+
+        jd_explorador.setJMenuBar(jMenuBar3);
+
         javax.swing.GroupLayout jd_exploradorLayout = new javax.swing.GroupLayout(jd_explorador.getContentPane());
         jd_explorador.getContentPane().setLayout(jd_exploradorLayout);
         jd_exploradorLayout.setHorizontalGroup(
@@ -209,7 +252,7 @@ public class Pantalla extends javax.swing.JFrame {
         );
         jd_exploradorLayout.setVerticalGroup(
             jd_exploradorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 357, Short.MAX_VALUE)
+            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 334, Short.MAX_VALUE)
         );
 
         jd_escritorio.addWindowListener(new java.awt.event.WindowAdapter() {
@@ -780,22 +823,47 @@ public class Pantalla extends javax.swing.JFrame {
     }//GEN-LAST:event_jt_exploradorMouseClicked
 
     private void jmi_nuevoNodoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmi_nuevoNodoActionPerformed
-        DefaultMutableTreeNode newNode = new DefaultMutableTreeNode("Nuevo nodo");
-        selectedNode.add(newNode);
-        TreePath path = new TreePath(newNode.getPath());
-        reloadMantainingTreeState();
-        cambiarNombreNodo(path);
+        nuevoNodo();
     }//GEN-LAST:event_jmi_nuevoNodoActionPerformed
 
     private void jmi_eliminarNodoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmi_eliminarNodoActionPerformed
         selectedNode.removeFromParent();
-        fileTreeModel.reload();
+        reloadMantainingTreeState();
     }//GEN-LAST:event_jmi_eliminarNodoActionPerformed
 
     private void jmi_cambiarNombreNodoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmi_cambiarNombreNodoActionPerformed
         TreePath path = new TreePath(selectedNode.getPath());
         cambiarNombreNodo(path);
     }//GEN-LAST:event_jmi_cambiarNombreNodoActionPerformed
+
+    private void jmi_nuevoNodo1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmi_nuevoNodo1ActionPerformed
+        TreePath path = jt_explorador.getSelectionPath();
+        if (path == null) {
+            this.selectedNode = (DefaultMutableTreeNode) fileTreeModel.getRoot();
+        } else {
+            this.selectedNode = (DefaultMutableTreeNode) path.getLastPathComponent();
+        }
+        nuevoNodo();
+    }//GEN-LAST:event_jmi_nuevoNodo1ActionPerformed
+
+    private void jmi_cambiarNombreNodo1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmi_cambiarNombreNodo1ActionPerformed
+        TreePath path = jt_explorador.getSelectionPath();
+        if (path == null) {
+            this.selectedNode = (DefaultMutableTreeNode) fileTreeModel.getRoot();
+        } else {
+            this.selectedNode = (DefaultMutableTreeNode) path.getLastPathComponent();
+        }
+        cambiarNombreNodo(path);
+    }//GEN-LAST:event_jmi_cambiarNombreNodo1ActionPerformed
+
+    private void jmi_eliminarNodo1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmi_eliminarNodo1ActionPerformed
+        TreePath path = jt_explorador.getSelectionPath();
+        if (path != null) {
+            this.selectedNode = (DefaultMutableTreeNode) path.getLastPathComponent();
+            selectedNode.removeFromParent();
+            reloadMantainingTreeState();
+        }
+    }//GEN-LAST:event_jmi_eliminarNodo1ActionPerformed
 
     private void jd_exploradorWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_jd_exploradorWindowClosing
         // Guardar cambios cuando se cierre el explorador
@@ -977,6 +1045,14 @@ public class Pantalla extends javax.swing.JFrame {
         this.selectedNode = (DefaultMutableTreeNode) path.getLastPathComponent();
     }
 
+    private void nuevoNodo() {
+        DefaultMutableTreeNode newNode = new DefaultMutableTreeNode("Nuevo nodo");
+        selectedNode.add(newNode);
+        TreePath path = new TreePath(newNode.getPath());
+        reloadMantainingTreeState();
+        cambiarNombreNodo(path);
+    }
+
     private void reloadMantainingTreeState() {
         /* Este método hace un reload guardando primero el estado del expanded
         paths del árbol, así las carpetas abiertas siguen abiertas.
@@ -1098,11 +1174,14 @@ public class Pantalla extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JMenu jMenu1;
+    private javax.swing.JMenu jMenu2;
     private javax.swing.JMenu jMenu3;
     private javax.swing.JMenu jMenu4;
     private javax.swing.JMenu jMenu5;
+    private javax.swing.JMenu jMenu6;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuBar jMenuBar2;
+    private javax.swing.JMenuBar jMenuBar3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
@@ -1117,15 +1196,18 @@ public class Pantalla extends javax.swing.JFrame {
     private javax.swing.JMenuItem jmi_abrirArchivo;
     private javax.swing.JMenuItem jmi_agregarUsuario;
     private javax.swing.JMenuItem jmi_cambiarNombreNodo;
+    private javax.swing.JMenuItem jmi_cambiarNombreNodo1;
     private javax.swing.JMenuItem jmi_cerrarSesion;
     private javax.swing.JMenuItem jmi_configurarSistema;
     private javax.swing.JMenuItem jmi_eliminarNodo;
+    private javax.swing.JMenuItem jmi_eliminarNodo1;
     private javax.swing.JMenuItem jmi_fuenteEditor;
     private javax.swing.JMenuItem jmi_guardarArchivo;
     private javax.swing.JMenuItem jmi_guardarArchivoComo;
     private javax.swing.JMenuItem jmi_infoSistema;
     private javax.swing.JMenuItem jmi_informacionEditor;
     private javax.swing.JMenuItem jmi_nuevoNodo;
+    private javax.swing.JMenuItem jmi_nuevoNodo1;
     private javax.swing.JPopupMenu jpm_explorador;
     private javax.swing.JTree jt_explorador;
     private javax.swing.JTable jt_usuarios;
