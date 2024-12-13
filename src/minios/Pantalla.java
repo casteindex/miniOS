@@ -24,6 +24,7 @@ import javax.swing.SwingUtilities;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
+import javax.swing.tree.TreeNode;
 import javax.swing.tree.TreePath;
 
 /**
@@ -187,6 +188,11 @@ public class Pantalla extends javax.swing.JFrame {
         );
 
         jd_explorador.setTitle("Explorador de Archivos");
+        jd_explorador.addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                jd_exploradorWindowClosing(evt);
+            }
+        });
 
         jt_explorador.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -388,9 +394,10 @@ public class Pantalla extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(48, 48, 48)
-                .addGroup(jd_informacionSistemaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel7)
-                    .addComponent(btn_editarUsuario))
+                .addGroup(jd_informacionSistemaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btn_editarUsuario, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(jd_informacionSistemaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel7)))
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(43, 43, 43))
@@ -755,76 +762,45 @@ public class Pantalla extends javax.swing.JFrame {
     }//GEN-LAST:event_btn_eliminarUsuarioActionPerformed
 
     private void btn_abrirExploradorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_abrirExploradorActionPerformed
+        fileTreeModel.reload(); // Colapsar carpetas
         jd_explorador.pack();
         jd_explorador.setLocationRelativeTo(jd_escritorio);
         jd_explorador.setVisible(true);
     }//GEN-LAST:event_btn_abrirExploradorActionPerformed
 
     private void jt_exploradorMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jt_exploradorMouseClicked
-        /* Si el usuario hizo click en el espacio en blanco, dar la opción de crear
-        un nodo en la raiz. Si hizo click en un nodo, dar la opcion de crear,
-        eliminar o renombrarlo */
         TreePath path = jt_explorador.getPathForLocation(evt.getX(), evt.getY());
         if (path == null) {
-            // No se seleccionó ningún nodo
-            jt_explorador.clearSelection();
-            if (SwingUtilities.isRightMouseButton(evt)) {
-                // Hizo click derecho en el whitespace, solo mostrar crear nodo
-                jmi_cambiarNombreNodo.setVisible(false);
-                jmi_eliminarNodo.setVisible(false);
-                jpm_explorador.show(jt_explorador, evt.getX(), evt.getY());
-                this.selectedNode = (DefaultMutableTreeNode) fileTreeModel.getRoot();
-            }
+            manejarClickEspacioBlanco(evt);
+        } else if (evt.getClickCount() == 2) {
+            cambiarNombreNodo(path);
         } else if (SwingUtilities.isRightMouseButton(evt)) {
-            // Hizo click derecho en un nodo, mostrar todas las opciones
-            jt_explorador.setSelectionPath(path); // Seleccionar el nodo
-            jmi_cambiarNombreNodo.setVisible(true);
-            jmi_eliminarNodo.setVisible(true);
-            jpm_explorador.show(jt_explorador, evt.getX(), evt.getY());
-            this.selectedNode = (DefaultMutableTreeNode) path.getLastPathComponent();
+            manejarClickDerecho(path, evt);
         }
     }//GEN-LAST:event_jt_exploradorMouseClicked
 
     private void jmi_nuevoNodoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmi_nuevoNodoActionPerformed
-        selectedNode.add(new DefaultMutableTreeNode("Nuevo nodo"));
-        /*
-        Nota: Cuando se hace el reload al modelo se cierran todas las caprpetas,
-        por lo tanto se necesita guardar el estado actual del modelo.
-        https://tinyurl.com/5xcc34rx (Stack Overflow)
-         */
-        ArrayList<TreePath> expanded = new ArrayList<>();
-        for (int i = 0; i < jt_explorador.getRowCount(); i++) {
-            TreePath currPath = jt_explorador.getPathForRow(i);
-            if (i + 1 < jt_explorador.getRowCount()) {
-                TreePath nextPath = jt_explorador.getPathForRow(i + 1);
-                if (currPath != null && currPath.isDescendant(nextPath)) {
-                    expanded.add(currPath);
-                }
-            }
-        }
-
-        // Reload modelo and restaurar expanded paths
-        fileTreeModel.reload();
-        saveUserFile();
-        for (TreePath path : expanded) {
-            jt_explorador.expandPath(path);
-        }
+        DefaultMutableTreeNode newNode = new DefaultMutableTreeNode("Nuevo nodo");
+        selectedNode.add(newNode);
+        TreePath path = new TreePath(newNode.getPath());
+        reloadMantainingTreeState();
+        cambiarNombreNodo(path);
     }//GEN-LAST:event_jmi_nuevoNodoActionPerformed
 
     private void jmi_eliminarNodoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmi_eliminarNodoActionPerformed
         selectedNode.removeFromParent();
         fileTreeModel.reload();
-        saveUserFile();
     }//GEN-LAST:event_jmi_eliminarNodoActionPerformed
 
     private void jmi_cambiarNombreNodoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmi_cambiarNombreNodoActionPerformed
-        String nombre = JOptionPane.showInputDialog(jt_explorador,
-                "Ingrese el nuevo nombre del nodo", selectedNode.getUserObject()
-        );
-        selectedNode.setUserObject(nombre);
-        fileTreeModel.reload();
-        saveUserFile();
+        TreePath path = new TreePath(selectedNode.getPath());
+        cambiarNombreNodo(path);
     }//GEN-LAST:event_jmi_cambiarNombreNodoActionPerformed
+
+    private void jd_exploradorWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_jd_exploradorWindowClosing
+        // Guardar cambios cuando se cierre el explorador
+        saveUserFile();
+    }//GEN-LAST:event_jd_exploradorWindowClosing
 
     /**
      * @param args the command line arguments
@@ -979,6 +955,52 @@ public class Pantalla extends javax.swing.JFrame {
         if (currentTextFile != null) {
             saveFile(currentTextFile, text);
         }
+    }
+
+    // ---------- Explorador de Archivos ----------
+    private void manejarClickEspacioBlanco(java.awt.event.MouseEvent evt) {
+        jt_explorador.clearSelection(); // Quitar selección si algiuna
+        if (SwingUtilities.isRightMouseButton(evt)) {
+            // Solo mostrar la opción de Crear nodo
+            jmi_cambiarNombreNodo.setVisible(false);
+            jmi_eliminarNodo.setVisible(false);
+            jpm_explorador.show(jt_explorador, evt.getX(), evt.getY());
+            this.selectedNode = (DefaultMutableTreeNode) fileTreeModel.getRoot();
+        }
+    }
+
+    private void manejarClickDerecho(TreePath path, java.awt.event.MouseEvent evt) {
+        jt_explorador.setSelectionPath(path); // Seleccionar el nodo
+        jmi_cambiarNombreNodo.setVisible(true);
+        jmi_eliminarNodo.setVisible(true);
+        jpm_explorador.show(jt_explorador, evt.getX(), evt.getY());
+        this.selectedNode = (DefaultMutableTreeNode) path.getLastPathComponent();
+    }
+
+    private void reloadMantainingTreeState() {
+        /* Este método hace un reload guardando primero el estado del expanded
+        paths del árbol, así las carpetas abiertas siguen abiertas.
+        Source: https://tinyurl.com/5xcc34rx (Stack Overflow) */
+        ArrayList<TreePath> expanded = new ArrayList<>();
+        for (int i = 0; i < jt_explorador.getRowCount(); i++) {
+            TreePath currPath = jt_explorador.getPathForRow(i);
+            if (i + 1 < jt_explorador.getRowCount()) {
+                TreePath nextPath = jt_explorador.getPathForRow(i + 1);
+                if (currPath != null && currPath.isDescendant(nextPath)) {
+                    expanded.add(currPath);
+                }
+            }
+        }
+        // Reload modelo and restaurar expanded paths
+        fileTreeModel.reload();
+        for (TreePath path : expanded) {
+            jt_explorador.expandPath(path);
+        }
+    }
+
+    private void cambiarNombreNodo(TreePath path) {
+        jt_explorador.setEditable(true);
+        jt_explorador.startEditingAtPath(path);
     }
 
     // ---------- Otros ----------
