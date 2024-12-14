@@ -17,17 +17,20 @@ public class Configuracion implements Serializable {
     public static final Font DEFAULT_DESKTOP_FONT = new Font("Segoe UI", Font.PLAIN, 12);
     public static final Font DEFAULT_EDITOR_FONT = new Font("Consolas", Font.PLAIN, 14);
     public static final Color DEFAULT_FONT_COLOR = Color.BLACK;
+    public static final Color DEFAULT_BAR_COLOR = Color.WHITE;
 
     private Font fuenteEscritorio;
     private Font fuenteEditor;
     private Color desktopFontColor;
     private Color editorFontColor;
+    private Color menuBarColor;
 
     public Configuracion() {
-        this.fuenteEscritorio = DEFAULT_EDITOR_FONT;
+        this.fuenteEscritorio = DEFAULT_DESKTOP_FONT;
         this.fuenteEditor = DEFAULT_EDITOR_FONT;
         this.desktopFontColor = DEFAULT_FONT_COLOR;
         this.editorFontColor = DEFAULT_FONT_COLOR;
+        this.menuBarColor = DEFAULT_BAR_COLOR;
     }
 
     public Configuracion(Font fuenteEscritorio, Font fuenteEditor) {
@@ -67,9 +70,17 @@ public class Configuracion implements Serializable {
         this.editorFontColor = editorFontColor;
     }
 
+    public Color getMenuBarColor() {
+        return menuBarColor;
+    }
+
+    public void setMenuBarColor(Color menuBarColor) {
+        this.menuBarColor = menuBarColor;
+    }
+
     @Override
     public String toString() {
-        return "Configuracion{" + "fuenteEscritorio=" + fuenteEscritorio + ", fuenteEditor=" + fuenteEditor + ", desktopFontColor=" + desktopFontColor + ", editorFontColor=" + editorFontColor + '}';
+        return "Configuracion{" + "fuenteEscritorio=" + fuenteEscritorio + ", fuenteEditor=" + fuenteEditor + ", desktopFontColor=" + desktopFontColor + ", editorFontColor=" + editorFontColor + ", menuBarColor=" + menuBarColor + '}';
     }
 
 }
