@@ -4,6 +4,9 @@
  */
 package minios;
 
+import java.awt.Component;
+import java.awt.Container;
+import java.awt.Font;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -19,12 +22,13 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFileChooser;
+import javax.swing.JMenu;
+import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
-import javax.swing.tree.TreeNode;
 import javax.swing.tree.TreePath;
 
 /**
@@ -111,6 +115,15 @@ public class Pantalla extends javax.swing.JFrame {
         jmi_nuevoNodo = new javax.swing.JMenuItem();
         jmi_eliminarNodo = new javax.swing.JMenuItem();
         jmi_cambiarNombreNodo = new javax.swing.JMenuItem();
+        jd_configuracionEscritorio = new javax.swing.JDialog();
+        jLabel11 = new javax.swing.JLabel();
+        txt_nombreFuenteEscritorio = new javax.swing.JTextField();
+        jLabel12 = new javax.swing.JLabel();
+        jcb_estiloFuenteEscritorio = new javax.swing.JComboBox<>();
+        jLabel13 = new javax.swing.JLabel();
+        txt_tamañoLetraEscritorio = new javax.swing.JTextField();
+        btn_aplicarFuenteEscritorio = new javax.swing.JButton();
+        btn_guardarFuenteEscritorio = new javax.swing.JButton();
         txt_loginConstrasena = new javax.swing.JTextField();
         btn_login = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
@@ -295,6 +308,11 @@ public class Pantalla extends javax.swing.JFrame {
         jMenu1.add(jSeparator1);
 
         jmi_configurarSistema.setText("Configuración...");
+        jmi_configurarSistema.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jmi_configurarSistemaActionPerformed(evt);
+            }
+        });
         jMenu1.add(jmi_configurarSistema);
         jMenu1.add(jSeparator2);
 
@@ -417,16 +435,15 @@ public class Pantalla extends javax.swing.JFrame {
             jd_informacionSistemaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jd_informacionSistemaLayout.createSequentialGroup()
                 .addGap(31, 31, 31)
-                .addGroup(jd_informacionSistemaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                .addGroup(jd_informacionSistemaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addGroup(jd_informacionSistemaLayout.createSequentialGroup()
+                        .addComponent(jLabel7)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btn_editarUsuario))
                     .addGroup(jd_informacionSistemaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 410, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 225, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jd_informacionSistemaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                        .addGroup(jd_informacionSistemaLayout.createSequentialGroup()
-                            .addComponent(jLabel7)
-                            .addGap(167, 167, 167)
-                            .addComponent(btn_editarUsuario))
-                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 410, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 410, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(38, Short.MAX_VALUE))
         );
         jd_informacionSistemaLayout.setVerticalGroup(
@@ -436,14 +453,16 @@ public class Pantalla extends javax.swing.JFrame {
                 .addComponent(jLabel6)
                 .addGap(18, 18, 18)
                 .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(48, 48, 48)
                 .addGroup(jd_informacionSistemaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btn_editarUsuario, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(jd_informacionSistemaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addGroup(jd_informacionSistemaLayout.createSequentialGroup()
+                        .addGap(48, 48, 48)
+                        .addComponent(btn_editarUsuario))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jd_informacionSistemaLayout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabel7)))
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(43, 43, 43))
+                .addGap(75, 75, 75))
         );
 
         jLabel9.setText("Nombre de Usuario:");
@@ -524,6 +543,68 @@ public class Pantalla extends javax.swing.JFrame {
             }
         });
         jpm_explorador.add(jmi_cambiarNombreNodo);
+
+        jLabel11.setText("Nombre de la fuente");
+
+        jLabel12.setText("Estilo");
+
+        jcb_estiloFuenteEscritorio.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Normal", "Negrita", "Itálica" }));
+
+        jLabel13.setText("Tamaño");
+
+        btn_aplicarFuenteEscritorio.setText("Aplicar");
+
+        btn_guardarFuenteEscritorio.setText("Aceptar");
+        btn_guardarFuenteEscritorio.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_guardarFuenteEscritorioActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jd_configuracionEscritorioLayout = new javax.swing.GroupLayout(jd_configuracionEscritorio.getContentPane());
+        jd_configuracionEscritorio.getContentPane().setLayout(jd_configuracionEscritorioLayout);
+        jd_configuracionEscritorioLayout.setHorizontalGroup(
+            jd_configuracionEscritorioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jd_configuracionEscritorioLayout.createSequentialGroup()
+                .addGap(32, 32, 32)
+                .addGroup(jd_configuracionEscritorioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jd_configuracionEscritorioLayout.createSequentialGroup()
+                        .addComponent(btn_aplicarFuenteEscritorio)
+                        .addGap(62, 62, 62)
+                        .addComponent(btn_guardarFuenteEscritorio))
+                    .addGroup(jd_configuracionEscritorioLayout.createSequentialGroup()
+                        .addGroup(jd_configuracionEscritorioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel11)
+                            .addComponent(jLabel12)
+                            .addComponent(jLabel13))
+                        .addGap(43, 43, 43)
+                        .addGroup(jd_configuracionEscritorioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(txt_tamañoLetraEscritorio, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txt_nombreFuenteEscritorio, javax.swing.GroupLayout.PREFERRED_SIZE, 235, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jcb_estiloFuenteEscritorio, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap(34, Short.MAX_VALUE))
+        );
+        jd_configuracionEscritorioLayout.setVerticalGroup(
+            jd_configuracionEscritorioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jd_configuracionEscritorioLayout.createSequentialGroup()
+                .addGap(42, 42, 42)
+                .addGroup(jd_configuracionEscritorioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel13)
+                    .addComponent(txt_tamañoLetraEscritorio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(jd_configuracionEscritorioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel11)
+                    .addComponent(txt_nombreFuenteEscritorio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(jd_configuracionEscritorioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel12)
+                    .addComponent(jcb_estiloFuenteEscritorio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(43, 43, 43)
+                .addGroup(jd_configuracionEscritorioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btn_aplicarFuenteEscritorio)
+                    .addComponent(btn_guardarFuenteEscritorio))
+                .addContainerGap(43, Short.MAX_VALUE))
+        );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -845,6 +926,58 @@ public class Pantalla extends javax.swing.JFrame {
         saveUserFile();
     }//GEN-LAST:event_jd_exploradorWindowClosing
 
+    private void jmi_configurarSistemaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmi_configurarSistemaActionPerformed
+        jd_configuracionEscritorio.pack();
+        jd_configuracionEscritorio.setLocationRelativeTo(jd_escritorio);
+
+        // Mostrar en pantalla los valores actuales de la fuente
+        Font font = activeUser.getConfig().getFuenteEscritorio();
+        txt_tamañoLetraEscritorio.setText(font.getSize() + "");
+        txt_nombreFuenteEscritorio.setText(font.getFontName());
+        switch (font.getStyle()) {
+            case Font.PLAIN ->
+                jcb_estiloFuenteEscritorio.setSelectedIndex(0);
+            case Font.BOLD ->
+                jcb_estiloFuenteEscritorio.setSelectedIndex(1);
+            case Font.ITALIC ->
+                jcb_estiloFuenteEscritorio.setSelectedIndex(2);
+        }
+        jd_configuracionEscritorio.setVisible(true);
+    }//GEN-LAST:event_jmi_configurarSistemaActionPerformed
+
+    private void btn_guardarFuenteEscritorioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_guardarFuenteEscritorioActionPerformed
+        Font font = activeUser.getConfig().getFuenteEscritorio();
+
+    }//GEN-LAST:event_btn_guardarFuenteEscritorioActionPerformed
+
+    private void applyDesktopFonts(Font font) {
+        applyFontToAllComponents(jd_agregarUsuario, font);
+        applyFontToAllComponents(jd_configuracionEscritorio, font);
+        applyFontToAllComponents(jd_editarUsuario, font);
+        applyFontToAllComponents(jd_editor, font);
+        applyFontToAllComponents(jd_escritorio, font);
+        applyFontToAllComponents(jd_explorador, font);
+        applyFontToAllComponents(jd_informacionSistema, font);
+    }
+
+    private void applyFontToAllComponents(Component component, Font font) {
+        /* Método recursivo para cambiar todas las fuentes de un msimo componente
+        Adaptado de: https://tinyurl.com/bdd9uefe (Stack Overflow) */
+        component.setFont(font);
+        if (component instanceof JMenu menu) {
+            for (int i = 0; i < menu.getItemCount(); i++) {
+                JMenuItem menuItem = menu.getItem(i);
+                if (menuItem != null) { // Avoid null menu items
+                    applyFontToAllComponents(menuItem, font);
+                }
+            }
+        } else if (component instanceof Container container) {
+            for (Component child : container.getComponents()) {
+                applyFontToAllComponents(child, font);
+            }
+        }
+    }
+
     /**
      * @param args the command line arguments
      */
@@ -1089,6 +1222,7 @@ public class Pantalla extends javax.swing.JFrame {
 
     private void loadDesktop(Usuario usuario) {
         // Mostrar escritorio
+        applyDesktopFonts(activeUser.getConfig().getFuenteEscritorio());
         jd_escritorio.pack();
         jd_escritorio.setLocationRelativeTo(this);
         jd_escritorio.setTitle("MiniOS — " + usuario.getNombre());
@@ -1165,14 +1299,19 @@ public class Pantalla extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_abrirEditor;
     private javax.swing.JButton btn_abrirExplorador;
+    private javax.swing.JButton btn_aplicarFuenteEscritorio;
     private javax.swing.JButton btn_crearUsuario;
     private javax.swing.JButton btn_editarUsuario;
     private javax.swing.JButton btn_eliminarUsuario;
     private javax.swing.JButton btn_guardarCambiosUsuario;
+    private javax.swing.JButton btn_guardarFuenteEscritorio;
     private javax.swing.JButton btn_login;
     private javax.swing.JCheckBox chk_admin;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -1195,7 +1334,9 @@ public class Pantalla extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JPopupMenu.Separator jSeparator1;
     private javax.swing.JPopupMenu.Separator jSeparator2;
+    private javax.swing.JComboBox<String> jcb_estiloFuenteEscritorio;
     private javax.swing.JDialog jd_agregarUsuario;
+    private javax.swing.JDialog jd_configuracionEscritorio;
     private javax.swing.JDialog jd_editarUsuario;
     private javax.swing.JDialog jd_editor;
     private javax.swing.JDialog jd_escritorio;
@@ -1224,7 +1365,9 @@ public class Pantalla extends javax.swing.JFrame {
     private javax.swing.JTextField txt_loginConstrasena;
     private javax.swing.JTextField txt_loginUsuario;
     private javax.swing.JTextField txt_nombreEditar;
+    private javax.swing.JTextField txt_nombreFuenteEscritorio;
     private javax.swing.JTextField txt_nuevoUsuarioContrasena;
     private javax.swing.JTextField txt_nuevoUsuarioNombre;
+    private javax.swing.JTextField txt_tamañoLetraEscritorio;
     // End of variables declaration//GEN-END:variables
 }

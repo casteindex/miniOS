@@ -15,9 +15,9 @@ public class Usuario implements Serializable {
 
     protected String nombre;
     protected String contrasena;
-    protected boolean admin;
     protected Configuracion config;
     protected DefaultMutableTreeNode raiz;
+    protected boolean admin;
 
     public Usuario(String nombre, String contrasena, boolean admin) {
         this.nombre = nombre;
@@ -69,7 +69,7 @@ public class Usuario implements Serializable {
 
     @Override
     public String toString() {
-        return "Usuario{" + "nombre=" + nombre + ", contrasena=" + contrasena + ", admin=" + admin + '}';
+        return "Usuario{" + "nombre=" + nombre + ", contrasena=" + contrasena + ", config=" + config + ", raiz=" + raiz + ", admin=" + admin + '}';
     }
 
 }
