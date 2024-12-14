@@ -6,6 +6,7 @@ package minios;
 
 import java.awt.Font;
 import java.io.Serializable;
+import javax.swing.UIManager;
 
 /**
  *
@@ -15,10 +16,12 @@ public class Configuracion implements Serializable {
 
     private Font fuenteEscritorio;
     private Font fuenteEditor;
+    public static final Font DEFAULT_DESKTOP_FONT = new Font("Segoe UI", Font.PLAIN, 14);
+    public static final Font DEFAULT_EDITOR_FONT = new Font("Consolas", Font.PLAIN, 14);
 
     public Configuracion() {
-        this.fuenteEscritorio = new Font("Papyrus", Font.PLAIN, 12);
-        this.fuenteEditor = new Font("Comic Sans MS", Font.PLAIN, 12);
+        this.fuenteEscritorio = DEFAULT_EDITOR_FONT;
+        this.fuenteEditor = DEFAULT_EDITOR_FONT;
     }
 
     public Configuracion(Font fuenteEscritorio, Font fuenteEditor) {

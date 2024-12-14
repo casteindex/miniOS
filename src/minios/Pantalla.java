@@ -566,44 +566,47 @@ public class Pantalla extends javax.swing.JFrame {
         jd_configuracionEscritorioLayout.setHorizontalGroup(
             jd_configuracionEscritorioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jd_configuracionEscritorioLayout.createSequentialGroup()
-                .addGap(32, 32, 32)
                 .addGroup(jd_configuracionEscritorioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jd_configuracionEscritorioLayout.createSequentialGroup()
-                        .addComponent(btn_aplicarFuenteEscritorio)
-                        .addGap(62, 62, 62)
-                        .addComponent(btn_guardarFuenteEscritorio))
+                        .addGap(30, 30, 30)
+                        .addGroup(jd_configuracionEscritorioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel13)
+                            .addComponent(jLabel11)))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jd_configuracionEscritorioLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jLabel12)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jd_configuracionEscritorioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(jd_configuracionEscritorioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(txt_tamañoLetraEscritorio, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(txt_nombreFuenteEscritorio)
+                        .addComponent(jcb_estiloFuenteEscritorio, 0, 191, Short.MAX_VALUE))
                     .addGroup(jd_configuracionEscritorioLayout.createSequentialGroup()
-                        .addGroup(jd_configuracionEscritorioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel11)
-                            .addComponent(jLabel12)
-                            .addComponent(jLabel13))
-                        .addGap(43, 43, 43)
-                        .addGroup(jd_configuracionEscritorioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txt_tamañoLetraEscritorio, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txt_nombreFuenteEscritorio, javax.swing.GroupLayout.PREFERRED_SIZE, 235, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jcb_estiloFuenteEscritorio, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(34, Short.MAX_VALUE))
+                        .addComponent(btn_aplicarFuenteEscritorio)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btn_guardarFuenteEscritorio)))
+                .addContainerGap(70, Short.MAX_VALUE))
         );
         jd_configuracionEscritorioLayout.setVerticalGroup(
             jd_configuracionEscritorioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jd_configuracionEscritorioLayout.createSequentialGroup()
-                .addGap(42, 42, 42)
+                .addGap(40, 40, 40)
                 .addGroup(jd_configuracionEscritorioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel13)
                     .addComponent(txt_tamañoLetraEscritorio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jd_configuracionEscritorioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txt_nombreFuenteEscritorio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel11))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jd_configuracionEscritorioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jcb_estiloFuenteEscritorio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel12))
                 .addGap(18, 18, 18)
                 .addGroup(jd_configuracionEscritorioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel11)
-                    .addComponent(txt_nombreFuenteEscritorio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(jd_configuracionEscritorioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel12)
-                    .addComponent(jcb_estiloFuenteEscritorio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(43, 43, 43)
-                .addGroup(jd_configuracionEscritorioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btn_aplicarFuenteEscritorio)
-                    .addComponent(btn_guardarFuenteEscritorio))
-                .addContainerGap(43, Short.MAX_VALUE))
+                    .addComponent(btn_guardarFuenteEscritorio)
+                    .addComponent(btn_aplicarFuenteEscritorio))
+                .addContainerGap(50, Short.MAX_VALUE))
         );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -946,37 +949,23 @@ public class Pantalla extends javax.swing.JFrame {
     }//GEN-LAST:event_jmi_configurarSistemaActionPerformed
 
     private void btn_guardarFuenteEscritorioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_guardarFuenteEscritorioActionPerformed
-        Font font = activeUser.getConfig().getFuenteEscritorio();
-
+        Font font = new Font(
+                txt_nombreFuenteEscritorio.getText(), // Tipografía
+                switch (jcb_estiloFuenteEscritorio.getSelectedIndex()) { // Estilo
+            case 1 ->
+                Font.BOLD;
+            case 2 ->
+                Font.ITALIC;
+            default ->
+                Font.PLAIN;
+        },
+                Integer.parseInt(txt_tamañoLetraEscritorio.getText()) // Tamaño
+        );
+        setDesktopFont(font);
+        jt_explorador.updateUI();// Refresca la fuente en el JTree
+        activeUser.getConfig().setFuenteEscritorio(font);
+        saveUserFile();
     }//GEN-LAST:event_btn_guardarFuenteEscritorioActionPerformed
-
-    private void applyDesktopFonts(Font font) {
-        applyFontToAllComponents(jd_agregarUsuario, font);
-        applyFontToAllComponents(jd_configuracionEscritorio, font);
-        applyFontToAllComponents(jd_editarUsuario, font);
-        applyFontToAllComponents(jd_editor, font);
-        applyFontToAllComponents(jd_escritorio, font);
-        applyFontToAllComponents(jd_explorador, font);
-        applyFontToAllComponents(jd_informacionSistema, font);
-    }
-
-    private void applyFontToAllComponents(Component component, Font font) {
-        /* Método recursivo para cambiar todas las fuentes de un msimo componente
-        Adaptado de: https://tinyurl.com/bdd9uefe (Stack Overflow) */
-        component.setFont(font);
-        if (component instanceof JMenu menu) {
-            for (int i = 0; i < menu.getItemCount(); i++) {
-                JMenuItem menuItem = menu.getItem(i);
-                if (menuItem != null) { // Avoid null menu items
-                    applyFontToAllComponents(menuItem, font);
-                }
-            }
-        } else if (component instanceof Container container) {
-            for (Component child : container.getComponents()) {
-                applyFontToAllComponents(child, font);
-            }
-        }
-    }
 
     /**
      * @param args the command line arguments
@@ -1222,7 +1211,7 @@ public class Pantalla extends javax.swing.JFrame {
 
     private void loadDesktop(Usuario usuario) {
         // Mostrar escritorio
-        applyDesktopFonts(activeUser.getConfig().getFuenteEscritorio());
+        setDesktopFont(activeUser.getConfig().getFuenteEscritorio());
         jd_escritorio.pack();
         jd_escritorio.setLocationRelativeTo(this);
         jd_escritorio.setTitle("MiniOS — " + usuario.getNombre());
@@ -1244,6 +1233,35 @@ public class Pantalla extends javax.swing.JFrame {
         }
 
         // TODO: Cargar colores y tipo de fuente
+    }
+
+    // ---------- Configuración de Funetes ----------
+    private void setDesktopFont(Font font) {
+        changeFont(jd_agregarUsuario, font);
+        changeFont(jd_configuracionEscritorio, font);
+        changeFont(jd_editarUsuario, font);
+        changeFont(jd_editor, font);
+        changeFont(jd_escritorio, font);
+        changeFont(jd_explorador, font);
+        changeFont(jd_informacionSistema, font);
+    }
+
+    private void changeFont(Component component, Font font) {
+        /* Método recursivo para cambiar todas las fuentes de un msimo componente
+        Adaptado de: https://tinyurl.com/bdd9uefe (Stack Overflow) */
+        component.setFont(font);
+        if (component instanceof JMenu menu) {
+            for (int i = 0; i < menu.getItemCount(); i++) {
+                JMenuItem menuItem = menu.getItem(i);
+                if (menuItem != null) { // Avoid null menu items
+                    changeFont(menuItem, font);
+                }
+            }
+        } else if (component instanceof Container container) {
+            for (Component child : container.getComponents()) {
+                changeFont(child, font);
+            }
+        }
     }
 
     // ---------- Otros ----------
