@@ -4,9 +4,9 @@
  */
 package minios;
 
+import java.awt.Color;
 import java.awt.Font;
 import java.io.Serializable;
-import javax.swing.UIManager;
 
 /**
  *
@@ -14,14 +14,20 @@ import javax.swing.UIManager;
  */
 public class Configuracion implements Serializable {
 
+    public static final Font DEFAULT_DESKTOP_FONT = new Font("Segoe UI", Font.PLAIN, 12);
+    public static final Font DEFAULT_EDITOR_FONT = new Font("Consolas", Font.PLAIN, 14);
+    public static final Color DEFAULT_FONT_COLOR = Color.BLACK;
+
     private Font fuenteEscritorio;
     private Font fuenteEditor;
-    public static final Font DEFAULT_DESKTOP_FONT = new Font("Segoe UI", Font.PLAIN, 14);
-    public static final Font DEFAULT_EDITOR_FONT = new Font("Consolas", Font.PLAIN, 14);
+    private Color desktopFontColor;
+    private Color editorFontColor;
 
     public Configuracion() {
         this.fuenteEscritorio = DEFAULT_EDITOR_FONT;
         this.fuenteEditor = DEFAULT_EDITOR_FONT;
+        this.desktopFontColor = DEFAULT_FONT_COLOR;
+        this.editorFontColor = DEFAULT_FONT_COLOR;
     }
 
     public Configuracion(Font fuenteEscritorio, Font fuenteEditor) {
@@ -45,9 +51,25 @@ public class Configuracion implements Serializable {
         this.fuenteEditor = fuenteEditor;
     }
 
+    public Color getDesktopFontColor() {
+        return desktopFontColor;
+    }
+
+    public void setDesktopFontColor(Color desktopFontColor) {
+        this.desktopFontColor = desktopFontColor;
+    }
+
+    public Color getEditorFontColor() {
+        return editorFontColor;
+    }
+
+    public void setEditorFontColor(Color editorFontColor) {
+        this.editorFontColor = editorFontColor;
+    }
+
     @Override
     public String toString() {
-        return "Configuracion{" + "fuenteEscritorio=" + fuenteEscritorio + ", fuenteEditor=" + fuenteEditor + '}';
+        return "Configuracion{" + "fuenteEscritorio=" + fuenteEscritorio + ", fuenteEditor=" + fuenteEditor + ", desktopFontColor=" + desktopFontColor + ", editorFontColor=" + editorFontColor + '}';
     }
 
 }
