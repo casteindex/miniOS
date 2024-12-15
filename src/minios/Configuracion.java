@@ -7,6 +7,7 @@ package minios;
 import java.awt.Color;
 import java.awt.Font;
 import java.io.Serializable;
+import javax.swing.ImageIcon;
 
 /**
  *
@@ -18,12 +19,14 @@ public class Configuracion implements Serializable {
     public static final Font DEFAULT_EDITOR_FONT = new Font("Consolas", Font.PLAIN, 14);
     public static final Color DEFAULT_FONT_COLOR = Color.BLACK;
     public static final Color DEFAULT_BAR_COLOR = Color.WHITE;
+    public static final String DEFAULT_WALLPAPER_PATH = "./src/icons/wallpaper.jpg";
 
     private Font fuenteEscritorio;
     private Font fuenteEditor;
     private Color desktopFontColor;
     private Color editorFontColor;
     private Color menuBarColor;
+    private String wallpaperPath;
 
     public Configuracion() {
         this.fuenteEscritorio = DEFAULT_DESKTOP_FONT;
@@ -31,6 +34,7 @@ public class Configuracion implements Serializable {
         this.desktopFontColor = DEFAULT_FONT_COLOR;
         this.editorFontColor = DEFAULT_FONT_COLOR;
         this.menuBarColor = DEFAULT_BAR_COLOR;
+        this.wallpaperPath = DEFAULT_WALLPAPER_PATH;
     }
 
     public Configuracion(Font fuenteEscritorio, Font fuenteEditor) {
@@ -76,6 +80,14 @@ public class Configuracion implements Serializable {
 
     public void setMenuBarColor(Color menuBarColor) {
         this.menuBarColor = menuBarColor;
+    }
+
+    public String getWallpaperPath() {
+        return wallpaperPath;
+    }
+
+    public void setWallpaperPath(String wallpaperPath) {
+        this.wallpaperPath = wallpaperPath;
     }
 
     @Override

@@ -22,14 +22,13 @@ import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.ImageIcon;
 import javax.swing.JColorChooser;
 import javax.swing.JFileChooser;
 import javax.swing.JMenu;
-import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
-import javax.swing.UIManager;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
@@ -84,8 +83,10 @@ public class Pantalla extends javax.swing.JFrame {
         jmi_cambiarNombreNodo1 = new javax.swing.JMenuItem();
         jmi_eliminarNodo1 = new javax.swing.JMenuItem();
         jd_escritorio = new javax.swing.JDialog();
+        jLayeredPane1 = new javax.swing.JLayeredPane();
         btn_abrirExplorador = new javax.swing.JButton();
         btn_abrirEditor = new javax.swing.JButton();
+        lbl_fondoPantalla = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jmi_cerrarSesion = new javax.swing.JMenuItem();
@@ -310,26 +311,35 @@ public class Pantalla extends javax.swing.JFrame {
             .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 334, Short.MAX_VALUE)
         );
 
-        jd_escritorio.setPreferredSize(new java.awt.Dimension(800, 550));
+        jd_escritorio.setPreferredSize(new java.awt.Dimension(800, 600));
         jd_escritorio.addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowClosing(java.awt.event.WindowEvent evt) {
                 jd_escritorioWindowClosing(evt);
             }
         });
 
-        btn_abrirExplorador.setText("explorador");
+        jLayeredPane1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        btn_abrirExplorador.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/folder.png"))); // NOI18N
         btn_abrirExplorador.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btn_abrirExploradorActionPerformed(evt);
             }
         });
+        jLayeredPane1.setLayer(btn_abrirExplorador, javax.swing.JLayeredPane.PALETTE_LAYER);
+        jLayeredPane1.add(btn_abrirExplorador, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 70, -1, -1));
 
-        btn_abrirEditor.setText("editor");
+        btn_abrirEditor.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/notepad.png"))); // NOI18N
         btn_abrirEditor.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btn_abrirEditorActionPerformed(evt);
             }
         });
+        jLayeredPane1.setLayer(btn_abrirEditor, javax.swing.JLayeredPane.PALETTE_LAYER);
+        jLayeredPane1.add(btn_abrirEditor, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 160, -1, -1));
+
+        lbl_fondoPantalla.setFocusable(false);
+        jLayeredPane1.add(lbl_fondoPantalla, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 800, 600));
 
         jMenuBar1.setOpaque(true);
 
@@ -378,21 +388,11 @@ public class Pantalla extends javax.swing.JFrame {
         jd_escritorio.getContentPane().setLayout(jd_escritorioLayout);
         jd_escritorioLayout.setHorizontalGroup(
             jd_escritorioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jd_escritorioLayout.createSequentialGroup()
-                .addGap(39, 39, 39)
-                .addGroup(jd_escritorioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btn_abrirExplorador)
-                    .addComponent(btn_abrirEditor))
-                .addContainerGap(635, Short.MAX_VALUE))
+            .addComponent(jLayeredPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
         jd_escritorioLayout.setVerticalGroup(
             jd_escritorioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jd_escritorioLayout.createSequentialGroup()
-                .addGap(140, 140, 140)
-                .addComponent(btn_abrirExplorador)
-                .addGap(39, 39, 39)
-                .addComponent(btn_abrirEditor)
-                .addContainerGap(224, Short.MAX_VALUE))
+            .addComponent(jLayeredPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
         jd_agregarUsuario.setTitle("Agregar Nuevo Usuario");
@@ -694,6 +694,11 @@ public class Pantalla extends javax.swing.JFrame {
         jLabel20.setText("Fondo de Pantalla");
 
         btn_cambiarFondoDePantalla.setText("Elegir imagen");
+        btn_cambiarFondoDePantalla.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_cambiarFondoDePantallaActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -819,7 +824,7 @@ public class Pantalla extends javax.swing.JFrame {
                 .addContainerGap(40, Short.MAX_VALUE))
         );
 
-        jd_loginLogout.setPreferredSize(new java.awt.Dimension(800, 550));
+        jd_loginLogout.setPreferredSize(new java.awt.Dimension(800, 600));
 
         lbl_iniciandoCerrando.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
         lbl_iniciandoCerrando.setText("Cerrando Sesion...");
@@ -851,7 +856,7 @@ public class Pantalla extends javax.swing.JFrame {
         );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setPreferredSize(new java.awt.Dimension(800, 550));
+        setPreferredSize(new java.awt.Dimension(800, 600));
 
         btn_login.setText("Iniciar Sesión");
         btn_login.addActionListener(new java.awt.event.ActionListener() {
@@ -1296,6 +1301,18 @@ public class Pantalla extends javax.swing.JFrame {
         saveUserFile();
     }//GEN-LAST:event_btn_cambiarMenuBarColorActionPerformed
 
+    private void btn_cambiarFondoDePantallaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_cambiarFondoDePantallaActionPerformed
+        File imagen = selectFile();
+        String imagePath = imagen.getAbsolutePath();
+        ImageIcon icono = new ImageIcon(imagePath);
+        try {
+            lbl_fondoPantalla.setIcon(icono);
+            activeUser.getConfig().setWallpaperPath(imagePath);
+            saveUserFile();
+        } catch (Exception ex) {
+        }
+    }//GEN-LAST:event_btn_cambiarFondoDePantallaActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -1364,7 +1381,6 @@ public class Pantalla extends javax.swing.JFrame {
             FileOutputStream os = new FileOutputStream(file);
             ObjectOutputStream objectWriter = new ObjectOutputStream(os);
             objectWriter.writeObject(usuarios);
-            System.out.println("User file saved");
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Ocurrió un error");
         }
@@ -1529,11 +1545,6 @@ public class Pantalla extends javax.swing.JFrame {
             );
             return false;
         } else {
-            JOptionPane.showMessageDialog(this,
-                    "¡Hola de nuevo, " + activeUser.getNombre() + "!\n"
-                    + "Nos alegra verte de vuelta. ¡Que tengas un gran día!",
-                    "Bienvenido", JOptionPane.INFORMATION_MESSAGE
-            );
             return true;
         }
     }
@@ -1598,6 +1609,7 @@ public class Pantalla extends javax.swing.JFrame {
         jd_escritorio.pack();
         jd_escritorio.setLocationRelativeTo(this);
         jd_escritorio.setTitle("MiniOS — " + usuario.getNombre());
+        lbl_fondoPantalla.setIcon(new ImageIcon(usuario.getConfig().getWallpaperPath()));
 
         jd_loginLogout.pack();
         jd_loginLogout.setLocationRelativeTo(this);
@@ -1665,7 +1677,7 @@ public class Pantalla extends javax.swing.JFrame {
                     lbl_loadUserInfo.setText(infoList[index]);
                 });
                 try {
-                    Thread.sleep(100);
+                    Thread.sleep(80);
                 } catch (InterruptedException ex) {
                 }
             }
@@ -1730,6 +1742,7 @@ public class Pantalla extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
+    private javax.swing.JLayeredPane jLayeredPane1;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenu jMenu3;
@@ -1777,6 +1790,7 @@ public class Pantalla extends javax.swing.JFrame {
     private javax.swing.JPopupMenu jpm_explorador;
     private javax.swing.JTree jt_explorador;
     private javax.swing.JTable jt_usuarios;
+    private javax.swing.JLabel lbl_fondoPantalla;
     private javax.swing.JLabel lbl_iniciandoCerrando;
     private javax.swing.JLabel lbl_loadUserInfo;
     private javax.swing.JTextField txt_contrasenaEditar;
