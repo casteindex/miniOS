@@ -85,8 +85,10 @@ public class Usuario implements Serializable {
             "obteniendo_-_editor_-_font" + config.getFuenteEditor(),
             "obteniendo_-_desktop_-_font_-_color:_-_" + config.getDesktopFontColor(),
             "obteniendo_-_editor_-_font_-_color:_-_" + config.getEditorFontColor(),
-            "onteniendo_-_menu_-_bar_-_color:_-_" + config.getMenuBarColor(),
-            "proceso_-_proceso_-_completo_-_..."
+            "obteniendo_-_menu_-_bar_-_color:_-_" + config.getMenuBarColor(),
+            "obteniendo_-_fondo_-_de_-_pantalla:_-_" + config.getWallpaperPath(),
+            "proceso_-_1_-_de_-_2_completo_-_...",
+            "proceso_-_2_-_de_-_2_completo_-_..."
         };
     }
 

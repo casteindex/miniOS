@@ -7,7 +7,6 @@ package minios;
 import java.awt.Color;
 import java.awt.Font;
 import java.io.Serializable;
-import javax.swing.ImageIcon;
 
 /**
  *

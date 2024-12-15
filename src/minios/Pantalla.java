@@ -919,8 +919,8 @@ public class Pantalla extends javax.swing.JFrame {
         // Si no hay nombre de usuario, salir
         if (nombre.isBlank()) {
             JOptionPane.showMessageDialog(this,
-                    "Por favor ingresa un nombre de usuario",
-                    "Advertencia de Inicio de Sesión", JOptionPane.WARNING_MESSAGE
+                    Mensajes.NOMBRE_USUARIO_VACIO.getMensaje(),
+                    "Inicio de Sesión", JOptionPane.WARNING_MESSAGE
             );
             return;
         }
@@ -966,8 +966,8 @@ public class Pantalla extends javax.swing.JFrame {
     }//GEN-LAST:event_jmi_guardarArchivoComoActionPerformed
 
     private void jmi_informacionEditorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmi_informacionEditorActionPerformed
-        JOptionPane.showMessageDialog(jd_editor,
-                TEXT_EDITOR_ABOUT, "Acerca del Editor", JOptionPane.INFORMATION_MESSAGE
+        JOptionPane.showMessageDialog(jd_editor, Mensajes.ACERCA_DEL_EDITOR.getMensaje(),
+                "Acerca del Editor", JOptionPane.INFORMATION_MESSAGE
         );
     }//GEN-LAST:event_jmi_informacionEditorActionPerformed
 
@@ -979,8 +979,7 @@ public class Pantalla extends javax.swing.JFrame {
         int opcion = JOptionPane.DEFAULT_OPTION;
         if (!txt_editor.getText().equals(contenidoGuardado)) {
             opcion = JOptionPane.showConfirmDialog(jd_editor,
-                    "Tiene cambios sin guardar. ¿Desea guardar antes de salir?",
-                    "Advertencia",
+                    Mensajes.CAMBIOS_SIN_GUARDAR.getMensaje(), "Bloc de Notas",
                     JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE
             );
         }
@@ -1015,21 +1014,21 @@ public class Pantalla extends javax.swing.JFrame {
         String contrasena = txt_nuevoUsuarioContrasena.getText();
         if (nombre.isBlank()) {
             JOptionPane.showMessageDialog(jd_agregarUsuario,
-                    "El usuario debe tener un nombre.", "Advertencia",
-                    JOptionPane.WARNING_MESSAGE
+                    Mensajes.NOMBRE_USUARIO_VACIO2.getMensaje(),
+                    "Creación de Usuario", JOptionPane.WARNING_MESSAGE
             );
         } else if (!isValidUsername(nombre)) {
             JOptionPane.showMessageDialog(jd_agregarUsuario,
-                    "El nombre de usuario ya ha sido utilizado", "Advertencia",
-                    JOptionPane.WARNING_MESSAGE
+                    Mensajes.USUARIO_EXISTENTE.getMensaje(),
+                    "Creación de Usuario", JOptionPane.WARNING_MESSAGE
             );
         } else {
             usuarios.add(new Usuario(nombre, contrasena, chk_admin.isSelected()));
             saveUserFile();
             jd_agregarUsuario.dispose();
             JOptionPane.showMessageDialog(jd_agregarUsuario,
-                    "El usuario se ha creado con éxito!", "Agregar Usuario",
-                    JOptionPane.INFORMATION_MESSAGE
+                    Mensajes.USUARIO_CREADO.getMensaje(),
+                    "Creación de Usuario", JOptionPane.INFORMATION_MESSAGE
             );
         }
     }//GEN-LAST:event_btn_crearUsuarioActionPerformed
@@ -1067,7 +1066,7 @@ public class Pantalla extends javax.swing.JFrame {
             jd_editarUsuario.setVisible(true);
         } else {
             JOptionPane.showMessageDialog(jd_informacionSistema,
-                    "No tiene los permisos para editar a este usuario",
+                    Mensajes.SIN_PERMISO_DE_EDICIÓN.getMensaje(),
                     "Editar Usuario", JOptionPane.WARNING_MESSAGE
             );
         }
@@ -1078,16 +1077,15 @@ public class Pantalla extends javax.swing.JFrame {
         String nuevaContrasena = txt_contrasenaEditar.getText();
         if (nuevoNombre.isBlank()) {
             JOptionPane.showMessageDialog(jd_editarUsuario,
-                    "No puede dejar el nombre del Usuario en blanco."
-                    + "\nPor favor ingrese un nombre de usuario",
+                    Mensajes.NOMBRE_USUARIO_VACIO3.getMensaje(),
                     "Editar Usuario", JOptionPane.WARNING_MESSAGE
             );
         } else {
             usuarioAEditar.setNombre(nuevoNombre);
             usuarioAEditar.setContrasena(nuevaContrasena);
             JOptionPane.showMessageDialog(jd_editarUsuario,
-                    "Usuario actualizado correctamente!", "Editar Usuario",
-                    JOptionPane.INFORMATION_MESSAGE
+                    Mensajes.USUARIO_ACTUALIZADO.getMensaje(),
+                    "Editar Usuario", JOptionPane.INFORMATION_MESSAGE
             );
             saveUserFile();
             llenarUserTable();
@@ -1095,9 +1093,8 @@ public class Pantalla extends javax.swing.JFrame {
     }//GEN-LAST:event_btn_guardarCambiosUsuarioActionPerformed
 
     private void btn_eliminarUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_eliminarUsuarioActionPerformed
-        int opcion = JOptionPane.showConfirmDialog(jd_editor,
-                "Esta accion eliminará a " + usuarioAEditar.getNombre()
-                + ". ¿Desea continuar?", "Advertencia",
+        int opcion = JOptionPane.showConfirmDialog(jd_editarUsuario,
+                Mensajes.CONFIRMAR_ELIMINAR_USUARIO.getMensaje(), "Eliminar Usuario",
                 JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE
         );
         if (opcion == JOptionPane.YES_OPTION) {
@@ -1105,7 +1102,8 @@ public class Pantalla extends javax.swing.JFrame {
             saveUserFile();
             llenarUserTable();
             jd_editarUsuario.dispose();
-            JOptionPane.showMessageDialog(null, "Usuario eliminado con exito",
+            JOptionPane.showMessageDialog(jd_editarUsuario,
+                    Mensajes.USUARIO_ELIMINADO.getMensaje(),
                     "Eliminar Usuario", JOptionPane.INFORMATION_MESSAGE
             );
         }
@@ -1219,7 +1217,8 @@ public class Pantalla extends javax.swing.JFrame {
         );
         txt_editor.setFont(font);
         txt_editor.setForeground(selectedEditorColor);
-        JOptionPane.showMessageDialog(jd_configuracionEditor, "Fuente modificada exitosamente",
+        JOptionPane.showMessageDialog(jd_configuracionEditor,
+                Mensajes.FUENTE_MODIFICADA.getMensaje(),
                 "Cambiar Fuente", JOptionPane.INFORMATION_MESSAGE
         );
         activeUser.getConfig().setFuenteEditor(font);
@@ -1229,7 +1228,7 @@ public class Pantalla extends javax.swing.JFrame {
 
     private void btn_editorColorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_editorColorActionPerformed
         this.selectedEditorColor = JColorChooser.showDialog(jd_configuracionEditor,
-                "Seleccione el color de la letra", Color.BLACK
+                Mensajes.COLOR_DE_FUENTE.getMensaje(), Color.BLACK
         );
     }//GEN-LAST:event_btn_editorColorActionPerformed
 
@@ -1263,7 +1262,7 @@ public class Pantalla extends javax.swing.JFrame {
 
     private void btn_desktopColorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_desktopColorActionPerformed
         this.selectedDesktopColor = JColorChooser.showDialog(jd_configuracionEscritorio,
-                "Seleccione el color de la letra", Color.BLACK
+                Mensajes.COLOR_DE_FUENTE.getMensaje(), Color.BLACK
         );
     }//GEN-LAST:event_btn_desktopColorActionPerformed
 
@@ -1283,7 +1282,8 @@ public class Pantalla extends javax.swing.JFrame {
 
         setDesktopFont(font, selectedDesktopColor);
         jt_explorador.updateUI();// Refresca la fuente en el JTree
-        JOptionPane.showMessageDialog(jd_configuracionEscritorio, "Fuente modificada exitosamente",
+        JOptionPane.showMessageDialog(jd_configuracionEscritorio,
+                Mensajes.FUENTE_MODIFICADA.getMensaje(),
                 "Cambiar Fuente", JOptionPane.INFORMATION_MESSAGE
         );
         activeUser.getConfig().setFuenteEscritorio(font);
@@ -1293,7 +1293,7 @@ public class Pantalla extends javax.swing.JFrame {
 
     private void btn_cambiarMenuBarColorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_cambiarMenuBarColorActionPerformed
         Color color = JColorChooser.showDialog(jd_configuracionEscritorio,
-                "Seleccione el color de las barras de menu", Color.WHITE
+                Mensajes.COLOR_DE_BARRAS_DE_MENÚ.getMensaje(), Color.WHITE
         );
         jTabbedPane1.setBackground(color);
         setAllMenuBarsColor(color);
@@ -1382,7 +1382,9 @@ public class Pantalla extends javax.swing.JFrame {
             ObjectOutputStream objectWriter = new ObjectOutputStream(os);
             objectWriter.writeObject(usuarios);
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "Ocurrió un error");
+            JOptionPane.showMessageDialog(null, Mensajes.ERROR_GENÉRICO.getMensaje(),
+                    "Guardar Archivo", JOptionPane.ERROR_MESSAGE
+            );
         }
     }
 
@@ -1418,13 +1420,15 @@ public class Pantalla extends javax.swing.JFrame {
             return texto.stripTrailing();
         } catch (FileNotFoundException ex) {
             JOptionPane.showMessageDialog(jd_editor,
-                    "El archivo no se encontró.", "Error", JOptionPane.ERROR_MESSAGE
+                    Mensajes.ARCHIVO_NO_ENCONTRADO.getMensaje(), "Abrir Archivo",
+                    JOptionPane.ERROR_MESSAGE
             );
             Logger.getLogger(Pantalla.class.getName()).log(Level.SEVERE, null, ex);
             return "";
         } catch (IOException ex) {
             JOptionPane.showMessageDialog(jd_editor,
-                    "Error al leer el archivo.", "Error", JOptionPane.ERROR_MESSAGE
+                    Mensajes.ERROR_AL_LEER_ARCHIVO.getMensaje(), "Abrir Archivo",
+                    JOptionPane.ERROR_MESSAGE
             );
             Logger.getLogger(Pantalla.class.getName()).log(Level.SEVERE, null, ex);
             return "";
@@ -1436,13 +1440,14 @@ public class Pantalla extends javax.swing.JFrame {
             try (BufferedWriter bw = new BufferedWriter(new FileWriter(file, false))) {
                 bw.write(text);
             }
-            JOptionPane.showMessageDialog(jd_editor, "Se guardó el archivo.",
-                    "Información", JOptionPane.INFORMATION_MESSAGE
+            JOptionPane.showMessageDialog(jd_editor,
+                    Mensajes.ARCHIVO_GUARDADO.getMensaje(),
+                    "Guardar Archivo", JOptionPane.INFORMATION_MESSAGE
             );
         } catch (IOException ex) {
             JOptionPane.showMessageDialog(jd_editor,
-                    "Algo salió mal. Error al escribir el archivo.", "Error",
-                    JOptionPane.ERROR_MESSAGE
+                    Mensajes.ERROR_AL_ESCRIBIR_ARCHIVO.getMensaje(),
+                    "Guardar Archivo", JOptionPane.ERROR_MESSAGE
             );
             Logger.getLogger(Pantalla.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -1527,21 +1532,16 @@ public class Pantalla extends javax.swing.JFrame {
         this.activeUser = usuario;
         usuarios.add(usuario);
         saveUserFile();
-        JOptionPane.showMessageDialog(this, "¡Bienvenido! \n\n"
-                + "Tu usuario ha sido creado con éxito.\n"
-                + "¡Gracias por unirte a nuestra plataforma "
-                + activeUser.getNombre() + "!", "Primer Usuario",
-                JOptionPane.INFORMATION_MESSAGE
+        JOptionPane.showMessageDialog(this, Mensajes.BIENVENIDA_PRIMER_USUARIO.getMensaje(),
+                "Registro de Primer Usuario", JOptionPane.INFORMATION_MESSAGE
         );
     }
 
     private boolean usuarioValidado(String nombre, String contrasena) {
         this.activeUser = getUser(nombre, contrasena);
         if (activeUser == null) {
-            JOptionPane.showMessageDialog(this, "No se pudo iniciar sesión.\n"
-                    + "El nombre de usuario o la contraseña que ingresaste"
-                    + " no son correctos.", "Error de Inicio de Sesión",
-                    JOptionPane.ERROR_MESSAGE
+            JOptionPane.showMessageDialog(this, Mensajes.ERROR_INICIO_DE_SESIÓN.getMensaje(),
+                    "Inicio de Sesión", JOptionPane.ERROR_MESSAGE
             );
             return false;
         } else {
@@ -1677,7 +1677,7 @@ public class Pantalla extends javax.swing.JFrame {
                     lbl_loadUserInfo.setText(infoList[index]);
                 });
                 try {
-                    Thread.sleep(80);
+                    Thread.sleep(75);
                 } catch (InterruptedException ex) {
                 }
             }
@@ -1698,12 +1698,6 @@ public class Pantalla extends javax.swing.JFrame {
     private Color selectedEditorColor;
     private DefaultMutableTreeNode selectedNode;
     private static final String CONFIG_FILE_PATH = "./data/users.dat";
-    private static final String TEXT_EDITOR_ABOUT = "Este editor de texto ha sido"
-            + "desarrollado por Alejandro\n"
-            + "Castellanos como parte de un proyecto educativo.\n\n"
-            + "Ofrece funcionalidades básicas para abrir, editar y guardar\n"
-            + "archivos, además de una interfaz sencilla y eficiente.\n\n"
-            + "¡Gracias por usarlo!";
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_abrirEditor;
