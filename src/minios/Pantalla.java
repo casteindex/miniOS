@@ -821,7 +821,7 @@ public class Pantalla extends javax.swing.JFrame {
 
         jd_loginLogout.setPreferredSize(new java.awt.Dimension(800, 550));
 
-        lbl_iniciandoCerrando.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        lbl_iniciandoCerrando.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
         lbl_iniciandoCerrando.setText("Cerrando Sesion...");
 
         lbl_loadUserInfo.setText("informacion del usuario...");
@@ -841,13 +841,13 @@ public class Pantalla extends javax.swing.JFrame {
         jd_loginLogoutLayout.setVerticalGroup(
             jd_loginLogoutLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jd_loginLogoutLayout.createSequentialGroup()
-                .addGap(219, 219, 219)
+                .addGap(220, 220, 220)
                 .addComponent(lbl_iniciandoCerrando)
-                .addGap(45, 45, 45)
+                .addGap(40, 40, 40)
                 .addComponent(jProgressBar1, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(lbl_loadUserInfo)
-                .addContainerGap(201, Short.MAX_VALUE))
+                .addContainerGap(200, Short.MAX_VALUE))
         );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -993,31 +993,8 @@ public class Pantalla extends javax.swing.JFrame {
         jd_loginLogout.setLocationRelativeTo(this);
         jd_loginLogout.setVisible(true);
         jd_escritorio.dispose();
-
-        String[] infoList = activeUser.getInfoList();
-
-        Thread thread = new Thread(() -> {
-            int totalItems = infoList.length;
-            for (int i = 0; i < totalItems; i++) {
-                final int index = i; // Necesario por la función lambda
-                int progreso = (int) (((i + 1) / (double) totalItems) * 100);
-
-                SwingUtilities.invokeLater(() -> {
-                    jProgressBar1.setValue(progreso);
-                    lbl_loadUserInfo.setText(infoList[index]);
-                });
-
-                try {
-                    Thread.sleep(100);
-                } catch (InterruptedException ex) {
-                }
-            }
-            this.setVisible(true);
-            jd_loginLogout.dispose();
-        });
-        thread.start();
+        runProgressBar(activeUser, this);
     }//GEN-LAST:event_jmi_cerrarSesionActionPerformed
-
 
     private void jmi_agregarUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmi_agregarUsuarioActionPerformed
         jd_agregarUsuario.pack();
@@ -1570,7 +1547,7 @@ public class Pantalla extends javax.swing.JFrame {
         return true; // Nombre disponible
     }
 
-    // ---------- Configuración de Funetes y Colores ----------
+    // ---------- Configuración de Fuentes y Colores ----------
     private void setDesktopFont(Font font, Color color) {
         changeFont(jd_agregarUsuario, font, color);
         changeFont(jd_configuracionEditor, font, color);
@@ -1617,11 +1594,17 @@ public class Pantalla extends javax.swing.JFrame {
 
     // ---------- Carga de Configuración ----------
     private void loadDesktop(Usuario usuario) {
-        // Mostrar escritorio
+        // Preparar escritorio
         jd_escritorio.pack();
         jd_escritorio.setLocationRelativeTo(this);
         jd_escritorio.setTitle("MiniOS — " + usuario.getNombre());
-        jd_escritorio.setVisible(true);
+
+        jd_loginLogout.pack();
+        jd_loginLogout.setLocationRelativeTo(this);
+        jd_loginLogout.setVisible(true);
+        lbl_iniciandoCerrando.setText("Iniciando Sesión...");
+        runProgressBar(usuario, jd_escritorio); // Mostrar escritorio cuando termine
+
         // Ocultar login screen
         txt_loginUsuario.setText("");
         txt_loginConstrasena.setText("");
@@ -1668,6 +1651,28 @@ public class Pantalla extends javax.swing.JFrame {
             }
         }
         jt_usuarios.setModel(modelo);
+    }
+
+    private void runProgressBar(Usuario usuario, Component siguienteComponente) {
+        String[] infoList = usuario.getInfoList();
+        Thread thread = new Thread(() -> {
+            int totalItems = infoList.length;
+            for (int i = 0; i < totalItems; i++) {
+                final int index = i; // Necesario por la función lambda
+                int progreso = (int) (((i + 1) / (double) totalItems) * 100);
+                SwingUtilities.invokeLater(() -> {
+                    jProgressBar1.setValue(progreso);
+                    lbl_loadUserInfo.setText(infoList[index]);
+                });
+                try {
+                    Thread.sleep(100);
+                } catch (InterruptedException ex) {
+                }
+            }
+            siguienteComponente.setVisible(true);
+            jd_loginLogout.dispose();
+        });
+        thread.start();
     }
 
     // ---------- Variables Globales ----------
