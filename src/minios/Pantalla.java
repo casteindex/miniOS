@@ -148,6 +148,10 @@ public class Pantalla extends javax.swing.JFrame {
         btn_guardarFuenteEditor = new javax.swing.JButton();
         btn_editorColor = new javax.swing.JButton();
         jLabel18 = new javax.swing.JLabel();
+        jd_loginLogout = new javax.swing.JDialog();
+        lbl_iniciandoCerrando = new javax.swing.JLabel();
+        jProgressBar1 = new javax.swing.JProgressBar();
+        lbl_loadUserInfo = new javax.swing.JLabel();
         txt_loginConstrasena = new javax.swing.JTextField();
         btn_login = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
@@ -306,6 +310,7 @@ public class Pantalla extends javax.swing.JFrame {
             .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 334, Short.MAX_VALUE)
         );
 
+        jd_escritorio.setPreferredSize(new java.awt.Dimension(800, 550));
         jd_escritorio.addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowClosing(java.awt.event.WindowEvent evt) {
                 jd_escritorioWindowClosing(evt);
@@ -378,7 +383,7 @@ public class Pantalla extends javax.swing.JFrame {
                 .addGroup(jd_escritorioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(btn_abrirExplorador)
                     .addComponent(btn_abrirEditor))
-                .addContainerGap(640, Short.MAX_VALUE))
+                .addContainerGap(635, Short.MAX_VALUE))
         );
         jd_escritorioLayout.setVerticalGroup(
             jd_escritorioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -814,7 +819,39 @@ public class Pantalla extends javax.swing.JFrame {
                 .addContainerGap(40, Short.MAX_VALUE))
         );
 
+        jd_loginLogout.setPreferredSize(new java.awt.Dimension(800, 550));
+
+        lbl_iniciandoCerrando.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        lbl_iniciandoCerrando.setText("Cerrando Sesion...");
+
+        lbl_loadUserInfo.setText("informacion del usuario...");
+
+        javax.swing.GroupLayout jd_loginLogoutLayout = new javax.swing.GroupLayout(jd_loginLogout.getContentPane());
+        jd_loginLogout.getContentPane().setLayout(jd_loginLogoutLayout);
+        jd_loginLogoutLayout.setHorizontalGroup(
+            jd_loginLogoutLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jd_loginLogoutLayout.createSequentialGroup()
+                .addGap(56, 56, 56)
+                .addGroup(jd_loginLogoutLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jProgressBar1, javax.swing.GroupLayout.PREFERRED_SIZE, 621, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lbl_iniciandoCerrando, javax.swing.GroupLayout.PREFERRED_SIZE, 361, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lbl_loadUserInfo, javax.swing.GroupLayout.PREFERRED_SIZE, 488, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(123, Short.MAX_VALUE))
+        );
+        jd_loginLogoutLayout.setVerticalGroup(
+            jd_loginLogoutLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jd_loginLogoutLayout.createSequentialGroup()
+                .addGap(219, 219, 219)
+                .addComponent(lbl_iniciandoCerrando)
+                .addGap(45, 45, 45)
+                .addComponent(jProgressBar1, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(lbl_loadUserInfo)
+                .addContainerGap(201, Short.MAX_VALUE))
+        );
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setPreferredSize(new java.awt.Dimension(800, 550));
 
         btn_login.setText("Iniciar Sesión");
         btn_login.addActionListener(new java.awt.event.ActionListener() {
@@ -823,6 +860,7 @@ public class Pantalla extends javax.swing.JFrame {
             }
         });
 
+        jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 36)); // NOI18N
         jLabel1.setText("Bienvenido");
 
         jLabel2.setText("Nombre de Usuario:");
@@ -834,29 +872,25 @@ public class Pantalla extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
+                .addGap(182, 182, 182)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel2)
+                    .addComponent(jLabel3))
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(123, 123, 123)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel2)
-                            .addComponent(jLabel3))
-                        .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(btn_login)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(txt_loginUsuario)
-                                .addComponent(txt_loginConstrasena, javax.swing.GroupLayout.DEFAULT_SIZE, 296, Short.MAX_VALUE))))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(271, 271, 271)
-                        .addComponent(jLabel1)))
-                .addContainerGap(115, Short.MAX_VALUE))
+                    .addComponent(jLabel1)
+                    .addComponent(btn_login)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(txt_loginUsuario)
+                        .addComponent(txt_loginConstrasena, javax.swing.GroupLayout.PREFERRED_SIZE, 296, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(197, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(81, 81, 81)
+                .addGap(105, 105, 105)
                 .addComponent(jLabel1)
-                .addGap(57, 57, 57)
+                .addGap(61, 61, 61)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jLabel2)
                     .addComponent(txt_loginUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -864,9 +898,9 @@ public class Pantalla extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
                     .addComponent(txt_loginConstrasena, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(38, 38, 38)
+                .addGap(30, 30, 30)
                 .addComponent(btn_login)
-                .addContainerGap(131, Short.MAX_VALUE))
+                .addContainerGap(209, Short.MAX_VALUE))
         );
 
         pack();
@@ -954,9 +988,36 @@ public class Pantalla extends javax.swing.JFrame {
     }//GEN-LAST:event_jd_editorWindowClosing
 
     private void jmi_cerrarSesionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmi_cerrarSesionActionPerformed
-        this.setVisible(true);
+        lbl_iniciandoCerrando.setText("Cerrando Sesión...");
+        jd_loginLogout.pack();
+        jd_loginLogout.setLocationRelativeTo(this);
+        jd_loginLogout.setVisible(true);
         jd_escritorio.dispose();
+
+        String[] infoList = activeUser.getInfoList();
+
+        Thread thread = new Thread(() -> {
+            int totalItems = infoList.length;
+            for (int i = 0; i < totalItems; i++) {
+                final int index = i; // Necesario por la función lambda
+                int progreso = (int) (((i + 1) / (double) totalItems) * 100);
+
+                SwingUtilities.invokeLater(() -> {
+                    jProgressBar1.setValue(progreso);
+                    lbl_loadUserInfo.setText(infoList[index]);
+                });
+
+                try {
+                    Thread.sleep(100);
+                } catch (InterruptedException ex) {
+                }
+            }
+            this.setVisible(true);
+            jd_loginLogout.dispose();
+        });
+        thread.start();
     }//GEN-LAST:event_jmi_cerrarSesionActionPerformed
+
 
     private void jmi_agregarUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmi_agregarUsuarioActionPerformed
         jd_agregarUsuario.pack();
@@ -1675,6 +1736,7 @@ public class Pantalla extends javax.swing.JFrame {
     private javax.swing.JMenuBar jMenuBar3;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JProgressBar jProgressBar1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
@@ -1691,6 +1753,7 @@ public class Pantalla extends javax.swing.JFrame {
     private javax.swing.JDialog jd_escritorio;
     private javax.swing.JDialog jd_explorador;
     private javax.swing.JDialog jd_informacionSistema;
+    private javax.swing.JDialog jd_loginLogout;
     private javax.swing.JMenuItem jmi_abrirArchivo;
     private javax.swing.JMenuItem jmi_agregarUsuario;
     private javax.swing.JMenuItem jmi_cambiarNombreNodo;
@@ -1709,6 +1772,8 @@ public class Pantalla extends javax.swing.JFrame {
     private javax.swing.JPopupMenu jpm_explorador;
     private javax.swing.JTree jt_explorador;
     private javax.swing.JTable jt_usuarios;
+    private javax.swing.JLabel lbl_iniciandoCerrando;
+    private javax.swing.JLabel lbl_loadUserInfo;
     private javax.swing.JTextField txt_contrasenaEditar;
     private javax.swing.JTextArea txt_editor;
     private javax.swing.JTextField txt_loginConstrasena;

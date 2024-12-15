@@ -72,4 +72,22 @@ public class Usuario implements Serializable {
         return "Usuario{" + "nombre=" + nombre + ", contrasena=" + contrasena + ", config=" + config + ", raiz=" + raiz + ", admin=" + admin + '}';
     }
 
+    public String[] getInfoList() {
+        return new String[]{
+            "nombre: " + nombre,
+            "cargando_-_tipo_-_de_-_usuario_-_...",
+            "el_-_usuario_-_es_-_administrador?_-_" + isAdmin(),
+            "cargando_-_sistema_-_de_-_archivos:_-_1/2",
+            "cargando_-_sistema_-_de_-_archivos:_-_2/2",
+            "cargando_-_sistema_-_de_-_archivos:_-_" + raiz,
+            "cargando_-_configuración_-_...",
+            "obteniendo_-_desktop_-_font:_-_" + config.getFuenteEscritorio(),
+            "obteniendo_-_editor_-_font" + config.getFuenteEditor(),
+            "obteniendo_-_desktop_-_font_-_color:_-_" + config.getDesktopFontColor(),
+            "obteniendo_-_editor_-_font_-_color:_-_" + config.getEditorFontColor(),
+            "onteniendo_-_menu_-_bar_-_color:_-_" + config.getMenuBarColor(),
+            "proceso_-_proceso_-_completo_-_..."
+        };
+    }
+
 }
